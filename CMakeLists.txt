@@ -3,7 +3,7 @@ project("traversing_the_gates")
 
 # Flags constants
 SET(CUSTOM_COMPILE_FLAGS "-std=c++11")
-SET(CUSTOM_LINK_FLAGS "-lGL -lglfw")
+SET(CUSTOM_LINK_FLAGS "-lGL -lglfw -lGLEW -lSOIL")
 
 # Adding flags
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CUSTOM_COMPILE_FLAGS}")
@@ -12,6 +12,7 @@ SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${CUSTOM_LINK_FLAGS}")
 # Source files
 SET(PROJECT_SOURCE_FILES 
     "main.cpp"
+    "src/quad.cpp"
 )
 
 
