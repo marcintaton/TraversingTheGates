@@ -27,6 +27,15 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action,
     }
 }
 
+static void set_camera_size(float ortho_size, glm::mat4& projection_matrix)
+{
+    projection_matrix =
+        glm::ortho((GLfloat) window_w * 0.5f * (1 - ortho_size),
+                   (GLfloat) window_w * 0.5f * (1 + ortho_size),
+                   (GLfloat) window_h * 0.5f * (1 - ortho_size),
+                   (GLfloat) window_h * 0.5f * (1 + ortho_size), 0.1f, 1000.0f);
+}
+
 int main(void)
 {
     // GLFW init
@@ -145,13 +154,15 @@ int main(void)
     glBindTexture(GL_TEXTURE_2D, 0);
 
     glm::mat4 projection(1);
-    projection = glm::ortho(0.0f, (GLfloat) window_w, 0.0f, (GLfloat) window_h,
-                            0.1f, 1000.0f);
+
+    set_camera_size(1.f, projection);
 
     // game loop
     auto shader_switch = true;
     auto shader_timer = 0.f;
-    auto shader_switch_time = 0.5f;
+    auto switch_time = 0.5f;
+    auto camera_size = 1.f;
+    auto camera_size_mod = 1;
 
     while (!glfwWindowShouldClose(window)) {
 
@@ -160,11 +171,17 @@ int main(void)
         // use shader program
         auto shader_to_use = shader_switch ? core_shader : inverse_color_shader;
         shader_to_use.use();
-        if (shader_timer > shader_switch_time) {
+
+        // fun stuff
+        set_camera_size(camera_size, projection);
+        if (shader_timer > switch_time) {
             shader_switch = !shader_switch;
             shader_timer = 0;
+            camera_size_mod *= -1;
         }
+
         shader_timer += Timer::delta_time;
+        camera_size += Timer::delta_time * camera_size_mod;
 
         // bind texture
         glActiveTexture(GL_TEXTURE0);
@@ -174,11 +191,13 @@ int main(void)
         glm::mat4 model(1);
         glm::mat4 view(1);
 
-        model = glm::rotate(model, 0.5f * (GLfloat) glfwGetTime(),
+        // transformations
+        model = glm::rotate(model, 3.f * (GLfloat) glfwGetTime(),
                             glm::vec3(0.0f, 0.0f, 1.0f));
         view =
             glm::translate(view, glm::vec3(window_w / 2, window_h / 2, -100.f));
 
+        // pass matrices to shader
         GLint model_location =
             glGetUniformLocation(shader_to_use.program, "model");
         GLint view_location =
@@ -191,14 +210,16 @@ int main(void)
         glUniformMatrix4fv(proj_location, 1, GL_FALSE,
                            glm::value_ptr(projection));
 
+        // draw triangles
         glBindVertexArray(VAO);
-        // glDrawArrays(GL_TRIANGLES, 0, 6);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        // clrat vert array
         glBindVertexArray(0);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
 
+        // update deltatime
         timer.update_timer();
     }
 
