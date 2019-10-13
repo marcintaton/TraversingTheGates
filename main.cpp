@@ -53,8 +53,8 @@ int main(void)
         exit(EXIT_FAILURE);
     }
 
-    Shader coreShader("src/shaders/core.vs", "src/shaders/core.fs");
-    Shader inverseShader("src/shaders/core.vs", "src/shaders/inverse.fs");
+    Shader coreShader("assets/shaders/core.vs", "assets/shaders/core.fs");
+    Shader inverseShader("assets/shaders/core.vs", "assets/shaders/inverse.fs");
 
     // geometry
     GLfloat new_vertices[] = {-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
