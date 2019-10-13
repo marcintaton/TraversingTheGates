@@ -4,6 +4,10 @@
 #include <iostream>
 #include <stdlib.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include "src/shader.h"
 
 const auto window_w = 1200;
@@ -151,6 +155,18 @@ int main(void)
         shader_to_use.use();
         shader_switch = !shader_switch;
 
+        // transformation
+        glm::mat4 transform(1);
+        transform = glm::translate(transform, glm::vec3(0.0f, 0.0f, 0.0f));
+        transform = glm::rotate(transform, (GLfloat)(glfwGetTime() * 5.0f),
+                                glm::vec3(0.0f, 0.0f, 1.0f));
+
+        auto transform_location =
+            glGetUniformLocation(shader_to_use.program, "transform");
+        glUniformMatrix4fv(transform_location, 1, GL_FALSE,
+                           glm::value_ptr(transform));
+
+        // bind texture
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture);
         glUniform1i(glGetUniformLocation(shader_to_use.program, "texture1"), 0);
