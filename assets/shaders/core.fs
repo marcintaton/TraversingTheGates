@@ -1,9 +1,12 @@
 #version 330 core
 
-in vec3 customColor; 
+in vec3 color; 
+in vec2 vs_out_tex_coord; 
 
-out vec4 color; 
+out vec4 out_color; 
+
+uniform sampler2D texture1; 
 
 void main() {
-    color = vec4(customColor.x, customColor.y, customColor.z, 1.0);
+    out_color = texture(texture1, vs_out_tex_coord);
 }
