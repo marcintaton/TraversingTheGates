@@ -9,6 +9,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "src/shader.h"
+#include "src/timer.h"
 
 const auto window_w = 1200;
 const auto window_h = 900;
@@ -37,6 +38,7 @@ int main(void)
         exit(EXIT_FAILURE);
     }
 
+    Timer timer;
     glfwSetErrorCallback(error_callback);
 
     // window
@@ -58,6 +60,8 @@ int main(void)
         exit(EXIT_FAILURE);
     }
 
+    glViewport(0, 0, window_w, window_h);
+
     // textures
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -70,21 +74,18 @@ int main(void)
     // geometry
     GLfloat quad_verices[] = {
         // top right
-        0.5f, 0.5f, 0.0f, // position
-        1.0f, 0.0f, 0.0f, // color
-        1.0f, 1.0f,       // uv
+        0.5f * 500, 0.5f * 500, 0.0f * 500, // position
+        1.0f, 1.0f,                         // uv
         // bottom right
-        0.5f, -0.5f, 0.0f, // position
-        0.0f, 1.0f, 0.0f,  // color
-        1.0f, 0.0f,        // uv
+        0.5f * 500, -0.5f * 500, 0.0f * 500, // position
+        1.0f, 0.0f,                          // uv
         // bottom left
-        -0.5f, -0.5f, 0.0f, // position
-        0.0f, 0.0f, 1.0f,   // color
-        0.0f, 0.0f,         // uv
+        -0.5f * 500, -0.5f * 500, 0.0f * 500, // position
+        0.0f, 0.0f,                           // uv
         // top left
-        -0.5f, 0.5f, 0.0f, // position
-        1.0f, 1.0f, 1.0f,  // color
-        0.0f, 1.0f         // uv
+        -0.5f * 500, 0.5f * 500, 0.0f * 500, // position
+        0.0f,
+        1.0f, // uv
     };
 
     GLuint indices[] = {
@@ -95,6 +96,7 @@ int main(void)
     GLuint VBO;
     GLuint VAO;
     GLuint EBO;
+
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
@@ -110,16 +112,13 @@ int main(void)
                  GL_STATIC_DRAW);
 
     // position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GL_FLOAT),
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GL_FLOAT),
                           (GLvoid*) 0);
     glEnableVertexAttribArray(0);
-    // color attribute
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GL_FLOAT),
-                          (GLvoid*) (3 * sizeof(GLfloat)));
-    glEnableVertexAttribArray(1);
+
     // texture cooridinate attribute
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GL_FLOAT),
-                          (GLvoid*) (6 * sizeof(GLfloat)));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GL_FLOAT),
+                          (GLvoid*) (3 * sizeof(GLfloat)));
     glEnableVertexAttribArray(2);
 
     glBindVertexArray(0);
@@ -145,38 +144,62 @@ int main(void)
     SOIL_free_image_data(image);
     glBindTexture(GL_TEXTURE_2D, 0);
 
+    glm::mat4 projection(1);
+    projection = glm::ortho(0.0f, (GLfloat) window_w, 0.0f, (GLfloat) window_h,
+                            0.1f, 1000.0f);
+
     // game loop
     auto shader_switch = true;
+    auto shader_timer = 0.f;
+    auto shader_switch_time = 0.5f;
+
     while (!glfwWindowShouldClose(window)) {
 
         glClear(GL_COLOR_BUFFER_BIT);
 
+        // use shader program
         auto shader_to_use = shader_switch ? core_shader : inverse_color_shader;
         shader_to_use.use();
-        shader_switch = !shader_switch;
-
-        // transformation
-        glm::mat4 transform(1);
-        transform = glm::translate(transform, glm::vec3(0.0f, 0.0f, 0.0f));
-        transform = glm::rotate(transform, (GLfloat)(glfwGetTime() * 5.0f),
-                                glm::vec3(0.0f, 0.0f, 1.0f));
-
-        auto transform_location =
-            glGetUniformLocation(shader_to_use.program, "transform");
-        glUniformMatrix4fv(transform_location, 1, GL_FALSE,
-                           glm::value_ptr(transform));
+        if (shader_timer > shader_switch_time) {
+            shader_switch = !shader_switch;
+            shader_timer = 0;
+        }
+        shader_timer += Timer::delta_time;
 
         // bind texture
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture);
         glUniform1i(glGetUniformLocation(shader_to_use.program, "texture1"), 0);
 
+        glm::mat4 model(1);
+        glm::mat4 view(1);
+
+        model = glm::rotate(model, 0.5f * (GLfloat) glfwGetTime(),
+                            glm::vec3(0.0f, 0.0f, 1.0f));
+        view =
+            glm::translate(view, glm::vec3(window_w / 2, window_h / 2, -100.f));
+
+        GLint model_location =
+            glGetUniformLocation(shader_to_use.program, "model");
+        GLint view_location =
+            glGetUniformLocation(shader_to_use.program, "view");
+        GLint proj_location =
+            glGetUniformLocation(shader_to_use.program, "projection");
+
+        glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(model));
+        glUniformMatrix4fv(view_location, 1, GL_FALSE, glm::value_ptr(view));
+        glUniformMatrix4fv(proj_location, 1, GL_FALSE,
+                           glm::value_ptr(projection));
+
         glBindVertexArray(VAO);
+        // glDrawArrays(GL_TRIANGLES, 0, 6);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
+
+        timer.update_timer();
     }
 
     glDeleteVertexArrays(1, &VAO);
