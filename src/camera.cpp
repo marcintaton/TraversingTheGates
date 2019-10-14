@@ -1,0 +1,66 @@
+#include "camera.h"
+#include "timer.h"
+
+Camera::Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f)) :
+    speed(SPEED), zoom(ZOOM), front(glm::vec3(0.0f, 0.0f, -1.0f)),
+    up(glm::vec3(0.0f, 1.0f, 0.0f)), right(glm::vec3(1.0f, 0.0f, 0.0f))
+{
+    this->position = position;
+    this->speed = speed;
+    this->zoom = zoom;
+
+    this->max_zoom = 5.0f;
+    this->min_zoom = 1.0f;
+    this->zoom_step = 0.25f;
+}
+
+Camera::~Camera() {}
+
+glm::mat4 Camera::get_view_matrix(GLuint window_w, GLuint window_h)
+{
+    glm::mat4 view(1);
+    view = glm::translate(view, glm::vec3(window_w / 2, window_h / 2, -100.0f));
+    view *= glm::lookAt(position, position + front, up);
+    return view;
+}
+
+void Camera::process_keyboard(CameraMovement direction)
+{
+    GLfloat velocity = speed * Timer::delta_time;
+
+    if (direction == CameraMovement::UP) {
+        position += up * velocity;
+    }
+    if (direction == CameraMovement::DOWN) {
+        position += -up * velocity;
+    }
+    if (direction == CameraMovement::LEFT) {
+        position += -right * velocity;
+    }
+    if (direction == CameraMovement::RIGHT) {
+        position += right * velocity;
+    }
+}
+
+void Camera::process_mouse_scroll(GLfloat y_offset)
+{
+    if (zoom >= min_zoom && zoom <= max_zoom) {
+        zoom += y_offset * zoom_step;
+    }
+
+    if (zoom < min_zoom) {
+        zoom = min_zoom;
+    } else if (zoom > max_zoom) {
+        zoom = max_zoom;
+    }
+}
+
+GLfloat Camera::get_zoom()
+{
+    return zoom;
+}
+
+glm::vec3 Camera::get_position()
+{
+    return position;
+}

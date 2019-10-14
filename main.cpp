@@ -8,11 +8,17 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "src/camera.h"
 #include "src/shader.h"
 #include "src/timer.h"
 
 const auto window_w = 1200;
 const auto window_h = 900;
+int screen_w, screen_h;
+int keys[1024];
+
+Camera camera(glm::vec3(0.0f, 0.0f, 0.0f));
+Timer timer;
 
 static void error_callback(int error, const char* description)
 {
@@ -25,15 +31,49 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action,
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, GL_TRUE);
     }
+
+    if (key >= 0 && key < 1024) {
+        if (action == GLFW_PRESS) {
+            keys[key] = true;
+        } else if (action == GLFW_RELEASE) {
+            keys[key] = false;
+        }
+    }
+}
+
+static void mouse_scroll_callback(GLFWwindow* window, double x_offset,
+                                  double y_offsset)
+{
+    camera.process_mouse_scroll(-y_offsset);
 }
 
 static void set_camera_size(float ortho_size, glm::mat4& projection_matrix)
 {
     projection_matrix =
-        glm::ortho((GLfloat) window_w * 0.5f * (1 - ortho_size),
-                   (GLfloat) window_w * 0.5f * (1 + ortho_size),
-                   (GLfloat) window_h * 0.5f * (1 - ortho_size),
-                   (GLfloat) window_h * 0.5f * (1 + ortho_size), 0.1f, 1000.0f);
+        glm::ortho((GLfloat) screen_w * 0.5f * (1 - ortho_size),
+                   (GLfloat) screen_w * 0.5f * (1 + ortho_size),
+                   (GLfloat) screen_h * 0.5f * (1 - ortho_size),
+                   (GLfloat) screen_h * 0.5f * (1 + ortho_size), 0.1f, 1000.0f);
+}
+
+static void move_camera()
+{
+
+    if (keys[GLFW_KEY_W] || keys[GLFW_KEY_UP]) {
+        camera.process_keyboard(CameraMovement::UP);
+    }
+    if (keys[GLFW_KEY_S] || keys[GLFW_KEY_DOWN]) {
+        camera.process_keyboard(CameraMovement::DOWN);
+    }
+    if (keys[GLFW_KEY_D] || keys[GLFW_KEY_RIGHT]) {
+        camera.process_keyboard(CameraMovement::RIGHT);
+    }
+    if (keys[GLFW_KEY_A] || keys[GLFW_KEY_LEFT]) {
+        camera.process_keyboard(CameraMovement::LEFT);
+    }
+
+    // std::cout << camera.get_position().x << " " << camera.get_position().y
+    //           << " " << camera.get_position().z << std::endl;
 }
 
 int main(void)
@@ -47,7 +87,6 @@ int main(void)
         exit(EXIT_FAILURE);
     }
 
-    Timer timer;
     glfwSetErrorCallback(error_callback);
 
     // window
@@ -58,9 +97,12 @@ int main(void)
         exit(EXIT_FAILURE);
     }
 
+    glfwGetFramebufferSize(window, &screen_w, &screen_h);
+
     glfwMakeContextCurrent(window);
 
     glfwSetKeyCallback(window, key_callback);
+    glfwSetScrollCallback(window, mouse_scroll_callback);
 
     // GLEW init
     glewExperimental = GL_TRUE;
@@ -69,7 +111,7 @@ int main(void)
         exit(EXIT_FAILURE);
     }
 
-    glViewport(0, 0, window_w, window_h);
+    glViewport(0, 0, screen_w, screen_h);
 
     // textures
     glEnable(GL_BLEND);
@@ -101,6 +143,10 @@ int main(void)
         0, 1, 3, // first tris
         1, 2, 3  // second tris
     };
+
+    glm::vec3 quad_positions[] = {glm::vec3(0.0f, 0.0f, 0.0f),
+                                  glm::vec3(1.1f, 0.0f, 0.0f),
+                                  glm::vec3(0.0f, 500.1f, 0.0f)};
 
     GLuint VBO;
     GLuint VAO;
@@ -153,10 +199,6 @@ int main(void)
     SOIL_free_image_data(image);
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    glm::mat4 projection(1);
-
-    set_camera_size(1.f, projection);
-
     // game loop
     auto shader_switch = true;
     auto shader_timer = 0.f;
@@ -166,22 +208,24 @@ int main(void)
 
     while (!glfwWindowShouldClose(window)) {
 
+        move_camera();
+
         glClear(GL_COLOR_BUFFER_BIT);
+
+        glm::mat4 projection(1);
+        set_camera_size(camera.get_zoom(), projection);
 
         // use shader program
         auto shader_to_use = shader_switch ? core_shader : inverse_color_shader;
         shader_to_use.use();
 
         // fun stuff
-        set_camera_size(camera_size, projection);
         if (shader_timer > switch_time) {
             shader_switch = !shader_switch;
             shader_timer = 0;
             camera_size_mod *= -1;
         }
-
-        shader_timer += Timer::delta_time;
-        camera_size += Timer::delta_time * camera_size_mod;
+        // shader_timer += Timer::delta_time;
 
         // bind texture
         glActiveTexture(GL_TEXTURE0);
@@ -191,11 +235,7 @@ int main(void)
         glm::mat4 model(1);
         glm::mat4 view(1);
 
-        // transformations
-        model = glm::rotate(model, 3.f * (GLfloat) glfwGetTime(),
-                            glm::vec3(0.0f, 0.0f, 1.0f));
-        view =
-            glm::translate(view, glm::vec3(window_w / 2, window_h / 2, -100.f));
+        view = camera.get_view_matrix(window_w, window_h);
 
         // pass matrices to shader
         GLint model_location =
@@ -205,15 +245,22 @@ int main(void)
         GLint proj_location =
             glGetUniformLocation(shader_to_use.program, "projection");
 
-        glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(model));
         glUniformMatrix4fv(view_location, 1, GL_FALSE, glm::value_ptr(view));
         glUniformMatrix4fv(proj_location, 1, GL_FALSE,
                            glm::value_ptr(projection));
 
         // draw triangles
         glBindVertexArray(VAO);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        // clrat vert array
+
+        for (GLuint i = 0; i < 3; ++i) {
+            glm::mat4 quad_model(1);
+            model = glm::translate(quad_model, quad_positions[i]);
+            glUniformMatrix4fv(model_location, 1, GL_FALSE,
+                               glm::value_ptr(quad_model));
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        }
+
+        // clear vert array
         glBindVertexArray(0);
 
         glfwSwapBuffers(window);

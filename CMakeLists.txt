@@ -14,6 +14,7 @@ SET(PROJECT_SOURCE_FILES
     "main.cpp"
     "src/shader.cpp"
     "src/timer.cpp"
+    "src/camera.cpp"
 )
 
 
