@@ -3,7 +3,7 @@
 class Timer
 {
   private:
-    float last_frame_timestamp;
+    float last_frame_timestamp = 0;
 
   public:
     static float delta_time;
