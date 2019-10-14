@@ -145,7 +145,7 @@ int main(void)
     };
 
     glm::vec3 quad_positions[] = {glm::vec3(0.0f, 0.0f, 0.0f),
-                                  glm::vec3(1.1f, 0.0f, 0.0f),
+                                  glm::vec3(500.1f, 0.0f, 0.0f),
                                   glm::vec3(0.0f, 500.1f, 0.0f)};
 
     GLuint VBO;
@@ -232,7 +232,7 @@ int main(void)
         glBindTexture(GL_TEXTURE_2D, texture);
         glUniform1i(glGetUniformLocation(shader_to_use.program, "texture1"), 0);
 
-        glm::mat4 model(1);
+        // glm::mat4 model(1);
         glm::mat4 view(1);
 
         view = camera.get_view_matrix(window_w, window_h);
@@ -254,7 +254,9 @@ int main(void)
 
         for (GLuint i = 0; i < 3; ++i) {
             glm::mat4 quad_model(1);
-            model = glm::translate(quad_model, quad_positions[i]);
+            quad_model = glm::translate(quad_model, quad_positions[i]);
+            // std::cout << quad_positions[i].x << " " << quad_positions[i].y
+            //           << std::endl;
             glUniformMatrix4fv(model_location, 1, GL_FALSE,
                                glm::value_ptr(quad_model));
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
