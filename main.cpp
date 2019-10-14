@@ -76,6 +76,28 @@ static void move_camera()
     //           << " " << camera.get_position().z << std::endl;
 }
 
+static void load_texture(const char* file_path, GLuint& texture)
+{
+    int tex_width, tex_height;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    auto image =
+        SOIL_load_image(file_path, &tex_width, &tex_height, 0, SOIL_LOAD_RGBA);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tex_width, tex_height, 0, GL_RGBA,
+                 GL_UNSIGNED_BYTE, image);
+    glGenerateMipmap(GL_TEXTURE_2D);
+
+    SOIL_free_image_data(image);
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
 int main(void)
 {
     // GLFW init
@@ -179,33 +201,31 @@ int main(void)
     glBindVertexArray(0);
 
     // textue loading
-    GLuint texture;
-    int tex_width, tex_height;
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
+    GLuint textures[3];
+    load_texture("assets/textures/image1.png", textures[0]);
+    load_texture("assets/textures/image2.png", textures[1]);
+    load_texture("assets/textures/image3.png", textures[2]);
+    // int tex_width, tex_height;
+    // glGenTextures(1, &texture);
+    // glBindTexture(GL_TEXTURE_2D, texture);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    auto image = SOIL_load_image("assets/textures/image1.png", &tex_width,
-                                 &tex_height, 0, SOIL_LOAD_RGBA);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tex_width, tex_height, 0, GL_RGBA,
-                 GL_UNSIGNED_BYTE, image);
-    glGenerateMipmap(GL_TEXTURE_2D);
+    // auto image = SOIL_load_image("assets/textures/image1.png", &tex_width,
+    //                              &tex_height, 0, SOIL_LOAD_RGBA);
+    // glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tex_width, tex_height, 0,
+    // GL_RGBA,
+    //              GL_UNSIGNED_BYTE, image);
+    // glGenerateMipmap(GL_TEXTURE_2D);
 
-    SOIL_free_image_data(image);
-    glBindTexture(GL_TEXTURE_2D, 0);
+    // SOIL_free_image_data(image);
+    // glBindTexture(GL_TEXTURE_2D, 0);
 
     // game loop
-    auto shader_switch = true;
-    auto shader_timer = 0.f;
-    auto switch_time = 0.5f;
-    auto camera_size = 1.f;
-    auto camera_size_mod = 1;
-
     while (!glfwWindowShouldClose(window)) {
 
         move_camera();
@@ -216,49 +236,40 @@ int main(void)
         set_camera_size(camera.get_zoom(), projection);
 
         // use shader program
-        auto shader_to_use = shader_switch ? core_shader : inverse_color_shader;
-        shader_to_use.use();
 
-        // fun stuff
-        if (shader_timer > switch_time) {
-            shader_switch = !shader_switch;
-            shader_timer = 0;
-            camera_size_mod *= -1;
-        }
-        // shader_timer += Timer::delta_time;
-
-        // bind texture
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texture);
-        glUniform1i(glGetUniformLocation(shader_to_use.program, "texture1"), 0);
-
-        // glm::mat4 model(1);
         glm::mat4 view(1);
 
         view = camera.get_view_matrix(window_w, window_h);
-
-        // pass matrices to shader
-        GLint model_location =
-            glGetUniformLocation(shader_to_use.program, "model");
-        GLint view_location =
-            glGetUniformLocation(shader_to_use.program, "view");
-        GLint proj_location =
-            glGetUniformLocation(shader_to_use.program, "projection");
-
-        glUniformMatrix4fv(view_location, 1, GL_FALSE, glm::value_ptr(view));
-        glUniformMatrix4fv(proj_location, 1, GL_FALSE,
-                           glm::value_ptr(projection));
 
         // draw triangles
         glBindVertexArray(VAO);
 
         for (GLuint i = 0; i < 3; ++i) {
+
+            Shader to_use = (i == 1) ? inverse_color_shader : core_shader;
+            to_use.use();
+
+            // pass matrices to shader
+            GLint model_location =
+                glGetUniformLocation(to_use.program, "model");
+            GLint view_location = glGetUniformLocation(to_use.program, "view");
+            GLint proj_location =
+                glGetUniformLocation(to_use.program, "projection");
+
+            // bind texture
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, textures[i]);
+            glUniform1i(glGetUniformLocation(to_use.program, "texture1"), 0);
+
             glm::mat4 quad_model(1);
             quad_model = glm::translate(quad_model, quad_positions[i]);
-            // std::cout << quad_positions[i].x << " " << quad_positions[i].y
-            //           << std::endl;
+
             glUniformMatrix4fv(model_location, 1, GL_FALSE,
                                glm::value_ptr(quad_model));
+            glUniformMatrix4fv(view_location, 1, GL_FALSE,
+                               glm::value_ptr(view));
+            glUniformMatrix4fv(proj_location, 1, GL_FALSE,
+                               glm::value_ptr(projection));
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         }
 
