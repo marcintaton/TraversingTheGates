@@ -33,7 +33,7 @@ void GameObject::render()
     glUniform1i(glGetUniformLocation(material.shader.program, "texture1"), 0);
 
     glm::mat4 model(1);
-    model = glm::translate(model, transform.position);
+    model = glm::translate(model, transform.position * 100.0f);
 
     glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(model));
     glUniformMatrix4fv(view_location, 1, GL_FALSE,

@@ -209,14 +209,14 @@ int main(void)
         Material {.texture = textures[0], .shader = core_shader}, Quad {});
 
     gameObjects[1] = GameObject(
-        Transform {.position = glm::vec3(0, 100, 0),
+        Transform {.position = glm::vec3(0, 1, 0),
                    .rotation = 0,
                    .scale = glm::vec2(1, 1)},
         Material {.texture = textures[1], .shader = inverse_color_shader},
         Quad {});
 
     gameObjects[2] = GameObject(
-        Transform {.position = glm::vec3(100, 0, 0),
+        Transform {.position = glm::vec3(1, 0, 0),
                    .rotation = 0,
                    .scale = glm::vec2(1, 1)},
         Material {.texture = textures[2], .shader = core_shader}, Quad {});
