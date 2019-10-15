@@ -13,6 +13,7 @@ class Shader
     GLuint program;
 
   public:
+    Shader();
     Shader(const GLchar* vertex_path, const GLchar* fragment_path);
     ~Shader();
 

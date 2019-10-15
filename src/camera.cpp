@@ -1,5 +1,7 @@
 #include "camera.h"
+#include "glm/glm.hpp"
 #include "timer.h"
+#include <glm/gtc/matrix_transform.hpp>
 
 Camera::Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f)) :
     speed(SPEED), zoom(ZOOM), front(glm::vec3(0.0f, 0.0f, -1.0f)),
@@ -10,19 +12,11 @@ Camera::Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f)) :
     this->zoom = zoom;
 
     this->max_zoom = 5.0f;
-    this->min_zoom = 1.0f;
+    this->min_zoom = 0.25f;
     this->zoom_step = 0.25f;
 }
 
 Camera::~Camera() {}
-
-glm::mat4 Camera::get_view_matrix(GLuint window_w, GLuint window_h)
-{
-    glm::mat4 view(1);
-    view = glm::translate(view, glm::vec3(window_w / 2, window_h / 2, -100.0f));
-    view *= glm::lookAt(position, position + front, up);
-    return view;
-}
 
 void Camera::process_keyboard(CameraMovement direction)
 {
@@ -63,4 +57,19 @@ GLfloat Camera::get_zoom()
 glm::vec3 Camera::get_position()
 {
     return position;
+}
+
+glm::vec3 Camera::get_right()
+{
+    return right;
+}
+
+glm::vec3 Camera::get_front()
+{
+    return front;
+}
+
+glm::vec3 Camera::get_up()
+{
+    return up;
 }

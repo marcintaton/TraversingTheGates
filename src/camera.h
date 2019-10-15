@@ -26,14 +26,16 @@ class Camera
     GLfloat min_zoom;
     GLfloat zoom_step;
 
-  private:
   public:
     Camera(glm::vec3 position);
     ~Camera();
 
-    glm::mat4 get_view_matrix(GLuint window_w, GLuint window_h);
     void process_keyboard(CameraMovement direction);
     void process_mouse_scroll(GLfloat y_offset);
+
     GLfloat get_zoom();
     glm::vec3 get_position();
+    glm::vec3 get_right();
+    glm::vec3 get_front();
+    glm::vec3 get_up();
 };

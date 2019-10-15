@@ -15,6 +15,10 @@ SET(PROJECT_SOURCE_FILES
     "src/shader.cpp"
     "src/timer.cpp"
     "src/camera.cpp"
+    "src/gameObject.cpp"
+    "src/projection.cpp"
+    "src/view.cpp"
+
 )
 
 

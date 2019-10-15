@@ -9,8 +9,14 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "src/camera.h"
+#include "src/gameObject.h"
+#include "src/material.h"
+#include "src/projection.h"
+#include "src/quad.h"
 #include "src/shader.h"
 #include "src/timer.h"
+#include "src/transform.h"
+#include "src/view.h"
 
 const auto window_w = 1200;
 const auto window_h = 900;
@@ -71,9 +77,6 @@ static void move_camera()
     if (keys[GLFW_KEY_A] || keys[GLFW_KEY_LEFT]) {
         camera.process_keyboard(CameraMovement::LEFT);
     }
-
-    // std::cout << camera.get_position().x << " " << camera.get_position().y
-    //           << " " << camera.get_position().z << std::endl;
 }
 
 static void load_texture(const char* file_path, GLuint& texture)
@@ -147,16 +150,16 @@ int main(void)
     // geometry
     GLfloat quad_verices[] = {
         // top right
-        0.5f * 500, 0.5f * 500, 0.0f * 500, // position
+        0.5f * 100, 0.5f * 100, 0.0f * 100, // position
         1.0f, 1.0f,                         // uv
         // bottom right
-        0.5f * 500, -0.5f * 500, 0.0f * 500, // position
+        0.5f * 100, -0.5f * 100, 0.0f * 100, // position
         1.0f, 0.0f,                          // uv
         // bottom left
-        -0.5f * 500, -0.5f * 500, 0.0f * 500, // position
+        -0.5f * 100, -0.5f * 100, 0.0f * 100, // position
         0.0f, 0.0f,                           // uv
         // top left
-        -0.5f * 500, 0.5f * 500, 0.0f * 500, // position
+        -0.5f * 100, 0.5f * 100, 0.0f * 100, // position
         0.0f,
         1.0f, // uv
     };
@@ -167,8 +170,8 @@ int main(void)
     };
 
     glm::vec3 quad_positions[] = {glm::vec3(0.0f, 0.0f, 0.0f),
-                                  glm::vec3(500.1f, 0.0f, 0.0f),
-                                  glm::vec3(0.0f, 500.1f, 0.0f)};
+                                  glm::vec3(100.1f, 0.0f, 0.0f),
+                                  glm::vec3(0.0f, 100.1f, 0.0f)};
 
     GLuint VBO;
     GLuint VAO;
@@ -205,25 +208,31 @@ int main(void)
     load_texture("assets/textures/image1.png", textures[0]);
     load_texture("assets/textures/image2.png", textures[1]);
     load_texture("assets/textures/image3.png", textures[2]);
-    // int tex_width, tex_height;
-    // glGenTextures(1, &texture);
-    // glBindTexture(GL_TEXTURE_2D, texture);
 
-    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+    View view;
+    Projection projection;
 
-    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    // creating objects
+    GameObject gameObjects[3];
 
-    // auto image = SOIL_load_image("assets/textures/image1.png", &tex_width,
-    //                              &tex_height, 0, SOIL_LOAD_RGBA);
-    // glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tex_width, tex_height, 0,
-    // GL_RGBA,
-    //              GL_UNSIGNED_BYTE, image);
-    // glGenerateMipmap(GL_TEXTURE_2D);
+    gameObjects[0] = GameObject(
+        Transform {.position = glm::vec3(0, 0, 0),
+                   .rotation = 0,
+                   .scale = glm::vec2(1, 1)},
+        Material {.texture = textures[0], .shader = core_shader}, Quad {});
 
-    // SOIL_free_image_data(image);
-    // glBindTexture(GL_TEXTURE_2D, 0);
+    gameObjects[1] = GameObject(
+        Transform {.position = glm::vec3(0, 100, 0),
+                   .rotation = 0,
+                   .scale = glm::vec2(1, 1)},
+        Material {.texture = textures[1], .shader = inverse_color_shader},
+        Quad {});
+
+    gameObjects[2] = GameObject(
+        Transform {.position = glm::vec3(100, 0, 0),
+                   .rotation = 0,
+                   .scale = glm::vec2(1, 1)},
+        Material {.texture = textures[2], .shader = core_shader}, Quad {});
 
     // game loop
     while (!glfwWindowShouldClose(window)) {
@@ -232,47 +241,20 @@ int main(void)
 
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glm::mat4 projection(1);
-        set_camera_size(camera.get_zoom(), projection);
+        view.update_matrix(window_w, window_h, camera.get_position(),
+                           camera.get_front(), camera.get_up());
 
-        // use shader program
-
-        glm::mat4 view(1);
-
-        view = camera.get_view_matrix(window_w, window_h);
+        projection.update_matrix(screen_w, screen_h, camera.get_zoom());
 
         // draw triangles
         glBindVertexArray(VAO);
 
         for (GLuint i = 0; i < 3; ++i) {
 
-            Shader to_use = (i == 1) ? inverse_color_shader : core_shader;
-            to_use.use();
-
-            // pass matrices to shader
-            GLint model_location =
-                glGetUniformLocation(to_use.program, "model");
-            GLint view_location = glGetUniformLocation(to_use.program, "view");
-            GLint proj_location =
-                glGetUniformLocation(to_use.program, "projection");
-
-            // bind texture
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, textures[i]);
-            glUniform1i(glGetUniformLocation(to_use.program, "texture1"), 0);
-
-            glm::mat4 quad_model(1);
-            quad_model = glm::translate(quad_model, quad_positions[i]);
-
-            glUniformMatrix4fv(model_location, 1, GL_FALSE,
-                               glm::value_ptr(quad_model));
-            glUniformMatrix4fv(view_location, 1, GL_FALSE,
-                               glm::value_ptr(view));
-            glUniformMatrix4fv(proj_location, 1, GL_FALSE,
-                               glm::value_ptr(projection));
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            for (auto object : gameObjects) {
+                object.render();
+            }
         }
-
         // clear vert array
         glBindVertexArray(0);
 

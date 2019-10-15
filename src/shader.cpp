@@ -1,5 +1,7 @@
 #include "shader.h"
 
+Shader::Shader() {}
+
 Shader::Shader(const GLchar* vertex_path, const GLchar* fragment_path)
 {
     // load shaders form files
