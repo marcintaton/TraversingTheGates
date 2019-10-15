@@ -53,15 +53,6 @@ static void mouse_scroll_callback(GLFWwindow* window, double x_offset,
     camera.process_mouse_scroll(-y_offsset);
 }
 
-static void set_camera_size(float ortho_size, glm::mat4& projection_matrix)
-{
-    projection_matrix =
-        glm::ortho((GLfloat) screen_w * 0.5f * (1 - ortho_size),
-                   (GLfloat) screen_w * 0.5f * (1 + ortho_size),
-                   (GLfloat) screen_h * 0.5f * (1 - ortho_size),
-                   (GLfloat) screen_h * 0.5f * (1 + ortho_size), 0.1f, 1000.0f);
-}
-
 static void move_camera()
 {
 
@@ -169,10 +160,6 @@ int main(void)
         1, 2, 3  // second tris
     };
 
-    glm::vec3 quad_positions[] = {glm::vec3(0.0f, 0.0f, 0.0f),
-                                  glm::vec3(100.1f, 0.0f, 0.0f),
-                                  glm::vec3(0.0f, 100.1f, 0.0f)};
-
     GLuint VBO;
     GLuint VAO;
     GLuint EBO;
@@ -249,12 +236,10 @@ int main(void)
         // draw triangles
         glBindVertexArray(VAO);
 
-        for (GLuint i = 0; i < 3; ++i) {
-
-            for (auto object : gameObjects) {
-                object.render();
-            }
+        for (auto object : gameObjects) {
+            object.render();
         }
+
         // clear vert array
         glBindVertexArray(0);
 
