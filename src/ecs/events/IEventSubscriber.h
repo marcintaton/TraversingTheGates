@@ -34,9 +34,12 @@ class IEventSubscriber
                 }
             });
 
-        from_event.Unsubscribe(
-            (std::any_cast<EventSubscriptionBind<T_args...>>(*bind_iterator))
-                .tracked_listener_id);
-        subscription_binds.erase(bind_iterator);
+        if ((*bind_iterator).has_value()) {
+            from_event.Unsubscribe(
+                (std::any_cast<EventSubscriptionBind<T_args...>>(
+                     *bind_iterator))
+                    .tracked_listener_id);
+            subscription_binds.erase(bind_iterator);
+        }
     }
 };

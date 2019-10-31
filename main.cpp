@@ -63,6 +63,7 @@ int main(void)
     std::cout << std::endl;
 
     std::function<void()> bind = std::bind(&enemy::void_function, &e1);
+    e1.unsubscribe(event_manager.some_event_3);
     e1.subscribe(event_manager.some_event_3, bind);
 
     event_manager.some_event_3.Invoke();
