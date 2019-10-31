@@ -1,11 +1,4 @@
-// #include <algorithm>
-// #include <any>
-// #include <functional>
 #include <iostream>
-// #include <string>
-// #include <typeindex>
-// #include <typeinfo>
-// #include <vector>
 
 #include "src/ecs/events/IEventSubscriber.h"
 #include "src/ecs/events/eventManager.h"
@@ -54,19 +47,9 @@ class enemy : public Entity<enemy>, public IEventSubscriber
 
 int main(void)
 {
-    // std::cout << typeid(enemy).name() << std::endl;
-    // std::cout << typeid(Entity<enemy>).name() << std::endl;
 
     enemy e1(0);
     enemy e2(1);
-
-    // manager.some_event_1.Subscribe(std::bind(
-    //     &enemy::announce, &e2, std::placeholders::_1,
-    //     std::placeholders::_2));
-
-    // manager.some_event_1.Invoke(42, 5);
-
-    // manager.some_event_1.Unsubscribe(bind_1);
 
     event_manager.some_event_1.Invoke(42, 5);
     event_manager.some_event_2.Invoke(false);
@@ -83,6 +66,7 @@ int main(void)
     e1.subscribe(event_manager.some_event_3, bind);
 
     event_manager.some_event_3.Invoke();
+    event_manager.some_event_4.Invoke(4, 20);
 
     return 0;
 }
