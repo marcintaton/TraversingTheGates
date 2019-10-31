@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0.0)
 project("traversing_the_gates")
 
 # Flags constants
-SET(CUSTOM_COMPILE_FLAGS "-std=c++11")
+SET(CUSTOM_COMPILE_FLAGS "-std=c++17")
 SET(CUSTOM_LINK_FLAGS "-lGL -lglfw")
 
 # Adding flags
