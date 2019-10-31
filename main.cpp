@@ -79,18 +79,19 @@ class EventManager
 {
   public:
     Event<int, int> some_event_1;
-    // static Event<> some_event_2;
+    Event<bool> some_event_2;
+    Event<> some_event_3;
 };
 
 EventManager event_manager;
 
-template<typename... T_args>
 class IEventSubscriber
 {
   private:
-    std::vector<EventSubscriptionBind<T_args...>> binds;
+    std::vector<std::any> binds;
 
   public:
+    template<typename... T_args>
     void subscribe(Event<T_args...>& to_event,
                    std::function<void(T_args...)> function)
     {
@@ -98,19 +99,22 @@ class IEventSubscriber
         binds.push_back(bind);
     }
 
+    template<typename... T_args>
     void unsubscribe(Event<T_args...>& from_event)
     {
         auto bind_it =
             std::find_if(binds.begin(), binds.end(), [&](const auto& bind) {
-                return bind.subscribed_event == from_event;
+                return (std::any_cast<EventSubscriptionBind<T_args...>>(bind))
+                           .subscribed_event == from_event;
             });
 
-        from_event.Unsubscribe((*bind_it).id);
+        from_event.Unsubscribe(
+            (std::any_cast<EventSubscriptionBind<T_args...>>(*bind_it)).id);
         binds.erase(bind_it);
     }
 };
 
-class enemy : public Entity<enemy>, public IEventSubscriber<int, int>
+class enemy : public Entity<enemy>, public IEventSubscriber
 {
   private:
     int id;
@@ -119,14 +123,28 @@ class enemy : public Entity<enemy>, public IEventSubscriber<int, int>
     enemy(int _id)
     {
         this->id = _id;
-        subscribe(event_manager.some_event_1,
-                  std::bind(&enemy::announce, this, std::placeholders::_1,
-                            std::placeholders::_2));
+
+        std::function<void(int, int)> f1_bind =
+            std::bind(&enemy::int_function, this, std::placeholders::_1,
+                      std::placeholders::_2);
+        subscribe<int, int>(event_manager.some_event_1, f1_bind);
+
+        std::function<void(bool)> f2_bind =
+            std::bind(&enemy::bool_function, this, std::placeholders::_1);
+        subscribe<bool>(event_manager.some_event_2, f2_bind);
     }
 
-    void announce(int announcment, int shieet)
+    void int_function(int announcment, int shieet)
     {
-        std::cout << announcment << shieet << " " << id << std::endl;
+        std::cout << id << " " << announcment << shieet << std::endl;
+    }
+
+    void bool_function(bool x) { std::cout << id << " " << x << std::endl; }
+
+    void void_function()
+    {
+        std::cout << id << " "
+                  << "void" << std::endl;
     }
 };
 
@@ -147,11 +165,19 @@ int main(void)
     // manager.some_event_1.Unsubscribe(bind_1);
 
     event_manager.some_event_1.Invoke(42, 5);
-
+    event_manager.some_event_2.Invoke(false);
     std::cout << std::endl;
-    e1.unsubscribe(event_manager.some_event_1);
+
+    e1.unsubscribe<int, int>(event_manager.some_event_1);
 
     event_manager.some_event_1.Invoke(40, 5);
+    event_manager.some_event_2.Invoke(false);
+    std::cout << std::endl;
+
+    std::function<void()> bind = std::bind(&enemy::void_function, &e1);
+    e1.subscribe(event_manager.some_event_3, bind);
+
+    event_manager.some_event_3.Invoke();
 
     return 0;
 }
