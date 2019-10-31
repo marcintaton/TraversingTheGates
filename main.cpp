@@ -104,8 +104,13 @@ class IEventSubscriber
     {
         auto bind_it =
             std::find_if(binds.begin(), binds.end(), [&](const auto& bind) {
-                return (std::any_cast<EventSubscriptionBind<T_args...>>(bind))
-                           .subscribed_event == from_event;
+                try {
+                    return (std::any_cast<EventSubscriptionBind<T_args...>>(
+                                bind))
+                               .subscribed_event == from_event;
+                } catch (const std::bad_any_cast& e) {
+                    return false;
+                }
             });
 
         from_event.Unsubscribe(
@@ -169,6 +174,7 @@ int main(void)
     std::cout << std::endl;
 
     e1.unsubscribe<int, int>(event_manager.some_event_1);
+    e2.unsubscribe<bool>(event_manager.some_event_2);
 
     event_manager.some_event_1.Invoke(40, 5);
     event_manager.some_event_2.Invoke(false);
