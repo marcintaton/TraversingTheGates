@@ -1,6 +1,9 @@
 #pragma once
-#include "event.hpp"
-#include "eventSubscriptionBind.hpp"
+#include "event.h"
+#include "eventSubscriptionBind.h"
+#include <any>
+#include <functional>
+#include <vector>
 
 class IEventSubscriber
 {

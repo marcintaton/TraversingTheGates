@@ -1,6 +1,9 @@
 #pragma once
-#include "event.hpp"
+#include "event.h"
 #include <algorithm>
+
+template<typename... T_args>
+class Event;
 
 template<typename... T_args>
 struct EventSubscriptionBind {

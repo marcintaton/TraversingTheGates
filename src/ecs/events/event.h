@@ -1,8 +1,10 @@
 #pragma once
-#include "eventSubscriptionBind.hpp"
-#include "eventType.hpp"
-#include "trackedFunction.hpp"
+#include "eventSubscriptionBind.h"
+#include "eventType.h"
+#include "trackedFunction.h"
 #include <algorithm>
+#include <functional>
+#include <vector>
 
 template<typename... T_args>
 class Event
