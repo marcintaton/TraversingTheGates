@@ -12,6 +12,9 @@ SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${CUSTOM_LINK_FLAGS}")
 # Source files
 SET(PROJECT_SOURCE_FILES 
     "main.cpp"
+
+    # unit tests
+    "utests/eventTests.cpp"
 )
 
 

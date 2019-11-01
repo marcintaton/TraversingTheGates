@@ -3,6 +3,7 @@
 #include "eventSubscriptionBind.h"
 #include <any>
 #include <functional>
+#include <iostream>
 #include <vector>
 
 class IEventSubscriber
@@ -34,12 +35,16 @@ class IEventSubscriber
                 }
             });
 
-        if ((*bind_iterator).has_value()) {
+        try {
             from_event.Unsubscribe(
                 (std::any_cast<EventSubscriptionBind<T_args...>>(
                      *bind_iterator))
                     .tracked_listener_id);
             subscription_binds.erase(bind_iterator);
+        } catch (const std::exception& e) {
+            std::cout
+                << "ECS::EVENT_ENGINE::IEVENTSUBSCRIBER::UNSUBSCRIBE::FAIL"
+                << " Event not subscribed" << std::endl;
         }
     }
 };
