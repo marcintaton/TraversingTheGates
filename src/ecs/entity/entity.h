@@ -16,6 +16,9 @@ class Entity : public IEntity
     static const EntityTypeId ENTITY_TYPE_ID;
 
   public:
+    Entity() {}
+    Entity(EntityId id) { set_entity_id(id); }
+
     std::bitset<max_components> component_mask;
     std::array<int, max_components> component_ids;
 

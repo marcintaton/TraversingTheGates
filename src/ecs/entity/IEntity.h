@@ -7,8 +7,9 @@ using EntityTypeId = std::size_t;
 
 class IEntity
 {
-  private:
-    EntityId entity_id = 5;
+  protected:
+    EntityId entity_id;
+    virtual void set_entity_id(EntityId id) { entity_id = id; }
 
   public:
     IEntity() {}
