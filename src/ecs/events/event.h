@@ -14,7 +14,7 @@ class Event
     std::vector<TrackedFunction<T_args...>> listeners;
 
   public:
-    const EventType event_type;
+    EventType event_type;
 
     Event() : event_type(EventType::error_type) {}
     Event(EventType type) : event_type(type) {}
