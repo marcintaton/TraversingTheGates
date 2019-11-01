@@ -234,4 +234,6 @@ void event_tests()
     try_unsub_from_subbed_event();
 
     try_unsub_from_non_subbed_event();
+
+    std::cout << "UNIT_TESTS::EVENTS::DONE " << std::endl;
 }
