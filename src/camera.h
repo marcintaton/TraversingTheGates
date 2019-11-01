@@ -8,8 +8,8 @@
 
 enum class CameraMovement { UP, DOWN, LEFT, RIGHT };
 
-const GLfloat ZOOM = 1.0f;
-const GLfloat SPEED = 500.0f;
+const GLfloat ZOOM = 0.05f;
+const GLfloat SPEED = 5.0f;
 
 class Camera
 {

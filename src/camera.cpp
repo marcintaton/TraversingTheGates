@@ -11,9 +11,9 @@ Camera::Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f)) :
     this->speed = speed;
     this->zoom = zoom;
 
-    this->max_zoom = 5.0f;
-    this->min_zoom = 0.25f;
-    this->zoom_step = 0.25f;
+    this->max_zoom = 0.05f;
+    this->min_zoom = 0.005f;
+    this->zoom_step = 0.005f;
 }
 
 Camera::~Camera() {}

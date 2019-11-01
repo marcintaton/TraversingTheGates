@@ -79,8 +79,8 @@ static void load_texture(const char* file_path, GLuint& texture)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     auto image =
         SOIL_load_image(file_path, &tex_width, &tex_height, 0, SOIL_LOAD_RGBA);
@@ -141,16 +141,16 @@ int main(void)
     // geometry
     GLfloat quad_verices[] = {
         // top right
-        0.5f * 100, 0.5f * 100, 0.0f * 100, // position
-        1.0f, 1.0f,                         // uv
+        0.5f, 0.5f, 0.0f, // position
+        1.0f, 1.0f,       // uv
         // bottom right
-        0.5f * 100, -0.5f * 100, 0.0f * 100, // position
-        1.0f, 0.0f,                          // uv
+        0.5f, -0.5f, 0.0f, // position
+        1.0f, 0.0f,        // uv
         // bottom left
-        -0.5f * 100, -0.5f * 100, 0.0f * 100, // position
-        0.0f, 0.0f,                           // uv
+        -0.5f, -0.5f, 0.0f, // position
+        0.0f, 0.0f,         // uv
         // top left
-        -0.5f * 100, 0.5f * 100, 0.0f * 100, // position
+        -0.5f, 0.5f, 0.0f, // position
         0.0f,
         1.0f, // uv
     };
@@ -192,9 +192,9 @@ int main(void)
 
     // textue loading
     GLuint textures[3];
-    load_texture("assets/textures/image1.png", textures[0]);
-    load_texture("assets/textures/image2.png", textures[1]);
-    load_texture("assets/textures/image3.png", textures[2]);
+    load_texture("assets/textures/tile.png", textures[0]);
+    load_texture("assets/textures/tile.png", textures[1]);
+    load_texture("assets/textures/tile.png", textures[2]);
 
     View view;
     Projection projection;
