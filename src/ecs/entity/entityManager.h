@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <map>
+#include <memory>
 #include <type_traits>
 #include <vector>
 
@@ -19,10 +20,10 @@ bool assert_valid_entity_type()
 class EntityManager
 {
   private:
-    std::map<EntityTypeId, std::vector<IEntity*>> entities_by_type;
-    std::vector<IEntity*> all_entities;
-    IEntity* get_entity(EntityId by_id);
-    void erase_from_containers(EntityId by_id);
+    std::map<EntityTypeId, std::vector<std::shared_ptr<IEntity>>>
+        entities_by_type;
+    std::vector<std::shared_ptr<IEntity>> all_entities;
+    std::shared_ptr<IEntity> get_entity(EntityId by_id);
 
   public:
     EntityManager();
@@ -32,7 +33,8 @@ class EntityManager
     EntityId create_entity()
     {
         if (assert_valid_entity_type<T>()) {
-            IEntity* new_entity = new T();
+            std::shared_ptr<IEntity> new_entity(new T);
+
             entities_by_type[new_entity->get_entity_type_id()].push_back(
                 new_entity);
             all_entities.push_back(new_entity);
