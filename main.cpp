@@ -57,7 +57,7 @@ int main(void)
     // ECSEngine::ComponentManagerAccess::get()->remove_component<AComponent>(e2);
 
     std::shared_ptr<AComponent> x =
-        ECSEngine::ComponentManagerAccess::get()->get_component<AComponent>(e1);
+        ECSEngine::ComponentManagerAccess::get()->get_component<AComponent>(e2);
 
     std::cout << x->a << std::endl;
     std::cout << std::endl;
