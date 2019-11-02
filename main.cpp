@@ -3,9 +3,12 @@
 #include <typeinfo>
 #include <vector>
 
-// #include "src/ecs/component/component.h"
+#include "src/ecs/component/component.h"
+#include "src/ecs/component/componentManager.h"
 #include "src/ecs/entity/entity.h"
 #include "src/ecs/entity/entityManager.h"
+
+#include "src/ecs/ECSEngine.h"
 
 class Player : public Entity<Player>
 {
@@ -21,28 +24,29 @@ class Enemy : public Entity<Enemy>
     }
 };
 
-// class AComponent : public Component<AComponent>
-// {
-//   public:
-//     int a = 102;
-// };
+class AComponent : public Component<AComponent>
+{
+  public:
+    int a = 102;
+};
 
-// class BComponent : public Component<BComponent>
-// {
-//   public:
-//     bool b = true;
-// };
+class BComponent : public Component<BComponent>
+{
+  public:
+    bool b = true;
+};
 
 int main(void)
 {
-    EntityManager mangaer;
 
-    EntityId e1 = mangaer.create_entity<Player>();
-    Player p;
-    EntityId e2 = mangaer.create_entity<Player>();
-    EntityId e3 = mangaer.create_entity<Enemy>(p, 5);
+    EntityId e1 = ECSEngine::entity_manager()->create_entity<Player>();
+    EntityId e2 = ECSEngine::entity_manager()->create_entity<Player>();
 
-    mangaer.remove_entity(e1);
+    // e_manager.remove_entity(e1);
+
+    // ECSEngine::.add_component<BComponent>(e2);
+    ECSEngine::component_manager()->add_component<AComponent>(e2);
+    ECSEngine::component_manager()->add_component<BComponent>(e1);
 
     return 0;
 }

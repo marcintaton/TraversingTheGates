@@ -59,5 +59,5 @@ class EntityManager
 
     void remove_entity(EntityId by_id);
     ComponentMask get_mask(EntityId from_entity);
-    ComponentArray get_component_ids(EntityId from_entity);
+    ComponentIdArray get_component_ids(EntityId from_entity);
 };

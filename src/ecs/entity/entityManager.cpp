@@ -38,7 +38,7 @@ ComponentMask EntityManager::get_mask(EntityId from_entity)
     return get_entity(from_entity)->get_mask();
 }
 
-ComponentArray EntityManager::get_component_ids(EntityId from_entity)
+ComponentIdArray EntityManager::get_component_ids(EntityId from_entity)
 {
     return get_entity(from_entity)->get_component_ids();
 }
