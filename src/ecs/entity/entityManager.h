@@ -30,7 +30,7 @@ class EntityManager
     ~EntityManager();
 
     template<class T, typename... T_args>
-    EntityId create_entity(T_args... args)
+    EntityId create_entity(T_args&&... args)
     {
         if (assert_valid_entity_type<T>()) {
             std::shared_ptr<IEntity> new_entity(

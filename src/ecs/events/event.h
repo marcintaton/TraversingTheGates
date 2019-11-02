@@ -20,7 +20,7 @@ class Event
     Event(EventType type) : event_type(type) {}
 
     EventSubscriptionBind<T_args...>
-    subscribe(std::function<void(T_args...)> subscriber)
+    subscribe(std::function<void(T_args&&...)> subscriber)
     {
         TrackedFunction<T_args...> identified_subscriber =
             TrackedFunction<T_args...>(
@@ -44,7 +44,7 @@ class Event
         listeners.erase(erase_iterator);
     }
 
-    void Invoke(T_args... args)
+    void Invoke(T_args&&... args)
     {
         for (auto identifier : listeners) {
             identifier.function(std::forward<T_args>(args)...);
