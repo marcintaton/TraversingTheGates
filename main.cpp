@@ -1,5 +1,6 @@
 #include <bitset>
 #include <iostream>
+#include <memory>
 #include <typeinfo>
 #include <vector>
 
@@ -48,10 +49,18 @@ int main(void)
     ECSEngine::ComponentManagerAccess::get()->add_component<AComponent>(e2);
     ECSEngine::ComponentManagerAccess::get()->add_component<BComponent>(e1);
 
-    std::cout << ECSEngine::EntityManagerAccess::get()->get_mask(e1)
-              << std::endl;
-    std::cout << ECSEngine::EntityManagerAccess::get()->get_mask(e2)
-              << std::endl;
+    // std::cout << ECSEngine::EntityManagerAccess::get()->get_mask(e1)
+    //           << std::endl;
+    // std::cout << ECSEngine::EntityManagerAccess::get()->get_mask(e2)
+    //           << std::endl;
+
+    // ECSEngine::ComponentManagerAccess::get()->remove_component<AComponent>(e2);
+
+    std::shared_ptr<AComponent> x =
+        ECSEngine::ComponentManagerAccess::get()->get_component<AComponent>(e1);
+
+    std::cout << x->a << std::endl;
+    std::cout << std::endl;
 
     return 0;
 }

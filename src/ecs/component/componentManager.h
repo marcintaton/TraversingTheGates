@@ -59,4 +59,48 @@ class ComponentManager
             return nullptr;
         }
     }
+
+    template<class T>
+    void remove_component(EntityId from_entity)
+    {
+        if (assert_valid_component_type<T>()) {
+
+            ComponentTypeId comp_type_id = read_component_type_id<T>();
+            components_by_entities[from_entity][comp_type_id] = nullptr;
+
+            std::shared_ptr<IEntity> entity =
+                ECSEngine::EntityManagerAccess::get()->get_entity(from_entity);
+
+            ComponentId this_comp_id = entity->get_component_id<T>();
+
+            auto it = std::find_if(
+                components_by_types[comp_type_id].begin(),
+                components_by_types[comp_type_id].end(), [&](const auto& comp) {
+                    return comp->get_component_id() == this_comp_id;
+                });
+            components_by_types[comp_type_id].erase(it);
+
+            entity->remove_component_info<T>();
+
+        } else {
+            std::cout << "ECS::COMPONENT::COMPONENT_MANAGER::REMOVE_COMPONENT::"
+                         "INVALID_COMPONENT_TYPE"
+                      << std::endl;
+        }
+    }
+
+    template<typename T>
+    std::shared_ptr<T> get_component(EntityId from_entity)
+    {
+        std::shared_ptr<T> comp_ptr = std::dynamic_pointer_cast<T>(
+            components_by_entities[from_entity][read_component_type_id<T>()]);
+
+        if (comp_ptr == nullptr) {
+            std::cout << "ECS::COMPONENT::COMPONENT_MANAGER::GET_COMPONENT::"
+                         "NO_SUCH_COMPONENT_IN_ENTITY"
+                      << std::endl;
+        }
+        return std::dynamic_pointer_cast<T>(
+            components_by_entities[from_entity][read_component_type_id<T>()]);
+    }
 };
