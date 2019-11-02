@@ -6,16 +6,16 @@
 struct Quad : Mesh {
     GLfloat vertices[20] = {
         // top right
-        0.5f * 100, 0.5f * 100, 0.0f * 100, // position
-        1.0f, 1.0f,                         // uv
+        0.5f, 0.5f, 0.0f, // position
+        1.0f, 1.0f,       // uv
         // bottom right
-        0.5f * 100, -0.5f * 100, 0.0f * 100, // position
-        1.0f, 0.0f,                          // uv
+        0.5f, -0.5f, 0.0f, // position
+        1.0f, 0.0f,        // uv
         // bottom left
-        -0.5f * 100, -0.5f * 100, 0.0f * 100, // position
-        0.0f, 0.0f,                           // uv
+        -0.5f, -0.5f, 0.0f, // position
+        0.0f, 0.0f,         // uv
         // top left
-        -0.5f * 100, 0.5f * 100, 0.0f * 100, // position
+        -0.5f, 0.5f, 0.0f, // position
         0.0f,
         1.0f, // uv
     };
