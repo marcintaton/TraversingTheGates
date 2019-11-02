@@ -23,7 +23,6 @@ class EntityManager
     std::map<EntityTypeId, std::vector<std::shared_ptr<IEntity>>>
         entities_by_type;
     std::vector<std::shared_ptr<IEntity>> all_entities;
-    std::shared_ptr<IEntity> get_entity(EntityId by_id);
 
   public:
     EntityManager();
@@ -58,6 +57,7 @@ class EntityManager
     }
 
     void remove_entity(EntityId by_id);
+    std::shared_ptr<IEntity> get_entity(EntityId by_id);
     ComponentMask get_mask(EntityId from_entity);
     ComponentIdArray get_component_ids(EntityId from_entity);
 };

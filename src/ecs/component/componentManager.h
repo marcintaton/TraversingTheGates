@@ -11,7 +11,7 @@
 #include "IComponent.h"
 #include "component.h"
 
-#include "../ECSEngine.h"
+#include "../ECSEngine/EntityManagerAccess.h"
 
 using ComponentArray = std::array<std::shared_ptr<IComponent>, max_components>;
 
@@ -47,6 +47,10 @@ class ComponentManager
             components_by_types[new_comp->get_component_type_id()].push_back(
                 new_comp);
 
+            ECSEngine::EntityManagerAccess::get()
+                ->get_entity(to_entity)
+                ->add_component_info<T>(new_comp->get_component_id());
+
             return new_comp;
         } else {
             std::cout << "ECS::COMPONENT::COMPONENT_MANAGER::ADD_COMPONENT::"
@@ -55,6 +59,4 @@ class ComponentManager
             return nullptr;
         }
     }
-
-    void test() {}
 };

@@ -4,6 +4,10 @@
 #include <array>
 #include <bitset>
 
+#include <iostream>
+
+#include "../component/IComponent.h"
+
 using EntityId = std::size_t;
 using EntityTypeId = std::size_t;
 
@@ -32,4 +36,22 @@ class IEntity
     virtual const EntityTypeId get_entity_type_id() const = 0;
     ComponentMask get_mask() { return component_mask; }
     ComponentIdArray get_component_ids() { return component_ids; }
+
+    template<class T>
+    void add_component_info(ComponentId id)
+    {
+        ComponentTypeId comp_type_id = read_component_type_id<T>();
+
+        std::cout << comp_type_id << std::endl;
+        component_mask[comp_type_id] = 1;
+        component_ids[comp_type_id] = id;
+    }
+
+    template<class T>
+    void remove_component_info()
+    {
+        ComponentTypeId comp_type_id = read_component_type_id<T>();
+        component_mask[comp_type_id] = 0;
+        component_ids[comp_type_id] = 0;
+    }
 };

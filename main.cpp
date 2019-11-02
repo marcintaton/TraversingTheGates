@@ -4,11 +4,12 @@
 #include <vector>
 
 #include "src/ecs/component/component.h"
-#include "src/ecs/component/componentManager.h"
+// #include "src/ecs/component/componentManager.h"
 #include "src/ecs/entity/entity.h"
-#include "src/ecs/entity/entityManager.h"
+// #include "src/ecs/entity/entityManager.h"
 
-#include "src/ecs/ECSEngine.h"
+#include "src/ecs/ECSEngine/ComponentManagerAccess.h"
+#include "src/ecs/ECSEngine/EntityManagerAccess.h"
 
 class Player : public Entity<Player>
 {
@@ -39,14 +40,18 @@ class BComponent : public Component<BComponent>
 int main(void)
 {
 
-    EntityId e1 = ECSEngine::entity_manager()->create_entity<Player>();
-    EntityId e2 = ECSEngine::entity_manager()->create_entity<Player>();
+    EntityId e1 =
+        ECSEngine::EntityManagerAccess::get()->create_entity<Player>();
+    EntityId e2 =
+        ECSEngine::EntityManagerAccess::get()->create_entity<Player>();
 
-    // e_manager.remove_entity(e1);
+    ECSEngine::ComponentManagerAccess::get()->add_component<AComponent>(e2);
+    ECSEngine::ComponentManagerAccess::get()->add_component<BComponent>(e1);
 
-    // ECSEngine::.add_component<BComponent>(e2);
-    ECSEngine::component_manager()->add_component<AComponent>(e2);
-    ECSEngine::component_manager()->add_component<BComponent>(e1);
+    std::cout << ECSEngine::EntityManagerAccess::get()->get_mask(e1)
+              << std::endl;
+    std::cout << ECSEngine::EntityManagerAccess::get()->get_mask(e2)
+              << std::endl;
 
     return 0;
 }

@@ -7,7 +7,7 @@ using ComponentTypeId = std::size_t;
 
 inline ComponentId get_new_component_id()
 {
-    static ComponentId last_comp_id = 0u;
+    static ComponentId last_comp_id = 1u;
     return last_comp_id++;
 }
 
