@@ -50,8 +50,8 @@ class EntityManager
     EntityIterator<T> get_entities_of_type()
     {
         return EntityIterator<T> {
-            .container =
-                entities_by_type[type_helper::get_type_id<Entity<T>>()]};
+            .container = entities_by_type
+                [utility::type_helper::get_type_id<Entity<T>>()]};
     }
 
     void remove_entity(EntityId by_id);

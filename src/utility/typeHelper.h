@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+namespace utility
+{
 namespace type_helper
 {
 
@@ -12,3 +14,4 @@ std::size_t get_type_id()
 }
 
 } // namespace type_helper
+} // namespace utility

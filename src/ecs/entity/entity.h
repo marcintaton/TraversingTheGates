@@ -23,4 +23,10 @@ class Entity : public IEntity
 
 template<class T>
 const EntityTypeId
-    Entity<T>::ENTITY_TYPE_ID = type_helper::get_type_id<Entity<T>>();
+    Entity<T>::ENTITY_TYPE_ID = utility::type_helper::get_type_id<Entity<T>>();
+
+template<class T>
+const EntityTypeId get_entity_type_id()
+{
+    return utility::type_helper::get_type_id<Entity<T>>();
+}
