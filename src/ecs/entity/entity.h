@@ -1,13 +1,10 @@
 #pragma once
 
 #include <algorithm>
-#include <array>
-#include <bitset>
 #include <typeinfo>
 
+#include "../../utility/typeHelper.h"
 #include "IEntity.h"
-
-constexpr std::size_t max_components = 32;
 
 template<class T>
 class Entity : public IEntity
@@ -17,10 +14,6 @@ class Entity : public IEntity
 
   public:
     Entity() {}
-    Entity(EntityId id) { set_entity_id(id); }
-
-    std::bitset<max_components> component_mask;
-    std::array<int, max_components> component_ids;
 
     virtual const EntityTypeId get_entity_type_id() const override
     {
@@ -29,4 +22,5 @@ class Entity : public IEntity
 };
 
 template<class T>
-const EntityTypeId Entity<T>::ENTITY_TYPE_ID = typeid(Entity<T>).hash_code();
+const EntityTypeId
+    Entity<T>::ENTITY_TYPE_ID = type_helper::get_type_id<Entity<T>>();
