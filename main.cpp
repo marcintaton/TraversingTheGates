@@ -11,6 +11,7 @@ class Enemy : public Entity<Enemy>
 {
   public:
     Enemy() : Entity<Enemy>() {}
+    Enemy(int a, int b) : Entity<Enemy>() { std::cout << a + b << std::endl; }
 };
 
 class Player : public Entity<Player>
@@ -35,7 +36,7 @@ int main(void)
 
     EntityId e1 = mangaer.create_entity<Player>();
     EntityId e2 = mangaer.create_entity<Player>();
-    EntityId e3 = mangaer.create_entity<Player>();
+    EntityId e3 = mangaer.create_entity<Enemy>(1, 2);
 
     mangaer.remove_entity(e1);
 

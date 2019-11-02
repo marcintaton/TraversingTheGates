@@ -29,11 +29,12 @@ class EntityManager
     EntityManager();
     ~EntityManager();
 
-    template<class T>
-    EntityId create_entity()
+    template<class T, typename... T_args>
+    EntityId create_entity(T_args... args)
     {
         if (assert_valid_entity_type<T>()) {
-            std::shared_ptr<IEntity> new_entity(new T);
+            std::shared_ptr<IEntity> new_entity(
+                new T(std::forward<T_args>(args)...));
 
             entities_by_type[new_entity->get_entity_type_id()].push_back(
                 new_entity);
