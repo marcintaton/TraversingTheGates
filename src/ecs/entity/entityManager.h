@@ -11,8 +11,6 @@
 #include "entity.h"
 #include "entityIterator.h"
 
-// using EntityPtr = std::shared_ptr<IEntity>;
-
 template<class T>
 bool assert_valid_entity_type()
 {

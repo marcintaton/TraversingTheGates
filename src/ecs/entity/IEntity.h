@@ -11,13 +11,7 @@
 #include "../component/IComponent.h"
 
 class IEntity;
-
-// using EntityId = std::size_t;
-// using EntityTypeId = std::size_t;
 using EntityPtr = std::shared_ptr<IEntity>;
-
-// using ComponentMask = std::bitset<max_components>;
-// using ComponentIdArray = std::array<std::size_t, max_components>;
 
 inline EntityId get_new_entity_id()
 {

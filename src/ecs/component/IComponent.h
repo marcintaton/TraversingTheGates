@@ -6,9 +6,6 @@
 #include "../API.h"
 
 class IComponent;
-
-// using ComponentId = std::size_t;
-// using ComponentTypeId = std::size_t;
 using ComponentPtr = std::shared_ptr<IComponent>;
 using ComponentArray = std::array<ComponentPtr, max_components>;
 
