@@ -13,14 +13,11 @@ struct ComponentCluster {
     template<class T>
     void add_to_cluster(EntityId e_id, std::shared_ptr<T> component)
     {
-        if (id_lookup.empty()) {
-            add_new_entry_to_cluster(e_id);
-        } else if (id_lookup.back() != e_id) {
+        if (id_lookup.empty() || id_lookup.back() != e_id) {
             add_new_entry_to_cluster(e_id);
         }
 
-        std::get<std::shared_ptr<T>>(cluster.back()) = component;
-        // std::cout << typeid(component).name() << std::endl;
+        std::get<std::shared_ptr<T>>(cluster.back()) = component
     }
 
   private:
