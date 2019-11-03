@@ -122,7 +122,6 @@ class ComponentManager
     {
         ComponentMask new_mask;
         return (new_mask.set(read_component_type_id<Ts>(), 1), ...);
-        return new_mask;
     }
 
     template<class... Ts>
