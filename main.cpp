@@ -43,7 +43,6 @@ class BComponent : public Component<BComponent>
 
 int main(void)
 {
-
     EntityId e1 = ECS::ECSEngine::get_instance().create_entity<Player>();
     EntityId e2 = ECS::ECSEngine::get_instance().create_entity<Player>();
 
@@ -53,13 +52,14 @@ int main(void)
         ECS::ECSEngine::get_instance().add_component<BComponent>(e1);
     std::shared_ptr<BComponent> b2 =
         ECS::ECSEngine::get_instance().add_component<BComponent>(e2);
+    std::shared_ptr<AComponent> a2 =
+        ECS::ECSEngine::get_instance().add_component<AComponent>(e2);
+    // ComponentIterator<BComponent> b_it =
+    //     ECS::ECSEngine::get_instance().get_components_of_type<BComponent>();
 
-    ComponentIterator<BComponent> b_it =
-        ECS::ECSEngine::get_instance().get_components_of_type<BComponent>();
+    // std::cout << b_it.components.size() << std::endl;
 
-    std::cout << b_it.components.size() << std::endl;
-
-    std::cout << std::endl;
+    // std::cout << std::endl;
 
     ComponentCluster<AComponent, BComponent> cls =
         ECS::ECSEngine::get_instance()

@@ -126,11 +126,18 @@ class ComponentManager
 
     template<class... Ts>
     ComponentCluster<Ts...>
-    get_component_cluster(std::vector<EntityId> fitting_ids)
+    get_component_cluster(std::vector<EntityId> fitting_entities)
     {
-        ComponentCluster<Ts...> cs;
-        //
-        return cs;
+        ComponentCluster<Ts...> cluster;
+        for (auto entity_id : fitting_entities) {
+            (cluster.add_to_cluster(
+                 entity_id,
+                 std::dynamic_pointer_cast<Ts>(
+                     components_by_entities[entity_id]
+                                           [read_component_type_id<Ts>()])),
+             ...);
+        }
+        return cluster;
     }
 
     void clear_entity_trace(EntityId of_entity,
