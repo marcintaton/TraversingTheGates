@@ -12,13 +12,28 @@ namespace ECS
 
 class ECSEngine
 {
+    // Singleton
+  public:
+    static ECSEngine& get_instance()
+    {
+        static ECSEngine instance;
+        return instance;
+    }
+
+  private:
+    ECSEngine();
+    ECSEngine(ECSEngine const&) = delete;
+    void operator=(ECSEngine const&) = delete;
+
+    //
+
   private:
     std::shared_ptr<ComponentManager> component_manager;
     std::shared_ptr<EntityManager> entity_manager;
     std::shared_ptr<EventManager> event_manager;
 
   public:
-    ECSEngine();
+    // ECSEngine();
     ~ECSEngine();
 
     inline std::shared_ptr<ComponentManager> get_component_manager()

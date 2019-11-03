@@ -39,18 +39,18 @@ class BComponent : public Component<BComponent>
     bool b = true;
 };
 
-ECS::ECSEngine ecs_engine;
-
 int main(void)
 {
 
-    EntityId e1 = ecs_engine.get_entity_manager()->create_entity<Player>();
-    EntityId e2 = ecs_engine.get_entity_manager()->create_entity<Player>();
+    EntityId e1 = ECS::ECSEngine::get_instance().create_entity<Player>();
+    EntityId e2 = ECS::ECSEngine::get_instance().create_entity<Player>();
 
-    std::shared_ptr<AComponent> a1 = ecs_engine.add_component<AComponent>(e1);
-    std::shared_ptr<BComponent> b2 = ecs_engine.add_component<BComponent>(e1);
+    std::shared_ptr<AComponent> a1 =
+        ECS::ECSEngine::get_instance().add_component<AComponent>(e1);
+    std::shared_ptr<BComponent> b2 =
+        ECS::ECSEngine::get_instance().add_component<BComponent>(e1);
 
-    std::cout << a1->a << std::endl;
+    // std::cout << a1->a << std::endl;
 
     // ecs_engine.get_component_manager()->add_component<AComponent>(e2);
     // ecs_engine.get_component_manager()->add_component<BComponent>(e2);

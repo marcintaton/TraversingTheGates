@@ -12,10 +12,6 @@ SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${CUSTOM_LINK_FLAGS}")
 # Source files
 SET(PROJECT_SOURCE_FILES 
     "main.cpp"
-    # ecs engine accessors
-    # "src/ecs/ECSEngine/EventManagerAccess.cpp"
-    # "src/ecs/ECSEngine/EntityManagerAccess.cpp"
-    # "src/ecs/ECSEngine/ComponentManagerAccess.cpp"
     # ecs
     "src/ecs/ECSEngine/ECSEngine.cpp"
     "src/ecs/entity/entityManager.cpp"
