@@ -59,6 +59,7 @@ class EntityManager
 
     void remove_entity(EntityId by_id);
     EntityPtr get_entity(EntityId by_id);
+    std::vector<EntityId> get_eintity_ids_by_mask(ComponentMask mask);
     ComponentMask get_mask(EntityId from_entity);
     ComponentIdArray get_component_ids(EntityId from_entity);
 };

@@ -61,16 +61,9 @@ int main(void)
 
     std::cout << std::endl;
 
-    ComponentCluster<int, bool> cls;
-
-    for (int i = 0; i < 10; i++) {
-        cls.cluster.push_back({i, i % 2});
-    }
-
-    for (auto entity_info : cls.cluster) {
-        std::cout << std::get<int>(entity_info) << " "
-                  << std::get<bool>(entity_info) << std::endl;
-    }
+    ComponentCluster<AComponent, BComponent> cls =
+        ECS::ECSEngine::get_instance()
+            .get_component_cluster<AComponent, BComponent>();
 
     return 0;
 }

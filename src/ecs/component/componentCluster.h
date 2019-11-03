@@ -5,7 +5,7 @@
 
 #include "../API.h"
 
-template<typename... Ts>
+template<class... Ts>
 struct ComponentCluster {
     std::vector<EntityId> id_lookup;
     std::vector<std::tuple<Ts...>> cluster;

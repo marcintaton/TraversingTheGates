@@ -74,6 +74,15 @@ class ECSEngine
         return component_manager->get_component<T>(from_entity);
     }
 
+    template<class... Ts>
+    ComponentCluster<Ts...> get_component_cluster()
+    {
+        auto mask = component_manager->generate_mask_from_types<Ts...>();
+        auto fitting_entities = entity_manager->get_eintity_ids_by_mask(mask);
+        return component_manager->get_component_cluster<Ts...>(
+            fitting_entities);
+    }
+
     void remove_entity(EntityId by_id);
     EntityPtr get_entity(EntityId by_id);
 };

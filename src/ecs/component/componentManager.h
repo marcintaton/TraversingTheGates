@@ -11,6 +11,7 @@
 #include "../entity/IEntity.h"
 #include "IComponent.h"
 #include "component.h"
+#include "componentCluster.h"
 #include "componentIterator.h"
 
 template<class T>
@@ -114,6 +115,23 @@ class ComponentManager
             cp_it.components.push_back(std::dynamic_pointer_cast<T>(comp));
         }
         return cp_it;
+    }
+
+    template<class... Ts>
+    ComponentMask generate_mask_from_types(void)
+    {
+        ComponentMask new_mask;
+        return (new_mask.set(read_component_type_id<Ts>(), 1), ...);
+        return new_mask;
+    }
+
+    template<class... Ts>
+    ComponentCluster<Ts...>
+    get_component_cluster(std::vector<EntityId> fitting_ids)
+    {
+        ComponentCluster<Ts...> cs;
+        //
+        return cs;
     }
 
     void clear_entity_trace(EntityId of_entity,
