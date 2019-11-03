@@ -9,6 +9,7 @@
 // #include "src/ecs/component/componentManager.h"
 #include "src/ecs/entity/entity.h"
 // #include "src/ecs/entity/entityManager.h"
+#include "src/ecs/component/componentCluster.h"
 
 #include "src/ecs/ECSEngine/ECSEngine.h"
 
@@ -59,6 +60,17 @@ int main(void)
     std::cout << b_it.components.size() << std::endl;
 
     std::cout << std::endl;
+
+    ComponentCluster<int, bool> cls;
+
+    for (int i = 0; i < 10; i++) {
+        cls.cluster.push_back({i, i % 2});
+    }
+
+    for (auto entity_info : cls.cluster) {
+        std::cout << std::get<int>(entity_info) << " "
+                  << std::get<bool>(entity_info) << std::endl;
+    }
 
     return 0;
 }
