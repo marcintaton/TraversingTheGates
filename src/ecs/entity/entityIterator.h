@@ -5,8 +5,6 @@
 #include <vector>
 
 template<class T>
-class EntityIterator
-{
-  public:
-    std::vector<std::shared_ptr<IEntity>> container;
+struct EntityIterator {
+    std::vector<EntityPtr> entities;
 };

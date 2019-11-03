@@ -44,6 +44,12 @@ class ECSEngine
         return entity_manager->get_entities_of_type<T>();
     }
 
+    template<class T>
+    ComponentIterator<T> get_components_of_type()
+    {
+        return component_manager->get_components_of_type<T>();
+    }
+
     template<typename T, typename... T_args>
     std::shared_ptr<T> add_component(EntityId to_entity, T_args&&... args)
     {

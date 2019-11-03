@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "src/ecs/component/component.h"
+#include "src/ecs/component/componentIterator.h"
 // #include "src/ecs/component/componentManager.h"
 #include "src/ecs/entity/entity.h"
 // #include "src/ecs/entity/entityManager.h"
@@ -47,14 +48,15 @@ int main(void)
 
     std::shared_ptr<AComponent> a1 =
         ECS::ECSEngine::get_instance().add_component<AComponent>(e1);
-    std::shared_ptr<BComponent> b2 =
+    std::shared_ptr<BComponent> b1 =
         ECS::ECSEngine::get_instance().add_component<BComponent>(e1);
+    std::shared_ptr<BComponent> b2 =
+        ECS::ECSEngine::get_instance().add_component<BComponent>(e2);
 
-    ECS::ECSEngine::get_instance().remove_entity(e1);
+    ComponentIterator<BComponent> b_it =
+        ECS::ECSEngine::get_instance().get_components_of_type<BComponent>();
 
-    std::cout << (ECS::ECSEngine::get_instance().get_component<AComponent>(
-                      e1) == nullptr)
-              << std::endl;
+    std::cout << b_it.components.size() << std::endl;
 
     std::cout << std::endl;
 

@@ -11,6 +11,7 @@
 #include "../entity/IEntity.h"
 #include "IComponent.h"
 #include "component.h"
+#include "componentIterator.h"
 
 template<class T>
 bool assert_valid_component_type()
@@ -103,6 +104,16 @@ class ComponentManager
                       << std::endl;
         }
         return std::dynamic_pointer_cast<T>(comp_ptr);
+    }
+
+    template<class T>
+    ComponentIterator<T> get_components_of_type()
+    {
+        ComponentIterator<T> cp_it;
+        for (auto comp : components_by_types[read_component_type_id<T>()]) {
+            cp_it.components.push_back(std::dynamic_pointer_cast<T>(comp));
+        }
+        return cp_it;
     }
 
     void clear_entity_trace(EntityId of_entity,
