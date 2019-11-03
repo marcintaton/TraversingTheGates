@@ -6,18 +6,15 @@ EntityManager::~EntityManager()
 {
     all_entities.clear();
     entities_by_type.clear();
+    mapped_entities.clear();
 }
 
-std::shared_ptr<IEntity> EntityManager::get_entity(EntityId by_id)
+EntityPtr EntityManager::get_entity(EntityId by_id)
 {
-    auto e_iterator = std::find_if(
-        all_entities.begin(), all_entities.end(),
-        [&](const auto& entity) { return by_id == entity->get_entity_id(); });
-
-    if (!(e_iterator == all_entities.end())) {
-        return (*e_iterator);
+    if (!(mapped_entities[by_id] == nullptr)) {
+        return mapped_entities[by_id];
     } else {
-        std::cout << "ECS::ENTITY::ENTITY_MANAGER::GET_ENTITY::ENTITY_NOT_FOUND"
+        std::cout << "ECS::ENTITY::ENTITY_MANAGER::GET_ENTITY::ENTIY_NOT_FOUND"
                   << std::endl;
         return 0;
     }
@@ -25,12 +22,13 @@ std::shared_ptr<IEntity> EntityManager::get_entity(EntityId by_id)
 
 void EntityManager::remove_entity(EntityId by_id)
 {
-    std::shared_ptr<IEntity> temp = get_entity(by_id);
+    EntityPtr temp = get_entity(by_id);
     all_entities.erase(
         std::find(all_entities.begin(), all_entities.end(), temp));
     entities_by_type[temp->get_entity_type_id()].erase(
         std::find(entities_by_type[temp->get_entity_type_id()].begin(),
                   entities_by_type[temp->get_entity_type_id()].end(), temp));
+    mapped_entities.erase(by_id);
 }
 
 ComponentMask EntityManager::get_mask(EntityId from_entity)

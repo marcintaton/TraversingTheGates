@@ -1,9 +1,16 @@
 #pragma once
 
 #include <algorithm>
+#include <memory>
 
-using ComponentId = std::size_t;
-using ComponentTypeId = std::size_t;
+#include "../API.h"
+
+class IComponent;
+
+// using ComponentId = std::size_t;
+// using ComponentTypeId = std::size_t;
+using ComponentPtr = std::shared_ptr<IComponent>;
+using ComponentArray = std::array<ComponentPtr, max_components>;
 
 inline ComponentId get_new_component_id()
 {

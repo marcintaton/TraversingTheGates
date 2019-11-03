@@ -5,19 +5,23 @@
 #include <bitset>
 
 #include <iostream>
+#include <memory>
 
+#include "../API.h"
 #include "../component/IComponent.h"
 
-using EntityId = std::size_t;
-using EntityTypeId = std::size_t;
+class IEntity;
 
-constexpr std::size_t max_components = 32;
-using ComponentMask = std::bitset<max_components>;
-using ComponentIdArray = std::array<std::size_t, max_components>;
+// using EntityId = std::size_t;
+// using EntityTypeId = std::size_t;
+using EntityPtr = std::shared_ptr<IEntity>;
+
+// using ComponentMask = std::bitset<max_components>;
+// using ComponentIdArray = std::array<std::size_t, max_components>;
 
 inline EntityId get_new_entity_id()
 {
-    static EntityId last_entity_id = 0u;
+    static EntityId last_entity_id = 1u;
     return last_entity_id++;
 }
 

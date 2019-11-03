@@ -9,8 +9,7 @@
 #include "src/ecs/entity/entity.h"
 // #include "src/ecs/entity/entityManager.h"
 
-#include "src/ecs/ECSEngine/ComponentManagerAccess.h"
-#include "src/ecs/ECSEngine/EntityManagerAccess.h"
+#include "src/ecs/ECSEngine/ECSEngine.h"
 
 class Player : public Entity<Player>
 {
@@ -38,28 +37,29 @@ class BComponent : public Component<BComponent>
     bool b = true;
 };
 
+ECS::ECSEngine ecs_engine;
+
 int main(void)
 {
 
-    EntityId e1 =
-        ECSEngine::EntityManagerAccess::get()->create_entity<Player>();
-    EntityId e2 =
-        ECSEngine::EntityManagerAccess::get()->create_entity<Player>();
+    EntityId e1 = ecs_engine.get_entity_manager()->create_entity<Player>();
+    EntityId e2 = ecs_engine.get_entity_manager()->create_entity<Player>();
 
-    ECSEngine::ComponentManagerAccess::get()->add_component<AComponent>(e2);
-    ECSEngine::ComponentManagerAccess::get()->add_component<BComponent>(e1);
+    ecs_engine.get_component_manager()->add_component<AComponent>(e2);
 
-    // std::cout << ECSEngine::EntityManagerAccess::get()->get_mask(e1)
+    // ECSEngine::ComponentManagerAccess::get()->add_component<BComponent>(e1);
+
+    // std::cout << ecs_engine.get_entity_manager()->get_entity(e1)->get_mask()
     //           << std::endl;
-    // std::cout << ECSEngine::EntityManagerAccess::get()->get_mask(e2)
-    //           << std::endl;
+    // // std::cout << ecs_engine.get_entity_manager()->get_mask(e2) <<
+    // std::endl;
 
     // ECSEngine::ComponentManagerAccess::get()->remove_component<AComponent>(e2);
 
-    std::shared_ptr<AComponent> x =
-        ECSEngine::ComponentManagerAccess::get()->get_component<AComponent>(e2);
+    // std::shared_ptr<AComponent> x =
+    //     ECSEngine::ComponentManagerAccess::get()->get_component<AComponent>(e2);
 
-    std::cout << x->a << std::endl;
+    // std::cout << x->a << std::endl;
     std::cout << std::endl;
 
     return 0;

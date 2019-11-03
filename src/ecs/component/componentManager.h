@@ -6,14 +6,11 @@
 #include <type_traits>
 #include <vector>
 
+#include "../API.h"
+
 #include "../entity/IEntity.h"
-#include "../entity/entityManager.h"
 #include "IComponent.h"
 #include "component.h"
-
-#include "../ECSEngine/EntityManagerAccess.h"
-
-using ComponentArray = std::array<std::shared_ptr<IComponent>, max_components>;
 
 template<class T>
 bool assert_valid_component_type()
@@ -24,8 +21,7 @@ bool assert_valid_component_type()
 class ComponentManager
 {
   private:
-    std::map<ComponentTypeId, std::vector<std::shared_ptr<IComponent>>>
-        components_by_types;
+    std::map<ComponentTypeId, std::vector<ComponentPtr>> components_by_types;
     std::map<EntityId, ComponentArray> components_by_entities;
 
   public:
@@ -33,13 +29,11 @@ class ComponentManager
     ~ComponentManager();
 
     template<typename T, typename... T_args>
-    std::shared_ptr<IComponent> add_component(EntityId to_entity,
-                                              T_args&&... args)
+    ComponentPtr add_component(EntityId to_entity, T_args&&... args)
     {
         if (assert_valid_component_type<T>()) {
 
-            std::shared_ptr<IComponent> new_comp(
-                new T(std::forward<T_args>(args)...));
+            ComponentPtr new_comp(new T(std::forward<T_args>(args)...));
 
             components_by_entities[to_entity]
                                   [new_comp->get_component_type_id()] =
@@ -47,9 +41,14 @@ class ComponentManager
             components_by_types[new_comp->get_component_type_id()].push_back(
                 new_comp);
 
-            ECSEngine::EntityManagerAccess::get()
-                ->get_entity(to_entity)
-                ->add_component_info<T>(new_comp->get_component_id());
+            //
+            //
+            // ECSEngine::EntityManagerAccess::get()
+            //     ->get_entity(to_entity)
+            //     ->add_component_info<T>(new_comp->get_component_id());
+            //
+            //
+            //
 
             return new_comp;
         } else {
@@ -68,19 +67,20 @@ class ComponentManager
             ComponentTypeId comp_type_id = read_component_type_id<T>();
             components_by_entities[from_entity][comp_type_id] = nullptr;
 
-            std::shared_ptr<IEntity> entity =
-                ECSEngine::EntityManagerAccess::get()->get_entity(from_entity);
+            // std::shared_ptr<IEntity> entity =
+            //     ECSEngine::EntityManagerAccess::get()->get_entity(from_entity);
 
-            ComponentId this_comp_id = entity->get_component_id<T>();
+            // ComponentId this_comp_id = entity->get_component_id<T>();
 
-            auto it = std::find_if(
-                components_by_types[comp_type_id].begin(),
-                components_by_types[comp_type_id].end(), [&](const auto& comp) {
-                    return comp->get_component_id() == this_comp_id;
-                });
-            components_by_types[comp_type_id].erase(it);
+            // auto it = std::find_if(
+            //     components_by_types[comp_type_id].begin(),
+            //     components_by_types[comp_type_id].end(), [&](const auto&
+            //     comp) {
+            //         return comp->get_component_id() == this_comp_id;
+            //     });
+            // components_by_types[comp_type_id].erase(it);
 
-            entity->remove_component_info<T>();
+            // entity->remove_component_info<T>();
 
         } else {
             std::cout << "ECS::COMPONENT::COMPONENT_MANAGER::REMOVE_COMPONENT::"
@@ -103,4 +103,6 @@ class ComponentManager
         return std::dynamic_pointer_cast<T>(
             components_by_entities[from_entity][read_component_type_id<T>()]);
     }
+
+    void remove_components_of_entity(EntityPtr entity);
 };

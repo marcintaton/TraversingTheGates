@@ -2,14 +2,16 @@
 
 #include <iostream>
 #include <map>
-#include <memory>
 #include <type_traits>
 #include <vector>
 
 #include "../../utility/typeHelper.h"
+#include "../API.h"
 #include "IEntity.h"
 #include "entity.h"
 #include "entityIterator.h"
+
+// using EntityPtr = std::shared_ptr<IEntity>;
 
 template<class T>
 bool assert_valid_entity_type()
@@ -20,9 +22,9 @@ bool assert_valid_entity_type()
 class EntityManager
 {
   private:
-    std::map<EntityTypeId, std::vector<std::shared_ptr<IEntity>>>
-        entities_by_type;
-    std::vector<std::shared_ptr<IEntity>> all_entities;
+    std::map<EntityTypeId, std::vector<EntityPtr>> entities_by_type;
+    std::map<EntityId, EntityPtr> mapped_entities;
+    std::vector<EntityPtr> all_entities;
 
   public:
     EntityManager();
@@ -32,12 +34,13 @@ class EntityManager
     EntityId create_entity(T_args&&... args)
     {
         if (assert_valid_entity_type<T>()) {
-            std::shared_ptr<IEntity> new_entity(
-                new T(std::forward<T_args>(args)...));
+            EntityPtr new_entity(new T(std::forward<T_args>(args)...));
 
             entities_by_type[new_entity->get_entity_type_id()].push_back(
                 new_entity);
             all_entities.push_back(new_entity);
+
+            mapped_entities[new_entity->get_entity_id()] = new_entity;
 
             return new_entity->get_entity_id();
 
@@ -57,7 +60,7 @@ class EntityManager
     }
 
     void remove_entity(EntityId by_id);
-    std::shared_ptr<IEntity> get_entity(EntityId by_id);
+    EntityPtr get_entity(EntityId by_id);
     ComponentMask get_mask(EntityId from_entity);
     ComponentIdArray get_component_ids(EntityId from_entity);
 };
