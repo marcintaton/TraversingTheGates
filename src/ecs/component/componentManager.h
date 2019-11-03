@@ -118,7 +118,7 @@ class ComponentManager
     }
 
     template<class... Ts>
-    ComponentMask generate_mask_from_types(void)
+    ComponentMask generate_mask_from_types()
     {
         ComponentMask new_mask;
         return (new_mask.set(read_component_type_id<Ts>(), 1), ...);
