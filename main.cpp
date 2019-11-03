@@ -50,10 +50,11 @@ int main(void)
     std::shared_ptr<BComponent> b2 =
         ECS::ECSEngine::get_instance().add_component<BComponent>(e1);
 
-    // std::cout << a1->a << std::endl;
+    ECS::ECSEngine::get_instance().remove_entity(e1);
 
-    // ecs_engine.get_component_manager()->add_component<AComponent>(e2);
-    // ecs_engine.get_component_manager()->add_component<BComponent>(e2);
+    std::cout << (ECS::ECSEngine::get_instance().get_component<AComponent>(
+                      e1) == nullptr)
+              << std::endl;
 
     std::cout << std::endl;
 

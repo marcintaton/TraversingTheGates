@@ -22,9 +22,9 @@ class ComponentManager
 {
   private:
     std::map<ComponentTypeId, std::vector<ComponentPtr>> components_by_types;
+    std::map<EntityId, ComponentArray> components_by_entities;
 
   public:
-    std::map<EntityId, ComponentArray> components_by_entities;
     ComponentManager();
     ~ComponentManager();
 
@@ -72,22 +72,17 @@ class ComponentManager
         if (assert_valid_component_type<T>()) {
 
             ComponentTypeId comp_type_id = read_component_type_id<T>();
+            ComponentId comp_id =
+                components_by_entities[from_entity][comp_type_id]
+                    ->get_component_id();
             components_by_entities[from_entity][comp_type_id] = nullptr;
 
-            // std::shared_ptr<IEntity> entity =
-            //     ECSEngine::EntityManagerAccess::get()->get_entity(from_entity);
-
-            // ComponentId this_comp_id = entity->get_component_id<T>();
-
-            // auto it = std::find_if(
-            //     components_by_types[comp_type_id].begin(),
-            //     components_by_types[comp_type_id].end(), [&](const auto&
-            //     comp) {
-            //         return comp->get_component_id() == this_comp_id;
-            //     });
-            // components_by_types[comp_type_id].erase(it);
-
-            // entity->remove_component_info<T>();
+            auto it = std::find_if(
+                components_by_types[comp_type_id].begin(),
+                components_by_types[comp_type_id].end(), [&](const auto& comp) {
+                    return comp->get_component_id() == comp_id;
+                });
+            components_by_types[comp_type_id].erase(it);
 
         } else {
             std::cout << "ECS::COMPONENT::COMPONENT_MANAGER::REMOVE_COMPONENT "

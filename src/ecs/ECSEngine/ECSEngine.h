@@ -8,7 +8,6 @@
 
 namespace ECS
 {
-//
 
 class ECSEngine
 {
@@ -28,29 +27,11 @@ class ECSEngine
     //
 
   private:
-    std::shared_ptr<ComponentManager> component_manager;
-    std::shared_ptr<EntityManager> entity_manager;
-    std::shared_ptr<EventManager> event_manager;
+    std::unique_ptr<ComponentManager> component_manager;
+    std::unique_ptr<EntityManager> entity_manager;
+    std::unique_ptr<EventManager> event_manager;
 
   public:
-    // ECSEngine();
-    ~ECSEngine();
-
-    inline std::shared_ptr<ComponentManager> get_component_manager()
-    {
-        return component_manager;
-    }
-
-    inline std::shared_ptr<EntityManager> get_entity_manager()
-    {
-        return entity_manager;
-    }
-
-    inline std::shared_ptr<EventManager> get_event_manager()
-    {
-        return event_manager;
-    }
-
     template<class T, typename... T_args>
     EntityId create_entity(T_args&&... args)
     {
@@ -77,6 +58,8 @@ class ECSEngine
     template<class T>
     void remove_component(EntityId from_entity)
     {
+        component_manager->remove_component<T>(from_entity);
+        entity_manager->get_entity(from_entity)->remove_component_info<T>();
     }
 
     template<class T>

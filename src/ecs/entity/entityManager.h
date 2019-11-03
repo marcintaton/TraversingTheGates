@@ -22,9 +22,9 @@ class EntityManager
   private:
     std::map<EntityTypeId, std::vector<EntityPtr>> entities_by_type;
     std::map<EntityId, EntityPtr> entities_by_id;
+    std::vector<EntityPtr> all_entities;
 
   public:
-    std::vector<EntityPtr> all_entities;
     EntityManager();
     ~EntityManager();
 

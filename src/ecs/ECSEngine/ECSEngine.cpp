@@ -2,12 +2,10 @@
 
 ECS::ECSEngine::ECSEngine()
 {
-    component_manager = std::shared_ptr<ComponentManager>(new ComponentManager);
-    entity_manager = std::shared_ptr<EntityManager>(new EntityManager);
-    event_manager = std::shared_ptr<EventManager>(new EventManager);
+    component_manager = std::unique_ptr<ComponentManager>(new ComponentManager);
+    entity_manager = std::unique_ptr<EntityManager>(new EntityManager);
+    event_manager = std::unique_ptr<EventManager>(new EventManager);
 }
-
-ECS::ECSEngine::~ECSEngine() {}
 
 void ECS::ECSEngine::remove_entity(EntityId by_id)
 {
