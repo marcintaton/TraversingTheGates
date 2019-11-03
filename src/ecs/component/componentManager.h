@@ -22,9 +22,9 @@ class ComponentManager
 {
   private:
     std::map<ComponentTypeId, std::vector<ComponentPtr>> components_by_types;
-    std::map<EntityId, ComponentArray> components_by_entities;
 
   public:
+    std::map<EntityId, ComponentArray> components_by_entities;
     ComponentManager();
     ~ComponentManager();
 
@@ -33,30 +33,37 @@ class ComponentManager
     {
         if (assert_valid_component_type<T>()) {
 
-            ComponentPtr new_comp(new T(std::forward<T_args>(args)...));
+            if (components_by_entities[to_entity]
+                                      [read_component_type_id<T>()] ==
+                nullptr) {
 
-            components_by_entities[to_entity]
-                                  [new_comp->get_component_type_id()] =
-                                      new_comp;
-            components_by_types[new_comp->get_component_type_id()].push_back(
-                new_comp);
-
-            //
-            //
-            // ECSEngine::EntityManagerAccess::get()
-            //     ->get_entity(to_entity)
-            //     ->add_component_info<T>(new_comp->get_component_id());
-            //
-            //
-            //
-
-            return new_comp;
+                return do_add_component<T>(to_entity,
+                                           std::forward<T_args>(args)...);
+            } else {
+                std::cout << "ECS::COMPONENT::COMPONENT_MANAGER::ADD_COMPONENT "
+                             "Entity already has this component"
+                          << std::endl;
+                return nullptr;
+            }
         } else {
-            std::cout << "ECS::COMPONENT::COMPONENT_MANAGER::ADD_COMPONENT::"
-                         "INVALID_COMPONENT_TYPE"
+            std::cout << "ECS::COMPONENT::COMPONENT_MANAGER::ADD_COMPONENT "
+                         "Invalid component type"
                       << std::endl;
             return nullptr;
         }
+    }
+
+    template<typename T, typename... T_args>
+    ComponentPtr do_add_component(EntityId to_entity, T_args&&... args)
+    {
+        ComponentPtr new_comp(new T(std::forward<T_args>(args)...));
+
+        components_by_entities[to_entity][new_comp->get_component_type_id()] =
+            new_comp;
+        components_by_types[new_comp->get_component_type_id()].push_back(
+            new_comp);
+
+        return new_comp;
     }
 
     template<class T>
@@ -83,8 +90,8 @@ class ComponentManager
             // entity->remove_component_info<T>();
 
         } else {
-            std::cout << "ECS::COMPONENT::COMPONENT_MANAGER::REMOVE_COMPONENT::"
-                         "INVALID_COMPONENT_TYPE"
+            std::cout << "ECS::COMPONENT::COMPONENT_MANAGER::REMOVE_COMPONENT "
+                         "Invalid component type"
                       << std::endl;
         }
     }
@@ -96,13 +103,13 @@ class ComponentManager
             components_by_entities[from_entity][read_component_type_id<T>()]);
 
         if (comp_ptr == nullptr) {
-            std::cout << "ECS::COMPONENT::COMPONENT_MANAGER::GET_COMPONENT::"
-                         "NO_SUCH_COMPONENT_IN_ENTITY"
+            std::cout << "ECS::COMPONENT::COMPONENT_MANAGER::GET_COMPONENT "
+                         "No such Component in this entity"
                       << std::endl;
         }
-        return std::dynamic_pointer_cast<T>(
-            components_by_entities[from_entity][read_component_type_id<T>()]);
+        return std::dynamic_pointer_cast<T>(comp_ptr);
     }
 
-    void remove_components_of_entity(EntityPtr entity);
+    void clear_entity_trace(EntityId of_entity,
+                            ComponentIdArray with_components);
 };

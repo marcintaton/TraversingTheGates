@@ -29,6 +29,8 @@ class AComponent : public Component<AComponent>
 {
   public:
     int a = 102;
+    AComponent() {}
+    AComponent(int _a) { a = _a; }
 };
 
 class BComponent : public Component<BComponent>
@@ -45,21 +47,14 @@ int main(void)
     EntityId e1 = ecs_engine.get_entity_manager()->create_entity<Player>();
     EntityId e2 = ecs_engine.get_entity_manager()->create_entity<Player>();
 
-    ecs_engine.get_component_manager()->add_component<AComponent>(e2);
+    std::shared_ptr<AComponent> a1 = ecs_engine.add_component<AComponent>(e1);
+    std::shared_ptr<BComponent> b2 = ecs_engine.add_component<BComponent>(e1);
 
-    // ECSEngine::ComponentManagerAccess::get()->add_component<BComponent>(e1);
+    std::cout << a1->a << std::endl;
 
-    // std::cout << ecs_engine.get_entity_manager()->get_entity(e1)->get_mask()
-    //           << std::endl;
-    // // std::cout << ecs_engine.get_entity_manager()->get_mask(e2) <<
-    // std::endl;
+    // ecs_engine.get_component_manager()->add_component<AComponent>(e2);
+    // ecs_engine.get_component_manager()->add_component<BComponent>(e2);
 
-    // ECSEngine::ComponentManagerAccess::get()->remove_component<AComponent>(e2);
-
-    // std::shared_ptr<AComponent> x =
-    //     ECSEngine::ComponentManagerAccess::get()->get_component<AComponent>(e2);
-
-    // std::cout << x->a << std::endl;
     std::cout << std::endl;
 
     return 0;

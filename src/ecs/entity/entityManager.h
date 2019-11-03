@@ -21,10 +21,10 @@ class EntityManager
 {
   private:
     std::map<EntityTypeId, std::vector<EntityPtr>> entities_by_type;
-    std::map<EntityId, EntityPtr> mapped_entities;
-    std::vector<EntityPtr> all_entities;
+    std::map<EntityId, EntityPtr> entities_by_id;
 
   public:
+    std::vector<EntityPtr> all_entities;
     EntityManager();
     ~EntityManager();
 
@@ -38,13 +38,13 @@ class EntityManager
                 new_entity);
             all_entities.push_back(new_entity);
 
-            mapped_entities[new_entity->get_entity_id()] = new_entity;
+            entities_by_id[new_entity->get_entity_id()] = new_entity;
 
             return new_entity->get_entity_id();
 
         } else {
-            std::cout << "ECS::ENTITY::ENTITY_MANAGER::CREATE_ENTITY::INVALID_"
-                         "ENTITY_TYPE";
+            std::cout << "ECS::ENTITY::ENTITY_MANAGER::CREATE_ENTITY "
+                         "Invalid entity type";
             return -1;
         }
     }

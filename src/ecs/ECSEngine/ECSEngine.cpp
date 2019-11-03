@@ -11,7 +11,8 @@ ECS::ECSEngine::~ECSEngine() {}
 
 void ECS::ECSEngine::remove_entity(EntityId by_id)
 {
-    //
+    component_manager->clear_entity_trace(
+        by_id, entity_manager->get_component_ids(by_id));
     entity_manager->remove_entity(by_id);
 }
 

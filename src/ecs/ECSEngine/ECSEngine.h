@@ -48,6 +48,28 @@ class ECSEngine
         return entity_manager->get_entities_of_type<T>();
     }
 
+    template<typename T, typename... T_args>
+    std::shared_ptr<T> add_component(EntityId to_entity, T_args&&... args)
+    {
+        ComponentPtr new_comp = component_manager->add_component<T>(
+            to_entity, std::forward<T_args>(args)...);
+        entity_manager->get_entity(to_entity)->add_component_info<T>(
+            new_comp->get_component_id());
+
+        return std::dynamic_pointer_cast<T>(new_comp);
+    }
+
+    template<class T>
+    void remove_component(EntityId from_entity)
+    {
+    }
+
+    template<class T>
+    std::shared_ptr<T> get_component(EntityId from_entity)
+    {
+        return component_manager->get_component<T>(from_entity);
+    }
+
     void remove_entity(EntityId by_id);
     EntityPtr get_entity(EntityId by_id);
 };
