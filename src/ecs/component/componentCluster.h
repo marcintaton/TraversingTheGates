@@ -17,7 +17,7 @@ struct ComponentCluster {
             add_new_entry_to_cluster(e_id);
         }
 
-        std::get<std::shared_ptr<T>>(cluster.back()) = component
+        std::get<std::shared_ptr<T>>(cluster.back()) = component;
     }
 
   private:

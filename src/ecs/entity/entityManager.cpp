@@ -35,7 +35,7 @@ std::vector<EntityId> EntityManager::get_eintity_ids_by_mask(ComponentMask mask)
 {
     std::vector<EntityId> fitting_ids;
     for (auto entity : all_entities) {
-        if (entity->get_mask() == mask) {
+        if ((entity->get_mask() & mask) == mask) {
             fitting_ids.push_back(entity->get_entity_id());
         }
     }
