@@ -1,17 +1,19 @@
 #include <bitset>
+#include <functional>
 #include <iostream>
 #include <memory>
 #include <typeinfo>
 #include <vector>
 
 #include "src/ecs/component/component.h"
-#include "src/ecs/component/componentIterator.h"
-// #include "src/ecs/component/componentManager.h"
-#include "src/ecs/entity/entity.h"
-// #include "src/ecs/entity/entityManager.h"
 #include "src/ecs/component/componentCluster.h"
+#include "src/ecs/component/componentIterator.h"
+#include "src/ecs/entity/entity.h"
 
 #include "src/ecs/ECSEngine/ECSEngine.h"
+
+#include "src/ecs/events/eventDelegate.h"
+#include "src/game/gameEvents.h"
 
 class Player : public Entity<Player>
 {
@@ -41,23 +43,51 @@ class BComponent : public Component<BComponent>
     bool b = true;
 };
 
+class foo
+{
+  public:
+    int x = 4;
+    void bar(const GameEvent1* event)
+    {
+        std::cout << x << " " << event->x << std::endl;
+    }
+
+    EventDelegate<foo, GameEvent1> sub()
+    {
+        return EventDelegate<foo, GameEvent1>(this, &foo::bar);
+    }
+};
+
+class baz
+{
+  public:
+    int x = 5;
+    void bar(const GameEvent1* event) { std::cout << x << std::endl; }
+
+    EventDelegate<baz, GameEvent1> sub()
+    {
+        return EventDelegate<baz, GameEvent1>(this, &baz::bar);
+    }
+};
+
 int main(void)
 {
-    EntityId e1 = ECS::ECSEngine::get_instance().create_entity<Player>();
-    EntityId e2 = ECS::ECSEngine::get_instance().create_entity<Player>();
+    GameEvent1 ev1;
+    GameEvent2 ev2;
 
-    std::shared_ptr<AComponent> a1 =
-        ECS::ECSEngine::get_instance().add_component<AComponent>(e1);
-    std::shared_ptr<BComponent> b1 =
-        ECS::ECSEngine::get_instance().add_component<BComponent>(e1);
-    std::shared_ptr<BComponent> b2 =
-        ECS::ECSEngine::get_instance().add_component<BComponent>(e2);
-    std::shared_ptr<AComponent> a2 =
-        ECS::ECSEngine::get_instance().add_component<AComponent>(e2);
+    foo f_1;
+    foo f_2;
+    baz b_1;
 
-    ComponentCluster<AComponent, BComponent> cls =
-        ECS::ECSEngine::get_instance()
-            .get_component_cluster<AComponent, BComponent>();
+    EventDelegate<foo, GameEvent1> e_del1 = f_1.sub();
+    EventDelegate<foo, GameEvent1> e_del2 = f_2.sub();
+    EventDelegate<baz, GameEvent1> e_del3 = b_1.sub();
+
+    std::cout << e_del1.get_delegate_id() << std::endl;
+    std::cout << e_del2.get_delegate_id() << std::endl;
+    std::cout << e_del3.get_delegate_id() << std::endl;
+    std::cout << (e_del1 == &e_del2) << std::endl;
+    std::cout << (e_del1 == &e_del1) << std::endl;
 
     return 0;
 }

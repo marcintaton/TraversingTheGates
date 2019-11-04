@@ -16,8 +16,6 @@ SET(PROJECT_SOURCE_FILES
     "src/ecs/ECSEngine/ECSEngine.cpp"
     "src/ecs/entity/entityManager.cpp"
     "src/ecs/component/componentManager.cpp"
-    # unit tests
-    "utests/eventTests.cpp"
 )
 
 
