@@ -30,7 +30,7 @@ class ComponentManager
     ComponentManager();
     ~ComponentManager();
 
-    template<typename T, typename... T_args>
+    template<class T, typename... T_args>
     ComponentPtr add_component(EntityId to_entity, T_args&&... args)
     {
         if (assert_valid_component_type<T>()) {
@@ -55,7 +55,7 @@ class ComponentManager
         }
     }
 
-    template<typename T, typename... T_args>
+    template<class T, typename... T_args>
     ComponentPtr do_add_component(EntityId to_entity, T_args&&... args)
     {
         ComponentPtr new_comp(new T(std::forward<T_args>(args)...));
@@ -93,7 +93,7 @@ class ComponentManager
         }
     }
 
-    template<typename T>
+    template<class T>
     std::shared_ptr<T> get_component(EntityId from_entity)
     {
         std::shared_ptr<T> comp_ptr = std::dynamic_pointer_cast<T>(
