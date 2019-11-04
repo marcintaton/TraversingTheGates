@@ -14,6 +14,7 @@
 
 #include "src/ecs/events/eventDelegate.h"
 #include "src/ecs/events/eventDispatcher.h"
+#include "src/ecs/events/eventManager.h"
 #include "src/game/gameEvents.h"
 
 class Player : public Entity<Player>
@@ -86,13 +87,26 @@ int main(void)
 
     EventDispatcher<GameEvent1> disp1;
 
-    disp1.add_delegate(&e_del1);
-    disp1.add_delegate(&e_del1);
-    disp1.add_delegate(&e_del2);
-    disp1.add_delegate(&e_del3);
+    // disp1.add_delegate(&e_del1);
+    // disp1.add_delegate(&e_del1);
+    // disp1.add_delegate(&e_del2);
+    // disp1.add_delegate(&e_del3);
 
-    disp1.dispatch(&ev1);
+    // disp1.dispatch(&ev1);
 
+    EventManager manager;
+
+    manager.invoke<GameEvent1>(&ev1);
+
+    manager.remove_listener<GameEvent1>(&e_del1);
+
+    manager.invoke<GameEvent1>(&ev1);
+
+    manager.add_listener<GameEvent1>(&e_del1);
+    manager.add_listener<GameEvent1>(&e_del2);
+    manager.add_listener<GameEvent1>(&e_del3);
+
+    manager.invoke<GameEvent1>(&ev1);
     // std::cout << e_del1.get_delegate_id() << std::endl;
     // std::cout << e_del2.get_delegate_id() << std::endl;
     // std::cout << e_del3.get_delegate_id() << std::endl;
