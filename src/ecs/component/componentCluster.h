@@ -21,7 +21,7 @@ struct ComponentCluster {
     }
 
     template<class T>
-    inline std::shared_ptr<T> get_component(std::size_t form_index) 
+    inline std::shared_ptr<T> get_component(std::size_t form_index)
     {
         return std::get<std::shared_ptr<T>>(cluster[form_index]);
     }

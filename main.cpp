@@ -54,20 +54,6 @@ int main(void)
         ECS::ECSEngine::get_instance().add_component<BComponent>(e2);
     std::shared_ptr<AComponent> a2 =
         ECS::ECSEngine::get_instance().add_component<AComponent>(e2);
-    // ComponentIterator<BComponent> b_it =
-    //     ECS::ECSEngine::get_instance().get_components_of_type<BComponent>();
-
-    // std::cout << b_it.components.size() << std::endl;
-
-    std::bitset<5> bit1("00011");
-    std::bitset<5> bit2("00010");
-    std::bitset<5> bit3("01101");
-
-    std::bitset<5> mask("01100");
-
-    std::cout << ((mask & bit1) == mask) << std::endl;
-    std::cout << ((mask & bit2) == mask) << std::endl;
-    std::cout << ((mask & bit3) == mask) << std::endl;
 
     ComponentCluster<AComponent, BComponent> cls =
         ECS::ECSEngine::get_instance()
