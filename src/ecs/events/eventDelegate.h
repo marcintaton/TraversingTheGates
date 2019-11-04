@@ -21,7 +21,7 @@ class EventDelegate : public IEventDelegate
         callback = std::bind(function, listener, std::placeholders::_1);
     }
 
-    virtual inline void invoke(const IEvent* event) override
+    virtual inline void invoke(IEvent* event) override
     {
         callback(reinterpret_cast<const EventT*>(event));
     }
