@@ -20,6 +20,12 @@ struct ComponentCluster {
         std::get<std::shared_ptr<T>>(cluster.back()) = component;
     }
 
+    template<class T>
+    inline std::shared_ptr<T> get_component(std::size_t form_index) 
+    {
+        return std::get<std::shared_ptr<T>>(cluster[form_index]);
+    }
+
   private:
     void add_new_entry_to_cluster(EntityId e_id)
     {
