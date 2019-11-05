@@ -1,10 +1,19 @@
+// logging
+#include "spdlog/sinks/basic_file_sink.h"
+#include "spdlog/sinks/daily_file_sink.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
+#include "spdlog/spdlog.h"
+
+// libs
 #include <bitset>
+#include <ctime>
 #include <functional>
 #include <iostream>
 #include <memory>
 #include <typeinfo>
 #include <vector>
 
+// files
 #include "src/ecs/component/component.h"
 #include "src/ecs/component/componentCluster.h"
 #include "src/ecs/component/componentIterator.h"
@@ -115,8 +124,33 @@ class SystemC_E : public System<SystemC_E>
     }
 };
 
+void setup_logger()
+{
+    std::vector<spdlog::sink_ptr> sinks;
+    sinks.push_back(std::make_shared<spdlog::sinks::stdout_color_sink_st>());
+
+    time_t timer;
+    std::time(&timer);
+    std::string filename = std::string("logs/") + ctime(&timer);
+
+    sinks.push_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>(
+        filename.c_str(), true));
+
+    auto file_conlsole_logger =
+        std::make_shared<spdlog::logger>("TtG_logs", begin(sinks), end(sinks));
+
+    spdlog::register_logger(file_conlsole_logger);
+
+    spdlog::set_default_logger(file_conlsole_logger);
+}
+
 int main(void)
 {
+
+    setup_logger();
+
+    spdlog::info("aei<3");
+
     {
         GameEvent1 ev1;
         GameEvent2 ev2;
