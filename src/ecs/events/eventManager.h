@@ -26,7 +26,7 @@ class EventManager
     //
 
   private:
-    std::unordered_map<EventTypeId, std::unique_ptr<IEventDispatcher>>
+    std::unordered_map<EventTypeId, std::shared_ptr<IEventDispatcher>>
         dispatchers;
 
     template<class T>
@@ -46,7 +46,7 @@ class EventManager
     void create_dispatcher()
     {
         dispatchers[utility::type_helper::get_type_id<Event<T>>()] =
-            std::unique_ptr<EventDispatcher<T>>(new EventDispatcher<T>());
+            std::make_shared<EventDispatcher<T>>();
     }
 
   public:
