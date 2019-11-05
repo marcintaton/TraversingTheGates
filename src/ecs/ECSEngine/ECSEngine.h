@@ -4,7 +4,6 @@
 
 #include "../component/componentManager.h"
 #include "../entity/entityManager.h"
-// #include "../events_depr/eventManager.h"
 
 namespace ECS
 {
@@ -29,7 +28,6 @@ class ECSEngine
   private:
     std::unique_ptr<ComponentManager> component_manager;
     std::unique_ptr<EntityManager> entity_manager;
-    // std::unique_ptr<EventManager> event_manager;
 
   public:
     template<class T, typename... T_args>

@@ -94,19 +94,17 @@ int main(void)
 
     // disp1.dispatch(&ev1);
 
-    EventManager manager;
+    EventManager::get_instance().send_event<GameEvent1>(&ev1);
 
-    manager.invoke<GameEvent1>(&ev1);
+    EventManager::get_instance().remove_listener<GameEvent1>(&e_del1);
 
-    manager.remove_listener<GameEvent1>(&e_del1);
+    EventManager::get_instance().send_event<GameEvent1>(&ev1);
 
-    manager.invoke<GameEvent1>(&ev1);
+    EventManager::get_instance().add_listener<GameEvent1>(&e_del1);
+    EventManager::get_instance().add_listener<GameEvent1>(&e_del2);
+    EventManager::get_instance().add_listener<GameEvent1>(&e_del3);
 
-    manager.add_listener<GameEvent1>(&e_del1);
-    manager.add_listener<GameEvent1>(&e_del2);
-    manager.add_listener<GameEvent1>(&e_del3);
-
-    manager.invoke<GameEvent1>(&ev1);
+    EventManager::get_instance().send_event<GameEvent1>(&ev1);
     // std::cout << e_del1.get_delegate_id() << std::endl;
     // std::cout << e_del2.get_delegate_id() << std::endl;
     // std::cout << e_del3.get_delegate_id() << std::endl;

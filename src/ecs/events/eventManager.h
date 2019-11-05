@@ -10,6 +10,21 @@
 
 class EventManager
 {
+    // Singleton
+  public:
+    static EventManager& get_instance()
+    {
+        static EventManager instance;
+        return instance;
+    }
+
+  private:
+    EventManager() {}
+    EventManager(EventManager const&) = delete;
+    void operator=(EventManager const&) = delete;
+
+    //
+
   private:
     std::unordered_map<EventTypeId, std::unique_ptr<IEventDispatcher>>
         dispatchers;
@@ -35,10 +50,8 @@ class EventManager
     }
 
   public:
-    EventManager() {}
-
     template<class T>
-    void invoke(T* event)
+    void send_event(T* event)
     {
         if (is_dispatcher_present<T>()) {
             (dispatchers[utility::type_helper::get_type_id<Event<T>>()])
