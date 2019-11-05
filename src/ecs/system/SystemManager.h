@@ -53,18 +53,9 @@ class SystemManager
         return is_system_active<T>() || is_system_inactive<T>();
     }
 
-    void update_soted_systems_container()
-    {
-        SortedSystems new_sorted(active_systems.begin(), active_systems.end());
-        sorted_active_systems = new_sorted;
-    }
+    void update_soted_systems_container();
 
-    void update_systems()
-    {
-        for (const auto& system : sorted_active_systems) {
-            system.second->update();
-        }
-    }
+    void update_systems();
 
   public:
     template<class T>

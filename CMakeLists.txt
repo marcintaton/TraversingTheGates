@@ -10,15 +10,13 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CUSTOM_COMPILE_FLAGS}")
 SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${CUSTOM_LINK_FLAGS}") 
 
 # Source files
-SET(PROJECT_SOURCE_FILES 
+file(GLOB PROJECT_SOURCE_FILES
     "main.cpp"
     # ecs
-    "src/ecs/ECSEngine/ECSEngine.cpp"
-    "src/ecs/entity/entityManager.cpp"
-    "src/ecs/component/componentManager.cpp"
+    "/src/ecs/*.cpp"
 )
 
-
+# Setting executable
 add_executable(
     "${PROJECT_NAME}" 
     "${PROJECT_SOURCE_FILES}"
