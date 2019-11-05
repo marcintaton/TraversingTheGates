@@ -4,6 +4,7 @@
 
 #include "../component/componentManager.h"
 #include "../entity/entityManager.h"
+#include "../system/SystemManager.h"
 
 namespace ECS
 {
@@ -28,6 +29,7 @@ class ECSEngine
   private:
     std::unique_ptr<ComponentManager> component_manager;
     std::unique_ptr<EntityManager> entity_manager;
+    std::unique_ptr<SystemManager> system_manager;
 
   public:
     template<class T, typename... T_args>
@@ -79,6 +81,36 @@ class ECSEngine
         auto fitting_entities = entity_manager->get_eintity_ids_by_mask(mask);
         return component_manager->get_component_cluster<Ts...>(
             fitting_entities);
+    }
+
+    template<class T>
+    void create_system()
+    {
+        system_manager->create_system<T>();
+    }
+
+    template<class T>
+    void create_active_system()
+    {
+        system_manager->create_active_system<T>();
+    }
+
+    template<class T>
+    void destroy_system()
+    {
+        system_manager->destroy_system<T>();
+    }
+
+    template<class T>
+    void enable_system()
+    {
+        system_manager->enable_system<T>();
+    }
+
+    template<class T>
+    void disable_system()
+    {
+        system_manager->disable_system<T>();
     }
 
     void remove_entity(EntityId by_id);

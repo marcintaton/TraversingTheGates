@@ -21,3 +21,8 @@ inline EventDelegateId IEventDelegate::get_delegate_id() const
 {
     return 0;
 }
+
+inline EventTypeId IEventDelegate::get_event_type_id() const
+{
+    return 0;
+}

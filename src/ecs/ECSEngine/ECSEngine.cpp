@@ -2,9 +2,9 @@
 
 ECS::ECSEngine::ECSEngine()
 {
-    component_manager = std::unique_ptr<ComponentManager>(new ComponentManager);
-    entity_manager = std::unique_ptr<EntityManager>(new EntityManager);
-    // event_manager = std::unique_ptr<EventManager>(new EventManager);
+    component_manager = std::make_unique<ComponentManager>();
+    entity_manager = std::make_unique<EntityManager>();
+    system_manager = std::make_unique<SystemManager>();
 }
 
 void ECS::ECSEngine::remove_entity(EntityId by_id)
