@@ -7,9 +7,9 @@
 
 #include "../../utility/typeHelper.h"
 #include "../API.h"
+#include "Entity.h"
+#include "EntityIterator.h"
 #include "IEntity.h"
-#include "entity.h"
-#include "entityIterator.h"
 
 template<class T>
 bool assert_valid_entity_type()

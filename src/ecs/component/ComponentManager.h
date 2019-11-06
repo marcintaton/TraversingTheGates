@@ -9,10 +9,10 @@
 #include "../API.h"
 
 #include "../entity/IEntity.h"
+#include "Component.h"
+#include "ComponentCluster.h"
+#include "ComponentIterator.h"
 #include "IComponent.h"
-#include "component.h"
-#include "componentCluster.h"
-#include "componentIterator.h"
 
 template<class T>
 bool assert_valid_component_type()

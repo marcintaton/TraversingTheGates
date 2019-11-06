@@ -5,8 +5,8 @@
 #include <unordered_map>
 
 #include "../../utility/typeHelper.h"
-#include "event.h"
-#include "eventDispatcher.h"
+#include "Event.h"
+#include "EventDispatcher.h"
 
 class EventManager
 {

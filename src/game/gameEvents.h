@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../ecs/events/event.h"
+#include "../ecs/events/Event.h"
 
 class GameEvent1 : public Event<GameEvent1>
 {

@@ -2,8 +2,8 @@
 
 #include <memory>
 
-#include "../component/componentManager.h"
-#include "../entity/entityManager.h"
+#include "../component/ComponentManager.h"
+#include "../entity/EntityManager.h"
 #include "../system/SystemManager.h"
 
 namespace ECS

@@ -14,16 +14,16 @@
 #include <vector>
 
 // files
-#include "src/ecs/component/component.h"
-#include "src/ecs/component/componentCluster.h"
-#include "src/ecs/component/componentIterator.h"
-#include "src/ecs/entity/entity.h"
+#include "src/ecs/component/Component.h"
+#include "src/ecs/component/ComponentCluster.h"
+#include "src/ecs/component/ComponentIterator.h"
+#include "src/ecs/entity/Entity.h"
 
 #include "src/ecs/ECSEngine/ECSEngine.h"
 
-#include "src/ecs/events/eventDelegate.h"
-#include "src/ecs/events/eventDispatcher.h"
-#include "src/ecs/events/eventManager.h"
+#include "src/ecs/events/EventDelegate.h"
+#include "src/ecs/events/EventDispatcher.h"
+#include "src/ecs/events/EventManager.h"
 #include "src/ecs/system/SystemManager.h"
 #include "src/game/gameEvents.h"
 
@@ -155,10 +155,10 @@ int main(void)
 
     setup_logger();
 
-    spdlog::info("aei<3");
-    spdlog::warn("aei<3");
-    spdlog::error("aei<3");
-    spdlog::critical("aei<3");
+    // spdlog::info("aei<3");
+    // spdlog::warn("aei<3");
+    // spdlog::error("aei<3");
+    // spdlog::critical("aei<3");
 
     {
         GameEvent1 ev1;
