@@ -6,43 +6,47 @@
 #include "../../utility/typeHelper.h"
 #include "IEventDelegate.h"
 
-template<class ListenerT, class EventT>
-class EventDelegate : public IEventDelegate
+namespace Event
 {
-    using Callback = std::function<void(const EventT*)>;
-    typedef void (ListenerT::*Function)(const EventT*);
 
-  private:
-    Callback callback;
-
-  public:
-    EventDelegate(ListenerT* listener, Function&& function)
+    template<class ListenerT, class EventT>
+    class EventDelegate : public IEventDelegate
     {
-        callback = std::bind(function, listener, std::placeholders::_1);
-    }
+        using Callback = std::function<void(const EventT*)>;
+        typedef void (ListenerT::*Function)(const EventT*);
 
-    virtual inline void invoke(IEvent* event) override
-    {
-        callback(reinterpret_cast<const EventT*>(event));
-    }
+      private:
+        Callback callback;
 
-    virtual inline EventDelegateId get_delegate_id() const override
-    {
-        static const EventDelegateId EVENT_DELEGATE_ID =
-            utility::type::get_type_id<EventDelegate<ListenerT, EventT>>();
-        return EVENT_DELEGATE_ID;
-    }
+      public:
+        EventDelegate(ListenerT* listener, Function&& function)
+        {
+            callback = std::bind(function, listener, std::placeholders::_1);
+        }
 
-    virtual inline EventTypeId get_event_type_id() const override
-    {
-        static const EventTypeId EVENT_TYPE = EventT::EVENT_TYPE_ID;
-        return EVENT_TYPE;
-    }
+        virtual inline void invoke(IEvent* event) override
+        {
+            callback(reinterpret_cast<const EventT*>(event));
+        }
 
-    virtual bool operator==(const IEventDelegate* other) const override
-    {
-        std::cout << get_delegate_id() << " " << other->get_delegate_id()
-                  << std::endl;
-        return get_delegate_id() == other->get_delegate_id();
-    }
-};
+        virtual inline EventDelegateId get_delegate_id() const override
+        {
+            static const EventDelegateId EVENT_DELEGATE_ID =
+                utility::type::get_type_id<EventDelegate<ListenerT, EventT>>();
+            return EVENT_DELEGATE_ID;
+        }
+
+        virtual inline EventTypeId get_event_type_id() const override
+        {
+            static const EventTypeId EVENT_TYPE = EventT::EVENT_TYPE_ID;
+            return EVENT_TYPE;
+        }
+
+        virtual bool operator==(const IEventDelegate* other) const override
+        {
+            std::cout << get_delegate_id() << " " << other->get_delegate_id()
+                      << std::endl;
+            return get_delegate_id() == other->get_delegate_id();
+        }
+    };
+}; // namespace Event

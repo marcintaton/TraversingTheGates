@@ -27,11 +27,11 @@
 #include "src/ecs/system/SystemManager.h"
 #include "src/game/gameEvents.h"
 
-class Player : public Entity<Player>
+class Player : public ECS::Entity::Entity<Player>
 {
 };
 
-class Enemy : public Entity<Enemy>
+class Enemy : public ECS::Entity::Entity<Enemy>
 {
   public:
     Enemy() : Entity<Enemy>() {}
@@ -64,9 +64,9 @@ class foo
         std::cout << x << " " << event->x << std::endl;
     }
 
-    EventDelegate<foo, GameEvent1> sub()
+    Event::EventDelegate<foo, GameEvent1> sub()
     {
-        return EventDelegate<foo, GameEvent1>(this, &foo::bar);
+        return Event::EventDelegate<foo, GameEvent1>(this, &foo::bar);
     }
 };
 
@@ -76,13 +76,13 @@ class baz
     int x = 5;
     void bar(const GameEvent1* event) { std::cout << x << std::endl; }
 
-    EventDelegate<baz, GameEvent1> sub()
+    Event::EventDelegate<baz, GameEvent1> sub()
     {
-        return EventDelegate<baz, GameEvent1>(this, &baz::bar);
+        return Event::EventDelegate<baz, GameEvent1>(this, &baz::bar);
     }
 };
 
-class SystemA_U : public System<SystemA_U>
+class SystemA_U : public ECS::System::System<SystemA_U>
 {
   private:
     void do_on_enable() { std::cout << "SystemA_U updating" << std::endl; }
@@ -98,7 +98,7 @@ class SystemA_U : public System<SystemA_U>
     }
 };
 
-class SystemB_U : public System<SystemB_U>
+class SystemB_U : public ECS::System::System<SystemB_U>
 {
   private:
     void do_on_enable() { std::cout << "SystemB_U updating" << std::endl; }
@@ -114,7 +114,7 @@ class SystemB_U : public System<SystemB_U>
     }
 };
 
-class SystemC_E : public System<SystemC_E>
+class SystemC_E : public ECS::System::System<SystemC_E>
 {
   public:
     SystemC_E() { set_priority(5); }
@@ -168,11 +168,11 @@ int main(void)
         foo f_2;
         baz b_1;
 
-        EventDelegate<foo, GameEvent1> e_del1 = f_1.sub();
-        EventDelegate<foo, GameEvent1> e_del2 = f_2.sub();
-        EventDelegate<baz, GameEvent1> e_del3 = b_1.sub();
+        Event::EventDelegate<foo, GameEvent1> e_del1 = f_1.sub();
+        Event::EventDelegate<foo, GameEvent1> e_del2 = f_2.sub();
+        Event::EventDelegate<baz, GameEvent1> e_del3 = b_1.sub();
 
-        EventDispatcher<GameEvent1> disp1;
+        Event::EventDispatcher<GameEvent1> disp1;
 
         // disp1.add_delegate(&e_del1);
         // disp1.add_delegate(&e_del1);
@@ -181,15 +181,16 @@ int main(void)
 
         // disp1.dispatch(&ev1);
 
-        EventManager::get_instance().send_event<GameEvent1>(&ev1);
+        Event::EventManager::get_instance().send_event<GameEvent1>(&ev1);
 
-        EventManager::get_instance().remove_listener<GameEvent1>(&e_del1);
+        Event::EventManager::get_instance().remove_listener<GameEvent1>(
+            &e_del1);
 
-        EventManager::get_instance().send_event<GameEvent1>(&ev1);
+        Event::EventManager::get_instance().send_event<GameEvent1>(&ev1);
 
-        EventManager::get_instance().add_listener<GameEvent1>(&e_del1);
-        EventManager::get_instance().add_listener<GameEvent1>(&e_del2);
-        EventManager::get_instance().add_listener<GameEvent1>(&e_del3);
+        Event::EventManager::get_instance().add_listener<GameEvent1>(&e_del1);
+        Event::EventManager::get_instance().add_listener<GameEvent1>(&e_del2);
+        Event::EventManager::get_instance().add_listener<GameEvent1>(&e_del3);
 
         // EventManager::get_instance().send_event<GameEvent1>(&ev1);
         // std::cout << e_del1.get_delegate_id() << std::endl;

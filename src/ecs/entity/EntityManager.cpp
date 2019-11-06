@@ -1,15 +1,15 @@
 #include "EntityManager.h"
 
-EntityManager::EntityManager() {}
+ECS::Entity::EntityManager::EntityManager() {}
 
-EntityManager::~EntityManager()
+ECS::Entity::EntityManager::~EntityManager()
 {
     all_entities.clear();
     entities_by_type.clear();
     entities_by_id.clear();
 }
 
-EntityPtr EntityManager::get_entity(EntityId by_id)
+EntityPtr ECS::Entity::EntityManager::get_entity(EntityId by_id)
 {
     if (!(entities_by_id[by_id] == nullptr)) {
         return entities_by_id[by_id];
@@ -20,7 +20,7 @@ EntityPtr EntityManager::get_entity(EntityId by_id)
     }
 }
 
-void EntityManager::remove_entity(EntityId by_id)
+void ECS::Entity::EntityManager::remove_entity(EntityId by_id)
 {
     EntityPtr temp = get_entity(by_id);
     all_entities.erase(
@@ -31,7 +31,8 @@ void EntityManager::remove_entity(EntityId by_id)
     entities_by_id.erase(by_id);
 }
 
-std::vector<EntityId> EntityManager::get_eintity_ids_by_mask(ComponentMask mask)
+std::vector<EntityId>
+ECS::Entity::EntityManager::get_eintity_ids_by_mask(ComponentMask mask)
 {
     std::vector<EntityId> fitting_ids;
     for (auto entity : all_entities) {
@@ -42,12 +43,13 @@ std::vector<EntityId> EntityManager::get_eintity_ids_by_mask(ComponentMask mask)
     return fitting_ids;
 }
 
-ComponentMask EntityManager::get_mask(EntityId from_entity)
+ComponentMask ECS::Entity::EntityManager::get_mask(EntityId from_entity)
 {
     return get_entity(from_entity)->get_mask();
 }
 
-ComponentIdArray EntityManager::get_component_ids(EntityId from_entity)
+ComponentIdArray
+ECS::Entity::EntityManager::get_component_ids(EntityId from_entity)
 {
     return get_entity(from_entity)->get_component_ids();
 }

@@ -1,15 +1,15 @@
 #include "ComponentManager.h"
 
-ComponentManager::ComponentManager() {}
+ECS::Component::ComponentManager::ComponentManager() {}
 
-ComponentManager::~ComponentManager()
+ECS::Component::ComponentManager::~ComponentManager()
 {
     components_by_types.clear();
     components_by_entities.clear();
 }
 
-void ComponentManager::clear_entity_trace(EntityId of_entity,
-                                          ComponentIdArray with_components)
+void ECS::Component::ComponentManager::clear_entity_trace(
+    EntityId of_entity, ComponentIdArray with_components)
 {
     for (int i = 0; i < max_components; ++i) {
         if (with_components[i] != 0) {
