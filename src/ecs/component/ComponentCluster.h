@@ -5,6 +5,11 @@
 
 #include "../API.h"
 
+namespace ECS
+{
+namespace Component
+{
+
 template<class... Ts>
 struct ComponentCluster {
     std::vector<EntityId> id_lookup;
@@ -33,3 +38,5 @@ struct ComponentCluster {
         cluster.push_back(std::tuple<std::shared_ptr<Ts>...>());
     }
 };
+}; // namespace Component
+}; // namespace ECS

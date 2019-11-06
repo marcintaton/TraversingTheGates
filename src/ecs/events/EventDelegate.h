@@ -29,8 +29,7 @@ class EventDelegate : public IEventDelegate
     virtual inline EventDelegateId get_delegate_id() const override
     {
         static const EventDelegateId EVENT_DELEGATE_ID =
-            utility::type_helper::get_type_id<
-                EventDelegate<ListenerT, EventT>>();
+            utility::type::get_type_id<EventDelegate<ListenerT, EventT>>();
         return EVENT_DELEGATE_ID;
     }
 

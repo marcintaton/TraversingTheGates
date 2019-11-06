@@ -18,4 +18,4 @@ class UpdateDrivenSystem : public IUpdateDrivenSystem
 
 template<class T>
 const SystemTypeId UpdateDrivenSystem<T>::SYSTEM_TYPE_ID =
-    utility::type_helper::get_type_id<UpdateDrivenSystem<T>>();
+    utility::type::get_type_id<UpdateDrivenSystem<T>>();

@@ -18,4 +18,4 @@ class System : public ISystem
 
 template<class T>
 const SystemTypeId
-    System<T>::SYSTEM_TYPE_ID = utility::type_helper::get_type_id<System<T>>();
+    System<T>::SYSTEM_TYPE_ID = utility::type::get_type_id<System<T>>();

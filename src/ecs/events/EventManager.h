@@ -38,14 +38,13 @@ class EventManager
     template<class T>
     bool is_dispatcher_present()
     {
-        return (dispatchers[utility::type_helper::get_type_id<Event<T>>()]) !=
-               nullptr;
+        return (dispatchers[utility::type::get_type_id<Event<T>>()]) != nullptr;
     }
 
     template<class T>
     void create_dispatcher()
     {
-        dispatchers[utility::type_helper::get_type_id<Event<T>>()] =
+        dispatchers[utility::type::get_type_id<Event<T>>()] =
             std::make_shared<EventDispatcher<T>>();
     }
 
@@ -54,7 +53,7 @@ class EventManager
     void send_event(T* event)
     {
         if (is_dispatcher_present<T>()) {
-            (dispatchers[utility::type_helper::get_type_id<Event<T>>()])
+            (dispatchers[utility::type::get_type_id<Event<T>>()])
                 ->dispatch(event);
         }
     }

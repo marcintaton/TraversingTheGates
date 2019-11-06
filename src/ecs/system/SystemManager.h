@@ -36,14 +36,14 @@ class SystemManager
     template<class T>
     bool is_system_active()
     {
-        return active_systems.find(utility::type_helper::get_type_id<T>()) !=
+        return active_systems.find(utility::type::get_type_id<T>()) !=
                active_systems.end();
     }
 
     template<class T>
     bool is_system_inactive()
     {
-        return inactive_systems.find(utility::type_helper::get_type_id<T>()) !=
+        return inactive_systems.find(utility::type::get_type_id<T>()) !=
                inactive_systems.end();
     }
 
@@ -62,7 +62,7 @@ class SystemManager
     void create_system()
     {
         if (!is_system_present<T>()) {
-            inactive_systems.try_emplace(utility::type_helper::get_type_id<T>(),
+            inactive_systems.try_emplace(utility::type::get_type_id<T>(),
                                          std::make_unique<T>());
         }
     }
@@ -71,7 +71,7 @@ class SystemManager
     void create_active_system()
     {
         if (!is_system_present<T>()) {
-            active_systems.try_emplace(utility::type_helper::get_type_id<T>(),
+            active_systems.try_emplace(utility::type::get_type_id<T>(),
                                        std::make_unique<T>());
 
             update_soted_systems_container();
@@ -82,9 +82,9 @@ class SystemManager
     void destroy_system()
     {
         if (is_system_inactive<T>()) {
-            inactive_systems.erase(utility::type_helper::get_type_id<T>());
+            inactive_systems.erase(utility::type::get_type_id<T>());
         } else if (is_system_active<T>()) {
-            active_systems.erase(utility::type_helper::get_type_id<T>());
+            active_systems.erase(utility::type::get_type_id<T>());
             update_soted_systems_container();
         }
     }
@@ -93,10 +93,9 @@ class SystemManager
     void enable_system()
     {
         if (is_system_inactive<T>()) {
-            inactive_systems[utility::type_helper::get_type_id<T>()]
-                ->on_enable();
-            active_systems.insert(move(inactive_systems.extract(
-                utility::type_helper::get_type_id<T>())));
+            inactive_systems[utility::type::get_type_id<T>()]->on_enable();
+            active_systems.insert(move(
+                inactive_systems.extract(utility::type::get_type_id<T>())));
             update_soted_systems_container();
         }
     }
@@ -104,10 +103,10 @@ class SystemManager
     template<class T>
     void disable_system()
     {
-        active_systems[utility::type_helper::get_type_id<T>()]->on_disable();
+        active_systems[utility::type::get_type_id<T>()]->on_disable();
         if (is_system_active<T>()) {
-            inactive_systems.insert(move(active_systems.extract(
-                utility::type_helper::get_type_id<T>())));
+            inactive_systems.insert(
+                move(active_systems.extract(utility::type::get_type_id<T>())));
             update_soted_systems_container();
         }
     }

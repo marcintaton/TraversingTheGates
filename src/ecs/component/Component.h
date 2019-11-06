@@ -2,6 +2,10 @@
 
 #include "IComponent.h"
 
+namespace ECS
+{
+namespace Component
+{
 template<typename T>
 class Component : public IComponent
 {
@@ -20,3 +24,5 @@ class Component : public IComponent
 template<class T>
 const ComponentTypeId
     Component<T>::COMPONENT_TYPE_ID = read_component_type_id<T>();
+}; // namespace Component
+}; // namespace ECS

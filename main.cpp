@@ -41,7 +41,7 @@ class Enemy : public Entity<Enemy>
     }
 };
 
-class AComponent : public Component<AComponent>
+class AComponent : public ECS::Component::Component<AComponent>
 {
   public:
     int a = 102;
@@ -49,7 +49,7 @@ class AComponent : public Component<AComponent>
     AComponent(int _a) { a = _a; }
 };
 
-class BComponent : public Component<BComponent>
+class BComponent : public ECS::Component::Component<BComponent>
 {
   public:
     bool b = true;

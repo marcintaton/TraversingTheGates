@@ -13,4 +13,4 @@ class Event : public IEvent
 
 template<class T>
 const EventTypeId
-    Event<T>::EVENT_TYPE_ID = utility::type_helper::get_type_id<Event<T>>();
+    Event<T>::EVENT_TYPE_ID = utility::type::get_type_id<Event<T>>();

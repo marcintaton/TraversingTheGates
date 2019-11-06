@@ -13,4 +13,4 @@ class EventDrivenSystem : public IEventDrivenSystem
 };
 template<class T>
 const SystemTypeId EventDrivenSystem<T>::SYSTEM_TYPE_ID =
-    utility::type_helper::get_type_id<EventDrivenSystem<T>>();
+    utility::type::get_type_id<EventDrivenSystem<T>>();
