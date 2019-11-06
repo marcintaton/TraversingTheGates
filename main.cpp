@@ -134,9 +134,10 @@ void setup_logger()
     time(&timer);
     timeinfo = localtime(&timer);
     char time_buffer[100];
-    auto time_str = strftime(time_buffer,100,"%F_%X",timeinfo);
+    auto time_str = strftime(time_buffer, 100, "%F_%X", timeinfo);
 
-    std::string filename = std::string("logs/") + time_buffer + std::string(".log");
+    std::string filename =
+        std::string("logs/") + time_buffer + std::string(".log");
 
     sinks.push_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>(
         filename.c_str(), true));
