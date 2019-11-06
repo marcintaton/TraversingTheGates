@@ -130,8 +130,13 @@ void setup_logger()
     sinks.push_back(std::make_shared<spdlog::sinks::stdout_color_sink_st>());
 
     time_t timer;
-    std::time(&timer);
-    std::string filename = std::string("logs/") + ctime(&timer);
+    struct tm* timeinfo;
+    time(&timer);
+    timeinfo = localtime(&timer);
+    char time_buffer[100];
+    auto time_str = strftime(time_buffer,100,"%F_%X",timeinfo);
+
+    std::string filename = std::string("logs/") + time_buffer + std::string(".log");
 
     sinks.push_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>(
         filename.c_str(), true));
@@ -150,6 +155,9 @@ int main(void)
     setup_logger();
 
     spdlog::info("aei<3");
+    spdlog::warn("aei<3");
+    spdlog::error("aei<3");
+    spdlog::critical("aei<3");
 
     {
         GameEvent1 ev1;
