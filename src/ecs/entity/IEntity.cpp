@@ -2,5 +2,5 @@
 
 ECS::Entity::IEntity::IEntity()
 {
-    entity_id = get_new_entity_id();
+    entity_id = ECS::Utility::IdHelper::get_new_entity_id();
 }

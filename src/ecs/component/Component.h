@@ -23,7 +23,7 @@ namespace ECS
         };
 
         template<class T>
-        const ComponentTypeId
-            Component<T>::COMPONENT_TYPE_ID = read_component_type_id<T>();
+        const ComponentTypeId Component<T>::COMPONENT_TYPE_ID =
+            ECS::Utility::IdHelper::read_component_type_id<T>();
     }; // namespace Component
 };     // namespace ECS

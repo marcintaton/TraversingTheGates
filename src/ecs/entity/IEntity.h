@@ -9,6 +9,7 @@
 
 #include "../ECSAPI.h"
 #include "../component/IComponent.h"
+#include "../utility/IdHelper.h"
 
 namespace ECS
 {
@@ -17,12 +18,6 @@ namespace ECS
     {
         class IEntity;
         using EntityPtr = std::shared_ptr<IEntity>;
-
-        inline EntityId get_new_entity_id()
-        {
-            static EntityId last_entity_id = 1u;
-            return last_entity_id++;
-        }
 
         class IEntity
         {
@@ -48,7 +43,7 @@ namespace ECS
             {
                 if (has_component<T>()) {
                     return component_ids
-                        [Component::read_component_type_id<T>()];
+                        [ECS::Utility::IdHelper::read_component_type_id<T>()];
                 } else {
                     std::cout << "ECS::ENTITY::IENTITY::GET_COMPONENT_ID::"
                                  "NO_COMPONENT_OF_THIS_TYPE_IN_ENTITY"
@@ -61,7 +56,7 @@ namespace ECS
             void add_component_info(ComponentId id)
             {
                 ComponentTypeId comp_type_id =
-                    Component::read_component_type_id<T>();
+                    ECS::Utility::IdHelper::read_component_type_id<T>();
                 component_mask[comp_type_id] = 1;
                 component_ids[comp_type_id] = id;
             }
@@ -70,7 +65,7 @@ namespace ECS
             void remove_component_info()
             {
                 ComponentTypeId comp_type_id =
-                    Component::read_component_type_id<T>();
+                    ECS::Utility::IdHelper::read_component_type_id<T>();
                 component_mask[comp_type_id] = 0;
                 component_ids[comp_type_id] = 0;
             }
@@ -78,7 +73,8 @@ namespace ECS
             template<class T>
             bool has_component()
             {
-                return component_mask[Component::read_component_type_id<T>()];
+                return component_mask
+                    [ECS::Utility::IdHelper::read_component_type_id<T>()];
             }
         };
     }; // namespace Entity

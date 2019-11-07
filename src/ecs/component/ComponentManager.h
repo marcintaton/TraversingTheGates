@@ -35,8 +35,9 @@ namespace ECS
             {
                 if (ECS::AssertType::assert_valid_component_type<T>()) {
 
-                    if (components_by_entities[to_entity]
-                                              [read_component_type_id<T>()] ==
+                    if (components_by_entities
+                            [to_entity][ECS::Utility::IdHelper::
+                                            read_component_type_id<T>()] ==
                         nullptr) {
 
                         return do_add_component<T>(
@@ -76,7 +77,8 @@ namespace ECS
             {
                 if (ECS::AssertType::assert_valid_component_type<T>()) {
 
-                    ComponentTypeId comp_type_id = read_component_type_id<T>();
+                    ComponentTypeId comp_type_id =
+                        ECS::Utility::IdHelper::read_component_type_id<T>();
                     ComponentId comp_id =
                         components_by_entities[from_entity][comp_type_id]
                             ->get_component_id();
@@ -102,8 +104,9 @@ namespace ECS
             std::shared_ptr<T> get_component(EntityId from_entity)
             {
                 std::shared_ptr<T> comp_ptr = std::dynamic_pointer_cast<T>(
-                    components_by_entities[from_entity]
-                                          [read_component_type_id<T>()]);
+                    components_by_entities
+                        [from_entity]
+                        [ECS::Utility::IdHelper::read_component_type_id<T>()]);
 
                 if (comp_ptr == nullptr) {
                     std::cout
@@ -119,7 +122,8 @@ namespace ECS
             {
                 ECSSContainer<T> cp_it;
                 for (auto comp :
-                     components_by_types[read_component_type_id<T>()]) {
+                     components_by_types[ECS::Utility::IdHelper::
+                                             read_component_type_id<T>()]) {
                     cp_it.push_back(std::dynamic_pointer_cast<T>(comp));
                 }
                 return cp_it;
@@ -129,7 +133,11 @@ namespace ECS
             ComponentMask generate_mask_from_types()
             {
                 ComponentMask new_mask;
-                return (new_mask.set(read_component_type_id<Ts>(), 1), ...);
+                return (
+                    new_mask.set(
+                        ECS::Utility::IdHelper::read_component_type_id<Ts>(),
+                        1),
+                    ...);
             }
 
             template<class... Ts>
@@ -142,7 +150,9 @@ namespace ECS
                          entity_id,
                          std::dynamic_pointer_cast<Ts>(
                              components_by_entities
-                                 [entity_id][read_component_type_id<Ts>()])),
+                                 [entity_id]
+                                 [ECS::Utility::IdHelper::
+                                      read_component_type_id<Ts>()])),
                      ...);
                 }
                 return cluster;
