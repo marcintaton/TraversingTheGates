@@ -22,7 +22,6 @@ file(GLOB PROJECT_SOURCE_FILES
     "src/ecs/entity/EntityManager.cpp"
     # # System
     "src/ecs/system/ISystem.cpp"
-
     "src/ecs/system/SystemManager.cpp"
 
 )
