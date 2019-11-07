@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../ecs/events/Event.h"
+#include "../events/Event.h"
 
 class GameEvent1 : public Event::Event<GameEvent1>
 {

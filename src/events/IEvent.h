@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-#include "../EventAPI.h"
+#include "EventAPI.h"
 
 namespace Event
 {

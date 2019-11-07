@@ -2,8 +2,8 @@
 
 #include <functional>
 
-#include "../../utility/math.h"
-#include "../../utility/type.h"
+#include "../utility/math.h"
+#include "../utility/type.h"
 #include "IEventDelegate.h"
 
 namespace Event

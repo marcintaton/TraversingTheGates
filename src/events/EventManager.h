@@ -4,7 +4,7 @@
 #include <type_traits>
 #include <unordered_map>
 
-#include "../../utility/type.h"
+#include "../utility/type.h"
 #include "Event.h"
 #include "EventDispatcher.h"
 

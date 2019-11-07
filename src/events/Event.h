@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../utility/type.h"
+#include "../utility/type.h"
 #include "IEvent.h"
 namespace Event
 {
