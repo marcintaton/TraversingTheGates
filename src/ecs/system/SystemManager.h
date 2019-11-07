@@ -7,6 +7,7 @@
 #include <type_traits>
 
 #include "../../utility/type.h"
+#include "ExecutionOrderComparator.h"
 #include "System.h"
 
 namespace ECS
@@ -14,22 +15,10 @@ namespace ECS
 
     namespace System
     {
-        struct ExecutionOrderComparator;
+        // struct ExecutionOrderComparator;
         using Systems = std::map<SystemTypeId, SystemPtr>;
         using IdSystemPair = std::pair<SystemTypeId, SystemPtr>;
         using SortedSystems = std::set<IdSystemPair, ExecutionOrderComparator>;
-
-        struct ExecutionOrderComparator {
-            template<typename T>
-            bool operator()(const T& l, const T& r) const
-            {
-                if (l.second->get_priority() != r.second->get_priority())
-
-                    return l.second->get_priority() < r.second->get_priority();
-
-                return l.first < r.first;
-            }
-        };
 
         class SystemManager
         {
