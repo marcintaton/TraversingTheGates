@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <typeinfo>
 
-#include "../../utility/typeHelper.h"
+#include "../../utility/type.h"
 #include "IEntity.h"
 
 namespace ECS

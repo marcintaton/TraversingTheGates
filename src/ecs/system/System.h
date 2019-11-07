@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../utility/typeHelper.h"
+#include "../../utility/type.h"
 #include "ISystem.h"
 
 namespace ECS

@@ -3,7 +3,7 @@
 #include <functional>
 
 #include "../../utility/math.h"
-#include "../../utility/typeHelper.h"
+#include "../../utility/type.h"
 #include "IEventDelegate.h"
 
 namespace Event

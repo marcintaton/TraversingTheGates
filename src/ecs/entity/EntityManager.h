@@ -5,7 +5,7 @@
 #include <type_traits>
 #include <vector>
 
-#include "../../utility/typeHelper.h"
+#include "../../utility/type.h"
 #include "../API.h"
 #include "Entity.h"
 #include "EntityIterator.h"

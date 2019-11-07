@@ -1,12 +1,7 @@
-// logging
-#include "spdlog/sinks/basic_file_sink.h"
-#include "spdlog/sinks/daily_file_sink.h"
-#include "spdlog/sinks/stdout_color_sinks.h"
-#include "spdlog/spdlog.h"
+#include "src/utility/logging.h"
 
 // libs
 #include <bitset>
-#include <ctime>
 #include <functional>
 #include <iostream>
 #include <memory>
@@ -124,41 +119,15 @@ class SystemC_E : public ECS::System::System<SystemC_E>
     }
 };
 
-void setup_logger()
-{
-    std::vector<spdlog::sink_ptr> sinks;
-    sinks.push_back(std::make_shared<spdlog::sinks::stdout_color_sink_st>());
-
-    time_t timer;
-    struct tm* timeinfo;
-    time(&timer);
-    timeinfo = localtime(&timer);
-    char time_buffer[100];
-    auto time_str = strftime(time_buffer, 100, "%F_%X", timeinfo);
-
-    std::string filename =
-        std::string("logs/") + time_buffer + std::string(".log");
-
-    sinks.push_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>(
-        filename.c_str(), true));
-
-    auto file_conlsole_logger =
-        std::make_shared<spdlog::logger>("TtG_logs", begin(sinks), end(sinks));
-
-    spdlog::register_logger(file_conlsole_logger);
-
-    spdlog::set_default_logger(file_conlsole_logger);
-}
-
 int main(void)
 {
 
-    setup_logger();
+    utility::logging::setup_logger();
 
-    // spdlog::info("aei<3");
-    // spdlog::warn("aei<3");
-    // spdlog::error("aei<3");
-    // spdlog::critical("aei<3");
+    spdlog::info("aei<3");
+    spdlog::warn("aei<3");
+    spdlog::error("aei<3");
+    spdlog::critical("aei<3");
     ECS::ECSEngine::get_instance().create_system<SystemA_U>();
     auto x = ECS::ECSEngine::get_instance().create_entity<Enemy>();
     ECS::ECSEngine::get_instance().add_component<AComponent>(x);
