@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.15.0)
 project("traversing_the_gates")
 
 # Flags constants
@@ -13,7 +13,11 @@ SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${CUSTOM_LINK_FLAGS}")
 file(GLOB PROJECT_SOURCE_FILES
     "main.cpp"
     # ecs
-    "/src/ecs/*.cpp"
+    "src/ecs/ECSEngine/ECSEngine.cpp"
+    "src/ecs/component/ComponentManager.cpp"
+    "src/ecs/entity/EntityManager.cpp"
+    "src/ecs/system/SystemManager.cpp"
+
 )
 
 # Setting executable

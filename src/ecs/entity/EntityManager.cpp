@@ -9,7 +9,7 @@ ECS::Entity::EntityManager::~EntityManager()
     entities_by_id.clear();
 }
 
-EntityPtr ECS::Entity::EntityManager::get_entity(EntityId by_id)
+ECS::Entity::EntityPtr ECS::Entity::EntityManager::get_entity(EntityId by_id)
 {
     if (!(entities_by_id[by_id] == nullptr)) {
         return entities_by_id[by_id];
@@ -31,7 +31,7 @@ void ECS::Entity::EntityManager::remove_entity(EntityId by_id)
     entities_by_id.erase(by_id);
 }
 
-std::vector<EntityId>
+std::vector<ECS::EntityId>
 ECS::Entity::EntityManager::get_eintity_ids_by_mask(ComponentMask mask)
 {
     std::vector<EntityId> fitting_ids;
@@ -43,12 +43,12 @@ ECS::Entity::EntityManager::get_eintity_ids_by_mask(ComponentMask mask)
     return fitting_ids;
 }
 
-ComponentMask ECS::Entity::EntityManager::get_mask(EntityId from_entity)
+ECS::ComponentMask ECS::Entity::EntityManager::get_mask(EntityId from_entity)
 {
     return get_entity(from_entity)->get_mask();
 }
 
-ComponentIdArray
+ECS::ComponentIdArray
 ECS::Entity::EntityManager::get_component_ids(EntityId from_entity)
 {
     return get_entity(from_entity)->get_component_ids();

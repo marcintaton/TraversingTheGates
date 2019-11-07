@@ -69,7 +69,7 @@ namespace ECS
             {
                 if (!is_system_present<T>()) {
                     inactive_systems.try_emplace(
-                        utility::type::get_type_id<T>(), std::make_unique<T>());
+                        utility::type::get_type_id<T>(), std::make_shared<T>());
                 }
             }
 
@@ -78,7 +78,7 @@ namespace ECS
             {
                 if (!is_system_present<T>()) {
                     active_systems.try_emplace(utility::type::get_type_id<T>(),
-                                               std::make_unique<T>());
+                                               std::make_shared<T>());
 
                     update_soted_systems_container();
                 }

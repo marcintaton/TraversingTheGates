@@ -8,7 +8,6 @@
 
 namespace ECS
 {
-
     class ECSEngine
     {
         // Singleton
