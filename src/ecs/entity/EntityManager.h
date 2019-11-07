@@ -7,6 +7,7 @@
 
 #include "../../utility/type.h"
 #include "../ECSAPI.h"
+#include "../utility/type.h"
 #include "Entity.h"
 #include "IEntity.h"
 
@@ -14,12 +15,6 @@ namespace ECS
 {
     namespace Entity
     {
-
-        template<class T>
-        bool assert_valid_entity_type()
-        {
-            return std::is_base_of<IEntity, T>::value;
-        }
 
         class EntityManager
         {
@@ -35,7 +30,7 @@ namespace ECS
             template<class T, typename... T_args>
             EntityId create_entity(T_args&&... args)
             {
-                if (assert_valid_entity_type<T>()) {
+                if (ECS::AssertType::assert_valid_entity_type<T>()) {
                     EntityPtr new_entity(new T(std::forward<T_args>(args)...));
 
                     entities_by_type[new_entity->get_entity_type_id()]

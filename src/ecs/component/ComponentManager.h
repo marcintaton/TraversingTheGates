@@ -9,6 +9,7 @@
 #include "../ECSAPI.h"
 
 #include "../entity/IEntity.h"
+#include "../utility/type.h"
 #include "Component.h"
 #include "ComponentCluster.h"
 #include "IComponent.h"
@@ -17,12 +18,6 @@ namespace ECS
 {
     namespace Component
     {
-
-        template<class T>
-        bool assert_valid_component_type()
-        {
-            return std::is_base_of<IComponent, T>::value;
-        }
 
         class ComponentManager
         {
@@ -38,7 +33,7 @@ namespace ECS
             template<class T, typename... T_args>
             ComponentPtr add_component(EntityId to_entity, T_args&&... args)
             {
-                if (assert_valid_component_type<T>()) {
+                if (ECS::AssertType::assert_valid_component_type<T>()) {
 
                     if (components_by_entities[to_entity]
                                               [read_component_type_id<T>()] ==
@@ -79,7 +74,7 @@ namespace ECS
             template<class T>
             void remove_component(EntityId from_entity)
             {
-                if (assert_valid_component_type<T>()) {
+                if (ECS::AssertType::assert_valid_component_type<T>()) {
 
                     ComponentTypeId comp_type_id = read_component_type_id<T>();
                     ComponentId comp_id =
