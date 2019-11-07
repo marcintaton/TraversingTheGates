@@ -7,7 +7,7 @@
 
 #include "../../utility/type.h"
 #include "../ECSAPI.h"
-#include "../utility/type.h"
+#include "../utility/AssertType.h"
 #include "Entity.h"
 #include "IEntity.h"
 

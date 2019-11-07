@@ -9,7 +9,7 @@
 #include "../ECSAPI.h"
 
 #include "../entity/IEntity.h"
-#include "../utility/type.h"
+#include "../utility/AssertType.h"
 #include "Component.h"
 #include "ComponentCluster.h"
 #include "IComponent.h"
