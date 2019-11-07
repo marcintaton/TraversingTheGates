@@ -19,9 +19,9 @@ namespace Event
         Callback callback;
 
       public:
-        EventDelegate(ListenerT* listener, Function&& function)
+        EventDelegate(ListenerT* listener, Function&& function) :
+            callback(std::bind(function, listener, std::placeholders::_1))
         {
-            callback = std::bind(function, listener, std::placeholders::_1);
         }
 
         virtual inline void invoke(IEvent* event) override

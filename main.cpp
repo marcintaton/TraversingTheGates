@@ -140,7 +140,8 @@ int main(void)
               << std::endl;
 
     std::cout
-        << (ECS::ECSEngine::get_instance().get_entities_of_type<Enemy>())[0]->x
+        << (ECS::ECSEngine::get_instance().get_entities_of_type<Enemy>())[0]
+               ->get_entity_type_id()
         << std::endl;
 
     {

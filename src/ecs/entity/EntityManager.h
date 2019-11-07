@@ -29,7 +29,7 @@ namespace ECS
             std::vector<EntityPtr> all_entities;
 
           public:
-            EntityManager();
+            EntityManager() {}
             ~EntityManager();
 
             template<class T, typename... T_args>

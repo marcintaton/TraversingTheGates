@@ -18,6 +18,7 @@ namespace Event
         virtual bool operator==(const IEventDelegate* other) const = 0;
     };
 
+    // get rid of all inline fuction used but never defined warnings (for now)
     inline void IEventDelegate::invoke(IEvent* event) {}
 
     inline EventDelegateId IEventDelegate::get_delegate_id() const { return 0; }

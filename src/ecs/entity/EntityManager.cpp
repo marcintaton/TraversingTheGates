@@ -1,7 +1,5 @@
 #include "EntityManager.h"
 
-ECS::Entity::EntityManager::EntityManager() {}
-
 ECS::Entity::EntityManager::~EntityManager()
 {
     all_entities.clear();

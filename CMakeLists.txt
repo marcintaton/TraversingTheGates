@@ -14,8 +14,15 @@ file(GLOB PROJECT_SOURCE_FILES
     "main.cpp"
     # ecs
     "src/ecs/ECSEngine/ECSEngine.cpp"
+    # # Component 
+    "src/ecs/component/IComponent.cpp"
     "src/ecs/component/ComponentManager.cpp"
+    # # Entity
+    "src/ecs/entity/IEntity.cpp"
     "src/ecs/entity/EntityManager.cpp"
+    # # System
+    "src/ecs/system/ISystem.cpp"
+
     "src/ecs/system/SystemManager.cpp"
 
 )

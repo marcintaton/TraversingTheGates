@@ -32,16 +32,16 @@ namespace ECS
             ComponentIdArray component_ids;
 
           public:
-            IEntity() { entity_id = get_new_entity_id(); }
+            IEntity();
             ~IEntity() {}
 
-            inline const EntityId get_entity_id() const
-            {
-                return this->entity_id;
-            }
+            inline const EntityId get_entity_id() const { return entity_id; }
             virtual const EntityTypeId get_entity_type_id() const = 0;
-            ComponentMask get_mask() { return component_mask; }
-            ComponentIdArray get_component_ids() { return component_ids; }
+            inline ComponentMask get_mask() { return component_mask; }
+            inline ComponentIdArray get_component_ids()
+            {
+                return component_ids;
+            }
 
             template<class T>
             ComponentId get_component_id()

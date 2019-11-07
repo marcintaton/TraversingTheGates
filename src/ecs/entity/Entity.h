@@ -20,7 +20,8 @@ namespace ECS
           public:
             Entity() {}
 
-            virtual const EntityTypeId get_entity_type_id() const override
+            virtual inline const EntityTypeId
+            get_entity_type_id() const override
             {
                 return ENTITY_TYPE_ID;
             }
@@ -30,10 +31,5 @@ namespace ECS
         const EntityTypeId
             Entity<T>::ENTITY_TYPE_ID = utility::type::get_type_id<Entity<T>>();
 
-        template<class T>
-        const EntityTypeId get_entity_type_id()
-        {
-            return utility::type::get_type_id<Entity<T>>();
-        }
     }; // namespace Entity
 };     // namespace ECS

@@ -1,7 +1,5 @@
 #include "ComponentManager.h"
 
-ECS::Component::ComponentManager::ComponentManager() {}
-
 ECS::Component::ComponentManager::~ComponentManager()
 {
     components_by_types.clear();

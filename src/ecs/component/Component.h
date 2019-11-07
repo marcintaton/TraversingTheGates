@@ -15,7 +15,8 @@ namespace ECS
           public:
             Component() {}
 
-            virtual const ComponentTypeId get_component_type_id() const override
+            virtual inline const ComponentTypeId
+            get_component_type_id() const override
             {
                 return COMPONENT_TYPE_ID;
             }

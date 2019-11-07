@@ -39,7 +39,7 @@ namespace ECS
             ComponentId component_id;
 
           public:
-            IComponent() { component_id = get_new_component_id(); }
+            IComponent();
             ~IComponent() {}
 
             inline const ComponentId get_component_id() const

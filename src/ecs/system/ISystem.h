@@ -35,10 +35,7 @@ namespace ECS
             }
             inline std::size_t get_priority() { return execution_priority; }
 
-            bool operator<(const ISystem& other) const
-            {
-                return execution_priority < other.execution_priority;
-            }
+            bool operator<(const ISystem& other) const;
         };
 
     }; // namespace System

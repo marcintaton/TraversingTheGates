@@ -35,7 +35,7 @@ namespace ECS
             std::map<EntityId, ComponentArray> components_by_entities;
 
           public:
-            ComponentManager();
+            ComponentManager() {}
             ~ComponentManager();
 
             template<class T, typename... T_args>
