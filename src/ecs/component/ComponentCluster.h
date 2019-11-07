@@ -12,6 +12,15 @@ namespace ECS
 
         template<class... Ts>
         struct ComponentCluster {
+
+          private:
+            inline void add_new_entry_to_cluster(EntityId e_id)
+            {
+                id_lookup.push_back(e_id);
+                cluster.push_back(std::tuple<std::shared_ptr<Ts>...>());
+            }
+
+          public:
             std::vector<EntityId> id_lookup;
             std::vector<std::tuple<std::shared_ptr<Ts>...>> cluster;
 
@@ -29,13 +38,6 @@ namespace ECS
             inline std::shared_ptr<T> get_component(std::size_t form_index)
             {
                 return std::get<std::shared_ptr<T>>(cluster[form_index]);
-            }
-
-          private:
-            void add_new_entry_to_cluster(EntityId e_id)
-            {
-                id_lookup.push_back(e_id);
-                cluster.push_back(std::tuple<std::shared_ptr<Ts>...>());
             }
         };
     }; // namespace Component

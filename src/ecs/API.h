@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <bitset>
+#include <memory>
 
 namespace ECS
 {
@@ -15,4 +16,6 @@ namespace ECS
     using ComponentIdArray = std::array<std::size_t, max_components>;
     using ComponentMask = std::bitset<max_components>;
 
+    template<class T>
+    using ECSSContainer = std::vector<std::shared_ptr<T>>;
 }; // namespace ECS

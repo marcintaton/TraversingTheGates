@@ -8,7 +8,7 @@ namespace utility
     {
 
         template<typename T>
-        std::size_t get_type_id()
+        inline std::size_t get_type_id()
         {
             return typeid(T).hash_code();
         }

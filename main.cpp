@@ -11,7 +11,6 @@
 // files
 #include "src/ecs/component/Component.h"
 #include "src/ecs/component/ComponentCluster.h"
-#include "src/ecs/component/ComponentIterator.h"
 #include "src/ecs/entity/Entity.h"
 
 #include "src/ecs/ECSEngine/ECSEngine.h"
@@ -29,6 +28,7 @@ class Player : public ECS::Entity::Entity<Player>
 class Enemy : public ECS::Entity::Entity<Enemy>
 {
   public:
+    int x = 45;
     Enemy() : Entity<Enemy>() {}
     Enemy(Player p, int b) : Entity<Enemy>()
     {
@@ -124,13 +124,24 @@ int main(void)
 
     utility::logging::setup_logger();
 
-    spdlog::info("aei<3");
-    spdlog::warn("aei<3");
-    spdlog::error("aei<3");
-    spdlog::critical("aei<3");
+    // spdlog::info("aei<3");
+    // spdlog::warn("aei<3");
+    // spdlog::error("aei<3");
+    // spdlog::critical("aei<3");
     ECS::ECSEngine::get_instance().create_system<SystemA_U>();
     auto x = ECS::ECSEngine::get_instance().create_entity<Enemy>();
     ECS::ECSEngine::get_instance().add_component<AComponent>(x);
+
+    ECS::ECSEngine::get_instance().get_component_cluster<AComponent>();
+
+    std::cout << ECS::ECSEngine::get_instance()
+                     .get_components_of_type<AComponent>()[0]
+                     ->a
+              << std::endl;
+
+    std::cout
+        << (ECS::ECSEngine::get_instance().get_entities_of_type<Enemy>())[0]->x
+        << std::endl;
 
     {
         GameEvent1 ev1;

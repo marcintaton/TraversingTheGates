@@ -8,7 +8,6 @@
 #include "../../utility/type.h"
 #include "../API.h"
 #include "Entity.h"
-#include "EntityIterator.h"
 #include "IEntity.h"
 
 namespace ECS
@@ -55,11 +54,15 @@ namespace ECS
             }
 
             template<class T>
-            EntityIterator<T> get_entities_of_type()
+            ECSSContainer<T> get_entities_of_type()
             {
-                return EntityIterator<T> {
-                    .container = entities_by_type
-                        [utility::type::get_type_id<Entity<T>>()]};
+                ECSSContainer<T> en_it;
+                for (auto ent : entities_by_type
+                         [utility::type::get_type_id<Entity<T>>()]) {
+                    en_it.push_back(std::dynamic_pointer_cast<T>(ent));
+                }
+
+                return en_it;
             }
 
             void remove_entity(EntityId by_id);

@@ -39,13 +39,13 @@ namespace ECS
         }
 
         template<class T>
-        Entity::EntityIterator<T> get_entities_of_type()
+        ECSSContainer<T> get_entities_of_type()
         {
             return entity_manager->get_entities_of_type<T>();
         }
 
         template<class T>
-        Component::ComponentIterator<T> get_components_of_type()
+        ECSSContainer<T> get_components_of_type()
         {
             return component_manager->get_components_of_type<T>();
         }

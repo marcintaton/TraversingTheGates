@@ -11,13 +11,15 @@
 #include "../entity/IEntity.h"
 #include "Component.h"
 #include "ComponentCluster.h"
-#include "ComponentIterator.h"
 #include "IComponent.h"
 
 namespace ECS
 {
     namespace Component
     {
+
+        template<class T>
+        using ComponentContainer = std::vector<std::shared_ptr<T>>;
 
         template<class T>
         bool assert_valid_component_type()
@@ -121,13 +123,12 @@ namespace ECS
             }
 
             template<class T>
-            ComponentIterator<T> get_components_of_type()
+            ECSSContainer<T> get_components_of_type()
             {
-                ComponentIterator<T> cp_it;
+                ECSSContainer<T> cp_it;
                 for (auto comp :
                      components_by_types[read_component_type_id<T>()]) {
-                    cp_it.components.push_back(
-                        std::dynamic_pointer_cast<T>(comp));
+                    cp_it.push_back(std::dynamic_pointer_cast<T>(comp));
                 }
                 return cp_it;
             }
