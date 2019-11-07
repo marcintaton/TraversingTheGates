@@ -3,15 +3,15 @@
 #include <algorithm>
 #include <memory>
 
-#include "../API.h"
+#include "../ECSAPI.h"
 
 namespace ECS
 {
+
     namespace Component
     {
-
         class IComponent;
-        using ComponentPtr = std::shared_ptr<IComponent>;
+        using ComponentPtr = std::shared_ptr<Component::IComponent>;
         using ComponentArray = std::array<ComponentPtr, max_components>;
 
         inline ComponentId get_new_component_id()

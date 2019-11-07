@@ -6,9 +6,6 @@
 
 namespace Event
 {
-
-    using EventDispatcherId = std::size_t;
-
     class IEventDispatcher
     {
       public:

@@ -11,8 +11,13 @@
 
 namespace ECS
 {
+
     namespace System
     {
+        struct ExecutionOrderComparator;
+        using Systems = std::map<SystemTypeId, SystemPtr>;
+        using IdSystemPair = std::pair<SystemTypeId, SystemPtr>;
+        using SortedSystems = std::set<IdSystemPair, ExecutionOrderComparator>;
 
         struct ExecutionOrderComparator {
             template<typename T>
@@ -28,11 +33,6 @@ namespace ECS
 
         class SystemManager
         {
-            using SystemPtr = std::shared_ptr<ISystem>;
-            using Systems = std::map<SystemTypeId, SystemPtr>;
-            using IdSystemPair = std::pair<SystemTypeId, SystemPtr>;
-            using SortedSystems =
-                std::set<IdSystemPair, ExecutionOrderComparator>;
 
           private:
             Systems inactive_systems;

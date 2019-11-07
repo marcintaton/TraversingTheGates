@@ -7,14 +7,14 @@
 #include <iostream>
 #include <memory>
 
-#include "../API.h"
+#include "../ECSAPI.h"
 #include "../component/IComponent.h"
 
 namespace ECS
 {
+
     namespace Entity
     {
-
         class IEntity;
         using EntityPtr = std::shared_ptr<IEntity>;
 

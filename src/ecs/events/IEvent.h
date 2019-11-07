@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-using EventTypeId = std::size_t;
+#include "../EventAPI.h"
 
 namespace Event
 {

@@ -6,7 +6,7 @@
 #include <type_traits>
 #include <vector>
 
-#include "../API.h"
+#include "../ECSAPI.h"
 
 #include "../entity/IEntity.h"
 #include "Component.h"
@@ -17,9 +17,6 @@ namespace ECS
 {
     namespace Component
     {
-
-        template<class T>
-        using ComponentContainer = std::vector<std::shared_ptr<T>>;
 
         template<class T>
         bool assert_valid_component_type()

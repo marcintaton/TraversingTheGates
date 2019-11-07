@@ -2,13 +2,11 @@
 
 #include <algorithm>
 
+#include "../EventAPI.h"
 #include "IEvent.h"
 
 namespace Event
 {
-
-    using EventDelegateId = std::size_t;
-
     class IEventDelegate
     {
       public:

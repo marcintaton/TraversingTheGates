@@ -1,13 +1,16 @@
 #pragma once
 
 #include <algorithm>
+#include <memory>
 
-using SystemTypeId = std::size_t;
+#include "../ECSAPI.h"
 
 namespace ECS
 {
     namespace System
     {
+        class ISystem;
+        using SystemPtr = std::shared_ptr<ISystem>;
 
         class ISystem
         {

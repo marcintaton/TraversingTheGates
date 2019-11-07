@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "../../utility/type.h"
-#include "../API.h"
+#include "../ECSAPI.h"
 #include "Entity.h"
 #include "IEntity.h"
 

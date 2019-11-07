@@ -18,4 +18,6 @@ namespace ECS
 
     template<class T>
     using ECSSContainer = std::vector<std::shared_ptr<T>>;
+
+    using SystemTypeId = std::size_t;
 }; // namespace ECS
