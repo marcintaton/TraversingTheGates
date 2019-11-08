@@ -2,5 +2,5 @@
 
 ECS::Component::IComponent::IComponent()
 {
-    component_id = ECS::Utility::IdHelper::get_new_component_id();
+    component_id = ECS::IdHelper::get_new_component_id();
 }

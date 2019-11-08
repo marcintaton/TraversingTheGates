@@ -5,7 +5,7 @@
 #include <type_traits>
 #include <vector>
 
-#include "../../utility/type.h"
+#include "../../utility/Type.h"
 #include "../ECSAPI.h"
 #include "../utility/AssertType.h"
 #include "Entity.h"
@@ -13,58 +13,59 @@
 
 namespace ECS
 {
-    namespace Entity
+namespace Entity
+{
+
+class EntityManager
+{
+  private:
+    std::map<EntityTypeId, std::vector<EntityPtr>> entities_by_type;
+    std::map<EntityId, EntityPtr> entities_by_id;
+    std::vector<EntityPtr> all_entities;
+
+  public:
+    EntityManager() {}
+    ~EntityManager();
+
+    template<class T, typename... T_args>
+    EntityId create_entity(T_args&&... args)
     {
+        if (ECS::AssertType::assert_valid_entity_type<T>()) {
+            EntityPtr new_entity =
+                std::make_shared<T>(std::forward<T_args>(args)...);
 
-        class EntityManager
-        {
-          private:
-            std::map<EntityTypeId, std::vector<EntityPtr>> entities_by_type;
-            std::map<EntityId, EntityPtr> entities_by_id;
-            std::vector<EntityPtr> all_entities;
+            entities_by_type[new_entity->get_entity_type_id()].push_back(
+                new_entity);
+            all_entities.push_back(new_entity);
 
-          public:
-            EntityManager() {}
-            ~EntityManager();
+            entities_by_id[new_entity->get_entity_id()] = new_entity;
 
-            template<class T, typename... T_args>
-            EntityId create_entity(T_args&&... args)
-            {
-                if (ECS::AssertType::assert_valid_entity_type<T>()) {
-                    EntityPtr new_entity(new T(std::forward<T_args>(args)...));
+            return new_entity->get_entity_id();
 
-                    entities_by_type[new_entity->get_entity_type_id()]
-                        .push_back(new_entity);
-                    all_entities.push_back(new_entity);
+        } else {
+            std::cout << "ECS::ENTITY::ENTITY_MANAGER::CREATE_ENTITY "
+                         "Invalid entity type";
+            return -1;
+        }
+    }
 
-                    entities_by_id[new_entity->get_entity_id()] = new_entity;
+    template<class T>
+    ECSSContainer<T> get_entities_of_type()
+    {
+        ECSSContainer<T> en_it;
+        for (auto ent :
+             entities_by_type[Utility::Type::get_type_id<Entity<T>>()]) {
+            en_it.push_back(std::dynamic_pointer_cast<T>(ent));
+        }
 
-                    return new_entity->get_entity_id();
+        return en_it;
+    }
 
-                } else {
-                    std::cout << "ECS::ENTITY::ENTITY_MANAGER::CREATE_ENTITY "
-                                 "Invalid entity type";
-                    return -1;
-                }
-            }
-
-            template<class T>
-            ECSSContainer<T> get_entities_of_type()
-            {
-                ECSSContainer<T> en_it;
-                for (auto ent : entities_by_type
-                         [utility::type::get_type_id<Entity<T>>()]) {
-                    en_it.push_back(std::dynamic_pointer_cast<T>(ent));
-                }
-
-                return en_it;
-            }
-
-            void remove_entity(EntityId by_id);
-            EntityPtr get_entity(EntityId by_id);
-            std::vector<EntityId> get_eintity_ids_by_mask(ComponentMask mask);
-            ComponentMask get_mask(EntityId from_entity);
-            ComponentIdArray get_component_ids(EntityId from_entity);
-        };
-    }; // namespace Entity
-};     // namespace ECS
+    void remove_entity(EntityId by_id);
+    EntityPtr get_entity(EntityId by_id);
+    std::vector<EntityId> get_eintity_ids_by_mask(ComponentMask mask);
+    ComponentMask get_mask(EntityId from_entity);
+    ComponentIdArray get_component_ids(EntityId from_entity);
+};
+}; // namespace Entity
+}; // namespace ECS

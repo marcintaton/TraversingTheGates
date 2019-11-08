@@ -1,4 +1,4 @@
-#include "src/utility/logging.h"
+#include "src/utility/Logging.h"
 
 // libs
 #include <bitset>
@@ -122,7 +122,7 @@ class SystemC_E : public ECS::System::System<SystemC_E>
 int main(void)
 {
 
-    utility::logging::setup_logger();
+    Utility::Logging::setup_logger();
 
     // spdlog::info("aei<3");
     // spdlog::warn("aei<3");

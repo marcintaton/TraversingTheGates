@@ -7,20 +7,20 @@
 
 namespace ECS
 {
-    namespace AssertType
-    {
+namespace AssertType
+{
 
-        template<class T>
-        inline bool assert_valid_entity_type()
-        {
-            return std::is_base_of<Entity::IEntity, T>::value;
-        }
+template<class T>
+inline bool assert_valid_entity_type()
+{
+    return std::is_base_of<Entity::IEntity, T>::value;
+}
 
-        template<class T>
-        inline bool assert_valid_component_type()
-        {
-            return std::is_base_of<Component::IComponent, T>::value;
-        }
+template<class T>
+inline bool assert_valid_component_type()
+{
+    return std::is_base_of<Component::IComponent, T>::value;
+}
 
-    }; // namespace AssertType
-};     // namespace ECS
+}; // namespace AssertType
+}; // namespace ECS

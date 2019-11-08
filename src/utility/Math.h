@@ -2,13 +2,13 @@
 
 #include <algorithm>
 
-namespace utility
+namespace Utility
 {
-namespace math
+namespace Math
 {
 inline std::size_t get_cantor_pairing(std::size_t a, std::size_t b)
 {
     return ((a + b) * (a + b + 1) + b) >> 1;
 }
-}; // namespace math
-}; // namespace utility
+}; // namespace Math
+}; // namespace Utility
