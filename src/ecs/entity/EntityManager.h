@@ -5,6 +5,7 @@
 #include <type_traits>
 #include <vector>
 
+#include "../../utility/Logging.h"
 #include "../../utility/Type.h"
 #include "../ECSAPI.h"
 #include "../utility/AssertType.h"
@@ -43,8 +44,9 @@ class EntityManager
             return new_entity->get_entity_id();
 
         } else {
-            std::cout << "ECS::ENTITY::ENTITY_MANAGER::CREATE_ENTITY "
-                         "Invalid entity type";
+            spdlog::error(
+                "ECS::Entity::EntityManager::create_entity - Type is not "
+                "entity type. Aborting");
             return -1;
         }
     }

@@ -8,6 +8,7 @@
 
 #include "../ECSAPI.h"
 
+#include "../../utility/Logging.h"
 #include "../entity/IEntity.h"
 #include "../utility/AssertType.h"
 #include "Component.h"
@@ -55,16 +56,13 @@ class ComponentManager
                 return do_add_component<T>(to_entity,
                                            std::forward<T_args>(args)...);
             } else {
-                std::cout << "ECS::COMPONENT::COMPONENT_MANAGER::ADD_"
-                             "COMPONENT "
-                             "Entity already has this component"
-                          << std::endl;
+                spdlog::error("ECS::Component::ComponentManager::add_component "
+                              "- Entity already has this component");
                 return nullptr;
             }
         } else {
-            std::cout << "ECS::COMPONENT::COMPONENT_MANAGER::ADD_COMPONENT "
-                         "Invalid component type"
-                      << std::endl;
+            spdlog::error("ECS::Component::ComponentManager::add_component "
+                          "- Type is not a component type. Aborting");
             return nullptr;
         }
     }
@@ -89,10 +87,8 @@ class ComponentManager
             components_by_types[comp_type_id].erase(it);
 
         } else {
-            std::cout << "ECS::COMPONENT::COMPONENT_MANAGER::REMOVE_"
-                         "COMPONENT "
-                         "Invalid component type"
-                      << std::endl;
+            spdlog::warn("ECS::Component::ComponentManager::remove_component "
+                         "- Type is not a component type. Aborting");
         }
     }
 
@@ -104,9 +100,8 @@ class ComponentManager
                                   [ECS::IdHelper::read_component_type_id<T>()]);
 
         if (comp_ptr == nullptr) {
-            std::cout << "ECS::COMPONENT::COMPONENT_MANAGER::GET_COMPONENT "
-                         "No such Component in this entity"
-                      << std::endl;
+            spdlog::error("ECS::Component::ComponentManager::get_component "
+                          "- No such component in this entity");
         }
         return std::dynamic_pointer_cast<T>(comp_ptr);
     }

@@ -12,8 +12,8 @@ ECS::Entity::EntityPtr ECS::Entity::EntityManager::get_entity(EntityId by_id)
     if (!(entities_by_id[by_id] == nullptr)) {
         return entities_by_id[by_id];
     } else {
-        std::cout << "ECS::ENTITY::ENTITY_MANAGER::GET_ENTITY::ENTIY_NOT_FOUND"
-                  << std::endl;
+        spdlog::critical(
+            "ECS::Entity::EntityManager::get_entity - No entity with this ID");
         return 0;
     }
 }

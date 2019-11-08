@@ -4,6 +4,7 @@
 #include <type_traits>
 #include <unordered_map>
 
+#include "../utility/Logging.h"
 #include "../utility/Type.h"
 #include "Event.h"
 #include "EventDispatcher.h"
@@ -57,6 +58,9 @@ class EventManager
         if (is_dispatcher_present<T>()) {
             (dispatchers[Utility::Type::get_type_id<Event<T>>()])
                 ->dispatch(event);
+
+            spdlog::info("Event::EventManager::send_event - Sending event {0}",
+                         Utility::Type::get_type_name<T>());
         }
     }
 
@@ -69,6 +73,9 @@ class EventManager
             }
 
             dispatchers[delegate->get_event_type_id()]->add_delegate(delegate);
+        } else {
+            spdlog::warn("Event::EventManager::add_listener - Type is not "
+                         "event. Aborting");
         }
     }
 

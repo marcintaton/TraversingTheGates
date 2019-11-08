@@ -2,6 +2,7 @@
 
 #include <list>
 
+#include "../utility/Logging.h"
 #include "IEventDispatcher.h"
 
 namespace Event
@@ -28,9 +29,8 @@ class EventDispatcher : public IEventDispatcher
 
             listeners.push_back(delegate);
         } else {
-            std::cout << "ECS::EVENTS::EVENT_DISPATCHERADD_DELEGATE Deleagate "
-                         "already exists among listeners. Aborting."
-                      << std::endl;
+            spdlog::warn("Event::EventDispatcher::add_delegate - Deleagate "
+                         "already exists among listeners. Aborting.");
         }
     }
 

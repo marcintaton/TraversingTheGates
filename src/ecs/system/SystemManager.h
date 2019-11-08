@@ -6,6 +6,7 @@
 #include <set>
 #include <type_traits>
 
+#include "../../utility/Logging.h"
 #include "../../utility/Type.h"
 #include "ExecutionOrderComparator.h"
 #include "System.h"
@@ -59,6 +60,10 @@ class SystemManager
         if (!is_system_present<T>()) {
             inactive_systems.try_emplace(Utility::Type::get_type_id<T>(),
                                          std::make_shared<T>());
+
+            spdlog::info("ECS::System::SystemManger::create_system - "
+                         "Creating {0}",
+                         Utility::Type::get_type_name<T>());
         }
     }
 
@@ -70,6 +75,10 @@ class SystemManager
                                        std::make_shared<T>());
 
             update_soted_systems_container();
+
+            spdlog::info("ECS::System::SystemManger::create_active_system - "
+                         "Creating {0}",
+                         Utility::Type::get_type_name<T>());
         }
     }
 
@@ -78,9 +87,17 @@ class SystemManager
     {
         if (is_system_inactive<T>()) {
             inactive_systems.erase(Utility::Type::get_type_id<T>());
+
+            spdlog::info("ECS::System::SystemManger::destroy_system - "
+                         "Destroying inactive {0}",
+                         Utility::Type::get_type_name<T>());
         } else if (is_system_active<T>()) {
             active_systems.erase(Utility::Type::get_type_id<T>());
             update_soted_systems_container();
+
+            spdlog::info("ECS::System::SystemManger::destroy_system - "
+                         "Destroying active {0}",
+                         Utility::Type::get_type_name<T>());
         }
     }
 
@@ -92,6 +109,10 @@ class SystemManager
             active_systems.insert(move(
                 inactive_systems.extract(Utility::Type::get_type_id<T>())));
             update_soted_systems_container();
+
+            spdlog::info(
+                "ECS::System::SystemManger::enable_system - Enabling {0}",
+                Utility::Type::get_type_name<T>());
         }
     }
 
@@ -103,6 +124,10 @@ class SystemManager
             inactive_systems.insert(
                 move(active_systems.extract(Utility::Type::get_type_id<T>())));
             update_soted_systems_container();
+
+            spdlog::info(
+                "ECS::System::SystemManger::disable_system - Disabling {0}",
+                Utility::Type::get_type_name<T>());
         }
     }
 };
