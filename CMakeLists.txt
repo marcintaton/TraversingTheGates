@@ -24,6 +24,9 @@ file(GLOB PROJECT_SOURCE_FILES
     "src/ecs/system/ISystem.cpp"
     "src/ecs/system/SystemManager.cpp"
 
+    # utility
+    "src/utility/Logging.cpp"
+
 )
 
 # Setting executable
