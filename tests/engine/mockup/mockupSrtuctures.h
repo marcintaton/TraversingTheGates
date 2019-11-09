@@ -85,6 +85,7 @@ class SystemA_U : public ECS::System::System<SystemA_U>
 
   public:
     SystemA_U() { set_priority(8); }
+    ~SystemA_U() {}
     virtual void on_enable() override {}
 };
 

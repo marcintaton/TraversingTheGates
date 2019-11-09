@@ -14,5 +14,6 @@ void Tests::main_test()
     // Engine::test_get_component_cluster();
 
     // Engine::test_create_system();
-    Engine::test_create_active_system();
+    // Engine::test_create_active_system();
+    Engine::test_destroy_system();
 }

@@ -228,3 +228,24 @@ void Tests::Engine::test_create_active_system()
     // spdlog::info("Tests::Engine::Create active system::Invalid type :
     // Passed");
 }
+
+void Tests::Engine::test_destroy_system()
+{
+
+    // setup
+    ECS::SystemEngine::get_instance().create_active_system<SystemA_U>();
+    ECS::SystemEngine::get_instance().create_system<SystemB_U>();
+    //
+
+    ECS::SystemEngine::get_instance().destroy_system<SystemB_U>();
+    spdlog::info("Tests::Engine::Destroy system::Valid inactive : Passed");
+
+    ECS::SystemEngine::get_instance().destroy_system<SystemA_U>();
+    spdlog::info("Tests::Engine::Destroy system::Valid active : Passed");
+
+    ECS::SystemEngine::get_instance().destroy_system<SystemA_U>();
+    spdlog::info("Tests::Engine::Destroy system::Non existent : Passed");
+
+    ECS::SystemEngine::get_instance().destroy_system<AComponent>();
+    spdlog::info("Tests::Engine::Destroy system::Invalid type : Passed");
+}
