@@ -41,6 +41,15 @@ void Tests::Engine::test_get_entities_of_type()
                  "of type: Passed");
 }
 
-void Tests::Engine::test_remove_entity()[
+void Tests::Engine::test_remove_entity()
+{
+    // setup
+    auto id = ECS::ECEngine::get_instance().create_entity<Player>();
+    //
 
-]
+    ECS::ECEngine::get_instance().remove_entity(id);
+    spdlog::info("Tests::Engine::Remove entity::Valid : Passed");
+
+    ECS::ECEngine::get_instance().remove_entity(id);
+    spdlog::info("Tests::Engine::Remove entity::Invalid id : Passed");
+}

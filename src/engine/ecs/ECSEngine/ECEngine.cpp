@@ -8,9 +8,11 @@ ECS::ECEngine::ECEngine()
 
 void ECS::ECEngine::remove_entity(EntityId by_id)
 {
-    component_manager->clear_entity_trace(
-        by_id, entity_manager->get_component_ids(by_id));
-    entity_manager->remove_entity(by_id);
+    if (entity_manager->does_entity_exist(by_id)) {
+        component_manager->clear_entity_trace(
+            by_id, entity_manager->get_component_ids(by_id));
+        entity_manager->remove_entity(by_id);
+    }
 }
 
 ECS::Entity::EntityPtr ECS::ECEngine::get_entity(EntityId by_id)
