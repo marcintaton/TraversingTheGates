@@ -31,8 +31,10 @@ class IndependentSystemManager
     void create_system()
     {
         if (!is_system_present<T>()) {
+            auto new_system = std::make_shared<T>();
+            new_system->on_enable();
             independent_systems.try_emplace(Utility::Type::get_type_id<T>(),
-                                            std::make_shared<T>());
+                                            new_system);
 
             spdlog::info(
                 "ECS::System::IndependentSystemManger::create_system - "

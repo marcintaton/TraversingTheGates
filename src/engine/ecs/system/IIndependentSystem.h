@@ -17,7 +17,7 @@ class IIndependentSystem
     friend class IndependentSystemManager;
 
   private:
-    bool enabled;
+    bool enabled = true;
     SystemTypeId type_id;
 
   public:

@@ -127,4 +127,13 @@ class IndSystemB : public ECS::System::IndependentSystem<IndSystemB>
 
   public:
     void bar() {}
+    virtual void on_enable() override { bar(); }
+};
+
+class IndSystemC : public ECS::System::IndependentSystem<IndSystemC>
+{
+
+  public:
+    void baz() {}
+    virtual void on_enable() override {}
 };
