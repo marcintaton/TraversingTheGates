@@ -12,7 +12,11 @@ SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${CUSTOM_LINK_FLAGS}")
 # Source files
 file(GLOB PROJECT_SOURCE_FILES
     "main.cpp"
-    # ecs
+    
+    # utility
+    "src/engine/utility/Logging.cpp"
+
+    # ENGINE
     "src/engine/ecs/ECSEngine/ECEngine.cpp"
     "src/engine/ecs/ECSEngine/SystemEngine.cpp"
     # # Component 
@@ -25,8 +29,9 @@ file(GLOB PROJECT_SOURCE_FILES
     "src/engine/ecs/system/ISystem.cpp"
     "src/engine/ecs/system/SystemManager.cpp"
 
-    # utility
-    "src/engine/utility/Logging.cpp"
+    # RENDERING
+    "src/shaders/Shader.cpp"
+
 
     # tests 
     # "tests/MainTest.cpp"
