@@ -200,3 +200,16 @@ void Tests::Engine::test_get_component_cluster()
     spdlog::info(
         "Tests::Engine::Get component clusters::No fitting entities : Passed");
 }
+
+void Tests::Engine::test_create_system()
+{
+    ECS::SystemEngine::get_instance().create_system<SystemA_U>();
+    spdlog::info("Tests::Engine::Create system::Valid : Passed");
+
+    ECS::SystemEngine::get_instance().create_system<SystemA_U>();
+    spdlog::info("Tests::Engine::Create system::Already existing : Passed");
+
+    // compile error
+    // ECS::SystemEngine::get_instance().create_system<AComponent>();
+    // spdlog::info("Tests::Engine::Create system::Invalid type : Passed");
+}

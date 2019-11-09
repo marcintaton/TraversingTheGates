@@ -11,5 +11,7 @@ void Tests::main_test()
     // Engine::test_get_components_of_type();
     // Engine::test_remove_component();
     // Engine::test_get_component();
-    Engine::test_get_component_cluster();
+    // Engine::test_get_component_cluster();
+
+    Engine::test_create_system();
 }

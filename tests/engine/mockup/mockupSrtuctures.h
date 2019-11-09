@@ -85,10 +85,7 @@ class SystemA_U : public ECS::System::System<SystemA_U>
 
   public:
     SystemA_U() { set_priority(8); }
-    virtual void on_enable() override
-    {
-        std::cout << "enable A_U" << std::endl;
-    }
+    virtual void on_enable() override {}
 };
 
 class SystemB_U : public ECS::System::System<SystemB_U>
