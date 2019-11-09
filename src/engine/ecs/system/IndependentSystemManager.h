@@ -97,10 +97,11 @@ class IndependentSystemManager
     {
 
         if (is_system_present<T>()) {
-            return independent_systems[Utility::Type::get_type_id<T>()];
+            return std::reinterpret_pointer_cast<T>(
+                independent_systems[Utility::Type::get_type_id<T>()]);
         } else {
             spdlog::error("ECS::System::IndependentSystemManger::get_system"
-                          " - No system of type {0}, returning nullptr",
+                          " - No system of type {0}",
                           Utility::Type::get_type_name<T>());
 
             return nullptr;

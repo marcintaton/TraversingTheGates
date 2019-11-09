@@ -366,3 +366,20 @@ void Tests::Engine::test_enable_independent_system()
     spdlog::info(
         "Tests::Engine::Enable Independent system::Invalid type : Passed");
 }
+
+void Tests::Engine::test_get_independent_system()
+{
+    // setup
+    ECS::SystemEngine::get_instance().create_independent_system<IndSystemB>();
+    //
+
+    ECS::SystemEngine::get_instance().get_independent_system<IndSystemB>();
+    spdlog::info("Tests::Engine::Get Independent system::Valid : Passed");
+
+    ECS::SystemEngine::get_instance().get_independent_system<IndSystemA>();
+    spdlog::info("Tests::Engine::Get Independent system::Nonexistent : Passed");
+
+    ECS::SystemEngine::get_instance().get_independent_system<SystemA_U>();
+    spdlog::info(
+        "Tests::Engine::Get Independent system::Invalid type : Passed");
+}
