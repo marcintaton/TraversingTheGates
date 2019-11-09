@@ -9,5 +9,6 @@ void Tests::main_test()
 
     // Engine::test_add_component();
     // Engine::test_get_components_of_type();
-    Engine::test_remove_component();
+    // Engine::test_remove_component();
+    Engine::test_get_component();
 }

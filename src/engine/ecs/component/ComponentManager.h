@@ -100,8 +100,9 @@ class ComponentManager
                                   [ECS::IdHelper::read_component_type_id<T>()]);
 
         if (comp_ptr == nullptr) {
-            spdlog::error("ECS::Component::ComponentManager::get_component "
-                          "- No such component in this entity");
+            spdlog::error(
+                "ECS::Component::ComponentManager::get_component "
+                "- No such component in this entity, or entity does not exist");
         }
         return std::dynamic_pointer_cast<T>(comp_ptr);
     }

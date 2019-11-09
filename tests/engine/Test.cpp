@@ -148,3 +148,26 @@ void Tests::Engine::test_remove_component()
     spdlog::info("Tests::Engine::Remove component::From entity without this "
                  "component : Passed");
 }
+
+void Tests::Engine::test_get_component()
+{
+    // setup
+    auto id1 = ECS::ECEngine::get_instance().create_entity<Player>();
+    ECS::ECEngine::get_instance().add_component<AComponent>(id1);
+    //
+
+    auto comp1 = ECS::ECEngine::get_instance().get_component<AComponent>(id1);
+    spdlog::info("Tests::Engine::Get component::Valid : Passed");
+
+    auto comp2 =
+        ECS::ECEngine::get_instance().get_component<AComponent>(id1 + 1);
+    spdlog::info(
+        "Tests::Engine::Get component::From non existent entity : Passed");
+
+    auto comp3 = ECS::ECEngine::get_instance().get_component<SystemA_U>(id1);
+    spdlog::info("Tests::Engine::Get component::Invalid type : Passed");
+
+    auto comp4 = ECS::ECEngine::get_instance().get_component<BComponent>(id1);
+    spdlog::info("Tests::Engine::Get component::From entity without this "
+                 "component : Passed");
+}
