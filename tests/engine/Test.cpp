@@ -122,3 +122,29 @@ void Tests::Engine::test_get_components_of_type()
     spdlog::info("Tests::Engine::Get components of type::Invalid type : "
                  "components : Passed");
 }
+
+void Tests::Engine::test_remove_component()
+{
+    // setup
+    auto id1 = ECS::ECEngine::get_instance().create_entity<Player>();
+    auto id2 = ECS::ECEngine::get_instance().create_entity<Enemy>();
+    ECS::ECEngine::get_instance().add_component<AComponent>(id1);
+    ECS::ECEngine::get_instance().add_component<AComponent>(id2);
+    //
+
+    auto e1 = ECS::ECEngine::get_instance().get_entity(id1);
+
+    ECS::ECEngine::get_instance().remove_component<AComponent>(id1);
+    spdlog::info("Tests::Engine::Remove component::Valid : Passed");
+
+    ECS::ECEngine::get_instance().remove_component<AComponent>(id2 + 1);
+    spdlog::info("Tests::Engine::Remove component::Invalid entity id : Passed");
+
+    ECS::ECEngine::get_instance().remove_component<SystemA_U>(id2);
+    spdlog::info(
+        "Tests::Engine::Remove component::Invalid Component Type : Passed");
+
+    ECS::ECEngine::get_instance().remove_component<BComponent>(id2);
+    spdlog::info("Tests::Engine::Remove component::From entity without this "
+                 "component : Passed");
+}

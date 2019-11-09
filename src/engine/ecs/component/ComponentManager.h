@@ -87,8 +87,8 @@ class ComponentManager
             components_by_types[comp_type_id].erase(it);
 
         } else {
-            spdlog::warn("ECS::Component::ComponentManager::remove_component "
-                         "- Type is not a component type. Aborting");
+            spdlog::error("ECS::Component::ComponentManager::remove_component "
+                          "- Type is not a component type");
         }
     }
 

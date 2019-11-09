@@ -74,8 +74,19 @@ class ECEngine
     template<class T>
     void remove_component(EntityId from_entity)
     {
-        component_manager->remove_component<T>(from_entity);
-        entity_manager->get_entity(from_entity)->remove_component_info<T>();
+        if (entity_manager->does_entity_exist(from_entity) &&
+            entity_manager->get_entity(from_entity)->has_component<T>()) {
+
+            component_manager->remove_component<T>(from_entity);
+            entity_manager->get_entity(from_entity)->remove_component_info<T>();
+        } else if (!entity_manager->does_entity_exist(from_entity)) {
+            spdlog::error("ECS::ECEngine::remove_component - No entity "
+                          "with this ID");
+        } else if (!entity_manager->get_entity(from_entity)
+                        ->has_component<T>()) {
+            spdlog::error("ECS::ECEngine::remove_component - No such component "
+                          "in this entity");
+        }
     }
 
     template<class T>
