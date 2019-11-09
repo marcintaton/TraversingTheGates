@@ -1,3 +1,6 @@
 #include "MainTest.h"
 
-void main_test() {}
+void Tests::main_test()
+{
+    Engine::mockup_test();
+}
