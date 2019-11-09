@@ -7,10 +7,10 @@ void Tests::Engine::mockup_test()
 
 void Tests::Engine::test_create_entity()
 {
-    ECS::ECEngine::get_instance().create_entity<Player>();
+    auto id1 = ECS::ECEngine::get_instance().create_entity<Player>();
     spdlog::info("Tests::Engine::Create Entity::Valid : Passed");
 
-    ECS::ECEngine::get_instance().create_entity<Enemy>(10);
+    auto id2 = ECS::ECEngine::get_instance().create_entity<Enemy>(10);
     spdlog::info("Tests::Engine::Create Entity::Valid with args : Passed");
 
     // following create compilation error:
@@ -66,3 +66,5 @@ void Tests::Engine::test_get_entity()
     auto entity2 = ECS::ECEngine::get_instance().get_entity(id + 1);
     spdlog::info("Tests::Engine::Get entity::Invalid id : Passed");
 }
+
+void Tests::Engine::test_add_component() {}
