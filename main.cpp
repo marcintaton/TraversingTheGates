@@ -9,14 +9,11 @@
 #include <vector>
 
 // files
-#include "tests/MainTest.h"
 
 int main(void)
 {
 
     Utility::Logging::setup_logger();
-
-    Tests::main_test();
 
     return 0;
 }
