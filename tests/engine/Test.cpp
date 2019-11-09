@@ -67,4 +67,34 @@ void Tests::Engine::test_get_entity()
     spdlog::info("Tests::Engine::Get entity::Invalid id : Passed");
 }
 
-void Tests::Engine::test_add_component() {}
+void Tests::Engine::test_add_component()
+{
+    // setup
+    auto id1 = ECS::ECEngine::get_instance().create_entity<Player>();
+    auto id2 = ECS::ECEngine::get_instance().create_entity<Player>();
+    //
+
+    auto comp1 = ECS::ECEngine::get_instance().add_component<BComponent>(id1);
+    spdlog::info("Tests::Engine::Add component::Valid : Passed");
+
+    // compile error
+    // auto comp2 = ECS::ECEngine::get_instance().add_component<SystemA_U>(id);
+    // spdlog::info("Tests::Engine::Add component::Invalid type : Passed");
+
+    auto comp3 =
+        ECS::ECEngine::get_instance().add_component<AComponent>(id1, 10);
+    spdlog::info("Tests::Engine::Add component::Valid with args : Passed");
+
+    // compile error
+    // auto comp4 =
+    //     ECS::ECEngine::get_instance().add_component<AComponent>(id2, "dupa");
+    // spdlog::info("Tests::Engine::Add component::With invalid args : Passed");
+
+    auto comp5 =
+        ECS::ECEngine::get_instance().add_component<AComponent>(id2 + 1);
+    spdlog::info("Tests::Engine::Add component::Invalid Entity id : Passed");
+
+    auto comp6 = ECS::ECEngine::get_instance().add_component<BComponent>(id1);
+    spdlog::info("Tests::Engine::Add component::Adding to entity that already "
+                 "has this component : Passed");
+}

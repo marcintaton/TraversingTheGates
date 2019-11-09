@@ -51,12 +51,24 @@ class ECEngine
     template<typename T, typename... T_args>
     std::shared_ptr<T> add_component(EntityId to_entity, T_args&&... args)
     {
-        Component::ComponentPtr new_comp = component_manager->add_component<T>(
-            to_entity, std::forward<T_args>(args)...);
-        entity_manager->get_entity(to_entity)->add_component_info<T>(
-            new_comp->get_component_id());
+        if (entity_manager->does_entity_exist(to_entity) &&
+            !entity_manager->get_entity(to_entity)->has_component<T>()) {
+            Component::ComponentPtr new_comp =
+                component_manager->add_component<T>(
+                    to_entity, std::forward<T_args>(args)...);
+            entity_manager->get_entity(to_entity)->add_component_info<T>(
+                new_comp->get_component_id());
 
-        return std::dynamic_pointer_cast<T>(new_comp);
+            return std::dynamic_pointer_cast<T>(new_comp);
+        } else if (!entity_manager->does_entity_exist(to_entity)) {
+            spdlog::error("ECS::ECEngine::add_component - No entity "
+                          "with this ID");
+            return nullptr;
+        } else {
+            spdlog::error("ECS::ECEngine::add_component - Entity already has "
+                          "this component");
+            return nullptr;
+        }
     }
 
     template<class T>
