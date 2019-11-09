@@ -76,6 +76,18 @@ class baz
     }
 };
 
+class bag
+{
+  public:
+    int x = 5;
+    void bar(const GameEvent2* event) { std::cout << x << std::endl; }
+
+    Event::EventDelegate<bag, GameEvent2> sub()
+    {
+        return Event::EventDelegate<bag, GameEvent2>(this, &bag::bar);
+    }
+};
+
 class SystemA_U : public ECS::System::System<SystemA_U>
 {
   private:

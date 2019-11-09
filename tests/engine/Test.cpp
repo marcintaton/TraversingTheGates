@@ -414,3 +414,34 @@ void Tests::Engine::test_add_listener()
     spdlog::info("Tests::Engine::Add listener::Type mismatch between template "
                  "and delegate : Passed");
 }
+
+void Tests::Engine::test_remove_listener()
+{
+    // setup
+    foo f1;
+    foo f2;
+    foo f3;
+    bag b1;
+
+    auto delegate1 = f1.sub();
+    auto delegate2 = f2.sub();
+    auto delegate3 = b1.sub();
+    auto delegate4 = f3.sub();
+    Event::EventEngine::get_instance().add_listener<GameEvent1>(&delegate1);
+    Event::EventEngine::get_instance().add_listener<GameEvent1>(&delegate4);
+    //
+
+    Event::EventEngine::get_instance().remove_listener<GameEvent1>(&delegate1);
+    spdlog::info("Tests::Engine::Remove listener::Valid : Passed");
+
+    Event::EventEngine::get_instance().remove_listener<GameEvent1>(&delegate2);
+    spdlog::info("Tests::Engine::Remove listener::Not Registered : Passed");
+
+    Event::EventEngine::get_instance().remove_listener<GameEvent2>(&delegate3);
+    spdlog::info(
+        "Tests::Engine::Remove listener::Nonexistent dispatcher : Passed");
+
+    Event::EventEngine::get_instance().remove_listener<GameEvent1>(&delegate3);
+    spdlog::info("Tests::Engine::Remove listener::Type mismatch between "
+                 "Template type and delegate type : Passed");
+}

@@ -30,14 +30,19 @@ class EventDispatcher : public IEventDispatcher
             listeners.push_back(delegate);
         } else {
             spdlog::error("Event::EventDispatcher::add_delegate - Deleagate "
-                          "already exists among listeners. Aborting.");
+                          "already exists among listeners.");
         }
     }
 
     virtual void remove_delegate(IEventDelegate* delegate) override
     {
-        listeners.erase(
-            std::find(listeners.begin(), listeners.end(), delegate));
+        auto it = std::find(listeners.begin(), listeners.end(), delegate);
+        if (it != listeners.end()) {
+            listeners.erase(it);
+        } else {
+            spdlog::error("Event::EventDispatcher::remove_delegate - Deleagate "
+                          "does not exist among listeners.");
+        }
     }
 };
 }; // namespace Event

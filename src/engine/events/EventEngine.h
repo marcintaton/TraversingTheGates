@@ -91,8 +91,18 @@ class EventEngine
     void remove_listener(IEventDelegate* delegate)
     {
         if (is_dispatcher_present<T>()) {
+            if (Utility::Type::get_type_id<Event<T>>() !=
+                delegate->get_event_type_id()) {
+                spdlog::error(
+                    "Event::EventEngine::remove_listener - Type mismatch "
+                    "between passed template type and delegate type");
+                return;
+            }
             dispatchers[delegate->get_event_type_id()]->remove_delegate(
                 delegate);
+        } else {
+            spdlog::error("Event::EventEngine::remove_listener - dispatcher "
+                          "was never created");
         }
     }
 };
