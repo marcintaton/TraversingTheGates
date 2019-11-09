@@ -29,8 +29,8 @@ class EventDispatcher : public IEventDispatcher
 
             listeners.push_back(delegate);
         } else {
-            spdlog::warn("Event::EventDispatcher::add_delegate - Deleagate "
-                         "already exists among listeners. Aborting.");
+            spdlog::error("Event::EventDispatcher::add_delegate - Deleagate "
+                          "already exists among listeners. Aborting.");
         }
     }
 

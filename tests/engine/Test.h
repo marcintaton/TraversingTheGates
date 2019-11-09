@@ -36,8 +36,8 @@ void test_disable_independent_system();
 void test_enable_independent_system();
 void test_get_independent_system();
 
-void test_send_event();
 void test_add_listener();
 void test_remove_listener();
+void test_send_event();
 }; // namespace Engine
 }; // namespace Tests

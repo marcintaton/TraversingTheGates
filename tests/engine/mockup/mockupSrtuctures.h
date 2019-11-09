@@ -54,7 +54,8 @@ class foo
     int x = 4;
     void bar(const GameEvent1* event)
     {
-        std::cout << x << " " << event->x << std::endl;
+        std::cout << x << "asdasdasdasdasfdadasdasdasdas" << event->x
+                  << std::endl;
     }
 
     Event::EventDelegate<foo, GameEvent1> sub()

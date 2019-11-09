@@ -383,3 +383,34 @@ void Tests::Engine::test_get_independent_system()
     spdlog::info(
         "Tests::Engine::Get Independent system::Invalid type : Passed");
 }
+
+void Tests::Engine::test_add_listener()
+{
+    // setup
+    foo f1;
+    foo f2;
+    baz f3;
+
+    auto delegate1 = f1.sub();
+    auto delegate2 = f2.sub();
+    auto delegate3 = f3.sub();
+    //
+
+    Event::EventEngine::get_instance().add_listener<GameEvent1>(&delegate1);
+    spdlog::info(
+        "Tests::Engine::Add listener::To nonexistent dispatcher : Passed");
+
+    Event::EventEngine::get_instance().add_listener<GameEvent1>(&delegate1);
+    spdlog::info(
+        "Tests::Engine::Add listener::Already existing in this event : Passed");
+
+    Event::EventEngine::get_instance().add_listener<GameEvent1>(&delegate2);
+    spdlog::info("Tests::Engine::Add listener::Valid : Passed");
+
+    Event::EventEngine::get_instance().add_listener<SystemA_U>(&delegate3);
+    spdlog::info("Tests::Engine::Add listener::Invalid type : Passed");
+
+    Event::EventEngine::get_instance().add_listener<GameEvent2>(&delegate3);
+    spdlog::info("Tests::Engine::Add listener::Type mismatch between template "
+                 "and delegate : Passed");
+}

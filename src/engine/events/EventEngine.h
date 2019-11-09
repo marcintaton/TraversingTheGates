@@ -67,15 +67,23 @@ class EventEngine
     template<class T>
     void add_listener(IEventDelegate* delegate)
     {
+
         if (is_event_type_valid<T>()) {
+            if (Utility::Type::get_type_id<Event<T>>() !=
+                delegate->get_event_type_id()) {
+                spdlog::error(
+                    "Event::EventEngine::add_listener - Type mismatch "
+                    "between passed template type and delegate type");
+                return;
+            }
             if (!is_dispatcher_present<T>()) {
                 create_dispatcher<T>();
             }
 
             dispatchers[delegate->get_event_type_id()]->add_delegate(delegate);
         } else {
-            spdlog::warn("Event::EventEngine::add_listener - Type is not "
-                         "event. Aborting");
+            spdlog::error("Event::EventEngine::add_listener - Type is not "
+                          "event");
         }
     }
 
