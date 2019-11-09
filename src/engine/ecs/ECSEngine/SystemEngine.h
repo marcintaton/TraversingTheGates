@@ -83,5 +83,11 @@ class SystemEngine
     {
         independent_system_manager->disable_system<T>();
     }
+
+    template<class T>
+    std::shared_ptr<T> get_independent_system()
+    {
+        return independent_system_manager->get_system<T>();
+    }
 };
 }; // namespace ECS

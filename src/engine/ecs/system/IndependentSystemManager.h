@@ -89,6 +89,21 @@ class IndependentSystemManager
             }
         }
     }
+
+    template<class T>
+    std::shared_ptr<T> get_system()
+    {
+
+        if (is_system_present<T>()) {
+            return independent_systems[Utility::Type::get_type_id<T>()];
+        } else {
+            spdlog::error("ECS::System::IndependentSystemManger::get_system"
+                          " - No system of type {0}, returning nullptr",
+                          Utility::Type::get_type_name<T>());
+
+            return nullptr;
+        }
+    }
 };
 }; // namespace System
 }; // namespace ECS
