@@ -7,5 +7,6 @@ void Tests::main_test()
     // Engine::test_remove_entity();
     // Engine::test_get_entity();
 
-    Engine::test_add_component();
+    // Engine::test_add_component();
+    Engine::test_get_components_of_type();
 }

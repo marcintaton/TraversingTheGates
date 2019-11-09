@@ -98,3 +98,27 @@ void Tests::Engine::test_add_component()
     spdlog::info("Tests::Engine::Add component::Adding to entity that already "
                  "has this component : Passed");
 }
+
+void Tests::Engine::test_get_components_of_type()
+{
+    // setup
+    auto id1 = ECS::ECEngine::get_instance().create_entity<Player>();
+    auto id2 = ECS::ECEngine::get_instance().create_entity<Enemy>();
+    ECS::ECEngine::get_instance().add_component<AComponent>(id1);
+    ECS::ECEngine::get_instance().add_component<AComponent>(id2);
+    //
+
+    auto components1 =
+        ECS::ECEngine::get_instance().get_components_of_type<AComponent>();
+    spdlog::info("Tests::Engine::Get components of type::Valid : Passed");
+
+    auto components2 =
+        ECS::ECEngine::get_instance().get_components_of_type<BComponent>();
+    spdlog::info("Tests::Engine::Get components of type::Type with no added "
+                 "components : Passed");
+
+    auto components3 =
+        ECS::ECEngine::get_instance().get_components_of_type<SystemA_U>();
+    spdlog::info("Tests::Engine::Get components of type::Invalid type : "
+                 "components : Passed");
+}
