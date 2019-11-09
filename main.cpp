@@ -14,6 +14,7 @@
 #include "src/ecs/entity/Entity.h"
 
 #include "src/ecs/ECSEngine/ECSEngine.h"
+#include "src/ecs/ECSEngine/SystemEngine.h"
 
 #include "src/ecs/system/SystemManager.h"
 #include "src/events/EventDelegate.h"
@@ -128,7 +129,7 @@ int main(void)
     // spdlog::warn("aei<3");
     // spdlog::error("aei<3");
     // spdlog::critical("aei<3");
-    ECS::ECSEngine::get_instance().create_system<SystemA_U>();
+    // ECS::ECSEngine::get_instance().create_system<SystemA_U>();
     auto x = ECS::ECSEngine::get_instance().create_entity<Enemy>();
     ECS::ECSEngine::get_instance().add_component<AComponent>(x);
 

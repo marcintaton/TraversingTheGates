@@ -4,7 +4,6 @@ ECS::ECSEngine::ECSEngine()
 {
     component_manager = std::make_unique<ECS::Component::ComponentManager>();
     entity_manager = std::make_unique<ECS::Entity::EntityManager>();
-    system_manager = std::make_unique<ECS::System::SystemManager>();
 }
 
 void ECS::ECSEngine::remove_entity(EntityId by_id)
