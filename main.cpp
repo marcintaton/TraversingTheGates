@@ -9,17 +9,8 @@
 #include <vector>
 
 // files
-#include "src/engine/ecs/component/Component.h"
-#include "src/engine/ecs/component/ComponentCluster.h"
-#include "src/engine/ecs/entity/Entity.h"
+#include "src/engine/GameEngine.h"
 
-#include "src/engine/ecs/ECSEngine/ECEngine.h"
-#include "src/engine/ecs/ECSEngine/SystemEngine.h"
-
-#include "src/engine/ecs/system/SystemManager.h"
-#include "src/engine/events/EventDelegate.h"
-#include "src/engine/events/EventDispatcher.h"
-#include "src/engine/events/EventEngine.h"
 #include "src/game/gameEvents.h"
 
 class Player : public ECS::Entity::Entity<Player>

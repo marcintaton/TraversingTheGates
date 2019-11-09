@@ -2,6 +2,7 @@
 
 #include <algorithm>
 
+#include "EventDelegate.h"
 #include "IEventDelegate.h"
 
 namespace Event
