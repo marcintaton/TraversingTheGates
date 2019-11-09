@@ -171,3 +171,32 @@ void Tests::Engine::test_get_component()
     spdlog::info("Tests::Engine::Get component::From entity without this "
                  "component : Passed");
 }
+
+void Tests::Engine::test_get_component_cluster()
+{
+    // setup
+    auto id1 = ECS::ECEngine::get_instance().create_entity<Player>();
+    auto id2 = ECS::ECEngine::get_instance().create_entity<Enemy>();
+    ECS::ECEngine::get_instance().add_component<AComponent>(id1);
+    ECS::ECEngine::get_instance().add_component<AComponent>(id2);
+    ECS::ECEngine::get_instance().add_component<BComponent>(id1);
+    //
+
+    auto cluster1 = ECS::ECEngine::get_instance()
+                        .get_component_cluster<AComponent, BComponent>();
+    spdlog::info("Tests::Engine::Get component clusters::Valid : Passed");
+
+    // compile error
+    // auto cluster2 = ECS::ECEngine::get_instance()
+    //                     .get_component_cluster<AComponent, AComponent>();
+    // spdlog::info("Tests::Engine::Get component::Doubled type : Passed");
+
+    // compile error
+    // auto cluster3 = ECS::ECEngine::get_instance().get_component_cluster<>();
+    // spdlog::info("Tests::Engine::Get component::No types : Passed");
+
+    auto cluster4 = ECS::ECEngine::get_instance()
+                        .get_component_cluster<AComponent, CComponent>();
+    spdlog::info(
+        "Tests::Engine::Get component clusters::No fitting entities : Passed");
+}

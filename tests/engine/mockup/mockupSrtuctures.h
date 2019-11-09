@@ -42,6 +42,12 @@ class BComponent : public ECS::Component::Component<BComponent>
     bool b = true;
 };
 
+class CComponent : public ECS::Component::Component<CComponent>
+{
+  public:
+    bool b = true;
+};
+
 class foo
 {
   public:
