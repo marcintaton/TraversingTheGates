@@ -13,7 +13,7 @@
 #include "src/ecs/component/ComponentCluster.h"
 #include "src/ecs/entity/Entity.h"
 
-#include "src/ecs/ECSEngine/ECSEngine.h"
+#include "src/ecs/ECSEngine/ECEngine.h"
 #include "src/ecs/ECSEngine/SystemEngine.h"
 
 #include "src/ecs/system/SystemManager.h"
@@ -129,19 +129,19 @@ int main(void)
     // spdlog::warn("aei<3");
     // spdlog::error("aei<3");
     // spdlog::critical("aei<3");
-    // ECS::ECSEngine::get_instance().create_system<SystemA_U>();
-    auto x = ECS::ECSEngine::get_instance().create_entity<Enemy>();
-    ECS::ECSEngine::get_instance().add_component<AComponent>(x);
+    // ECS::ECEngine::get_instance().create_system<SystemA_U>();
+    auto x = ECS::ECEngine::get_instance().create_entity<Enemy>();
+    ECS::ECEngine::get_instance().add_component<AComponent>(x);
 
-    ECS::ECSEngine::get_instance().get_component_cluster<AComponent>();
+    ECS::ECEngine::get_instance().get_component_cluster<AComponent>();
 
-    std::cout << ECS::ECSEngine::get_instance()
+    std::cout << ECS::ECEngine::get_instance()
                      .get_components_of_type<AComponent>()[0]
                      ->a
               << std::endl;
 
     std::cout
-        << (ECS::ECSEngine::get_instance().get_entities_of_type<Enemy>())[0]
+        << (ECS::ECEngine::get_instance().get_entities_of_type<Enemy>())[0]
                ->get_entity_type_id()
         << std::endl;
 

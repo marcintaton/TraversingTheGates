@@ -13,7 +13,8 @@ SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${CUSTOM_LINK_FLAGS}")
 file(GLOB PROJECT_SOURCE_FILES
     "main.cpp"
     # ecs
-    "src/ecs/ECSEngine/ECSEngine.cpp"
+    "src/ecs/ECSEngine/ECEngine.cpp"
+    "src/ecs/ECSEngine/SystemEngine.cpp"
     # # Component 
     "src/ecs/component/IComponent.cpp"
     "src/ecs/component/ComponentManager.cpp"

@@ -8,20 +8,20 @@
 
 namespace ECS
 {
-class ECSEngine
+class ECEngine
 {
     // Singleton
   public:
-    static ECSEngine& get_instance()
+    static ECEngine& get_instance()
     {
-        static ECSEngine instance;
+        static ECEngine instance;
         return instance;
     }
 
   private:
-    ECSEngine();
-    ECSEngine(ECSEngine const&) = delete;
-    void operator=(ECSEngine const&) = delete;
+    ECEngine();
+    ECEngine(ECEngine const&) = delete;
+    void operator=(ECEngine const&) = delete;
 
     //
 
