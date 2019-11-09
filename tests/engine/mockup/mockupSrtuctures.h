@@ -16,6 +16,13 @@ class GameEvent2 : public Event::Event<GameEvent2>
     float b = 1;
 };
 
+class GameEvent3 : public Event::Event<GameEvent3>
+{
+  public:
+    bool d = 0;
+    float c = 1;
+};
+
 class Player : public ECS::Entity::Entity<Player>
 {
 };
@@ -54,8 +61,7 @@ class foo
     int x = 4;
     void bar(const GameEvent1* event)
     {
-        std::cout << x << "asdasdasdasdasfdadasdasdasdas" << event->x
-                  << std::endl;
+        std::cout << "GameEvent1 received" << std::endl;
     }
 
     Event::EventDelegate<foo, GameEvent1> sub()
@@ -68,11 +74,14 @@ class baz
 {
   public:
     int x = 5;
-    void bar(const GameEvent1* event) { std::cout << x << std::endl; }
-
-    Event::EventDelegate<baz, GameEvent1> sub()
+    void bar(const GameEvent3* event)
     {
-        return Event::EventDelegate<baz, GameEvent1>(this, &baz::bar);
+        // std::cout << "GameEvent3 received" << std::endl;
+    }
+
+    Event::EventDelegate<baz, GameEvent3> sub()
+    {
+        return Event::EventDelegate<baz, GameEvent3>(this, &baz::bar);
     }
 };
 
@@ -80,7 +89,10 @@ class bag
 {
   public:
     int x = 5;
-    void bar(const GameEvent2* event) { std::cout << x << std::endl; }
+    void bar(const GameEvent2* event)
+    {
+        // std::cout << "GameEvent2 received" << std::endl;
+    }
 
     Event::EventDelegate<bag, GameEvent2> sub()
     {
@@ -91,7 +103,10 @@ class bag
 class SystemA_U : public ECS::System::System<SystemA_U>
 {
   private:
-    void do_on_update() { std::cout << "SystemA_U updating" << std::endl; }
+    void do_on_update()
+    {
+        // std::cout << "SystemA_U updating" << std::endl;
+    }
 
   protected:
     virtual void update() override { do_on_update(); }

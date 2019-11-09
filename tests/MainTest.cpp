@@ -26,5 +26,6 @@ void Tests::main_test()
     // Engine::test_get_independent_system();
 
     // Engine::test_add_listener();
-    Engine::test_remove_listener();
+    // Engine::test_remove_listener();
+    Engine::test_send_event();
 }

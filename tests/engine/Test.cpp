@@ -445,3 +445,38 @@ void Tests::Engine::test_remove_listener()
     spdlog::info("Tests::Engine::Remove listener::Type mismatch between "
                  "Template type and delegate type : Passed");
 }
+
+void Tests::Engine::test_send_event()
+{
+    // setup
+    foo f1, f2;
+    bag c1;
+
+    auto d_f1 = f1.sub();
+    auto d_f2 = f2.sub();
+    Event::EventEngine::get_instance().add_listener<GameEvent1>(&d_f1);
+    Event::EventEngine::get_instance().add_listener<GameEvent1>(&d_f2);
+
+    auto d_c1 = c1.sub();
+    Event::EventEngine::get_instance().add_listener<GameEvent2>(&d_c1);
+    Event::EventEngine::get_instance().remove_listener<GameEvent2>(&d_c1);
+
+    GameEvent1 ev1;
+    GameEvent2 ev2;
+    GameEvent3 ev3;
+    AComponent a;
+    //
+
+    Event::EventEngine::get_instance().send_event<GameEvent1>(&ev1);
+    spdlog::info("Tests::Engine::Send Event::With subs : Passed");
+
+    Event::EventEngine::get_instance().send_event<GameEvent2>(&ev2);
+    spdlog::info("Tests::Engine::Send Event::Without any subs : Passed");
+
+    Event::EventEngine::get_instance().send_event<GameEvent3>(&ev3);
+    spdlog::info("Tests::Engine::Send Event::Nonexistent dispatcher : Passed");
+
+    // compile error
+    // Event::EventEngine::get_instance().send_event<AComponent>(&a);
+    // spdlog::info("Tests::Engine::Send Event::Invalid type : Passed");
+}
