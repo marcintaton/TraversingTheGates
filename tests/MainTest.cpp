@@ -16,5 +16,6 @@ void Tests::main_test()
     // Engine::test_create_system();
     // Engine::test_create_active_system();
     // Engine::test_destroy_system();
-    Engine::test_enable_system();
+    // Engine::test_enable_system();
+    Engine::test_disable_system();
 }

@@ -267,3 +267,22 @@ void Tests::Engine::test_enable_system()
     ECS::SystemEngine::get_instance().enable_system<AComponent>();
     spdlog::info("Tests::Engine::Enable system::Invalid type : Passed");
 }
+
+void Tests::Engine::test_disable_system()
+{
+    // setup
+    ECS::SystemEngine::get_instance().create_active_system<SystemA_U>();
+    //
+
+    ECS::SystemEngine::get_instance().disable_system<SystemA_U>();
+    spdlog::info("Tests::Engine::Disable system::Valid : Passed");
+
+    ECS::SystemEngine::get_instance().disable_system<SystemA_U>();
+    spdlog::info("Tests::Engine::Disable system::Already Disabled : Passed");
+
+    ECS::SystemEngine::get_instance().disable_system<SystemB_U>();
+    spdlog::info("Tests::Engine::Disable system::Non existent : Passed");
+
+    ECS::SystemEngine::get_instance().disable_system<AComponent>();
+    spdlog::info("Tests::Engine::Disable system::Invalid type : Passed");
+}

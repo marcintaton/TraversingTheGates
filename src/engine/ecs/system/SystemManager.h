@@ -119,8 +119,8 @@ class SystemManager
     template<class T>
     void disable_system()
     {
-        active_systems[Utility::Type::get_type_id<T>()]->on_disable();
         if (is_system_active<T>()) {
+            active_systems[Utility::Type::get_type_id<T>()]->on_disable();
             inactive_systems.insert(
                 move(active_systems.extract(Utility::Type::get_type_id<T>())));
             update_soted_systems_container();
