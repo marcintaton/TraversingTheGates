@@ -30,10 +30,10 @@ void test_destroy_system();
 void test_enable_system();
 void test_disable_system();
 
-void test_create_independent_syste();
-void test_destroy_independent_syste();
-void test_enable_independent_syste();
-void test_disable_independent_syste();
+void test_create_independent_system();
+void test_destroy_independent_system();
+void test_enable_independent_system();
+void test_disable_independent_system();
 void test_get_independent_system();
 
 void test_send_event();
