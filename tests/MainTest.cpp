@@ -21,5 +21,6 @@ void Tests::main_test()
 
     // Engine::test_create_independent_system();
     // Engine::test_destroy_independent_system();
-    Engine::test_enable_independent_system();
+    Engine::test_disable_independent_system();
+    // Engine::test_enable_independent_system();
 }
