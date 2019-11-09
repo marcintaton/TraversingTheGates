@@ -128,6 +128,7 @@ int main(void)
     }
 
     glViewport(0, 0, screen_w, screen_h);
+    glEnable(GL_DEPTH_TEST);
 
     // textures
     glEnable(GL_BLEND);
@@ -209,7 +210,7 @@ int main(void)
         Material {.texture = textures[0], .shader = core_shader}, Quad {});
 
     gameObjects[1] = GameObject(
-        Transform {.position = glm::vec3(0, 1, 0),
+        Transform {.position = glm::vec3(0, 0.5, 1),
                    .rotation = 0,
                    .scale = glm::vec2(1, 1)},
         Material {.texture = textures[1], .shader = inverse_color_shader},
@@ -226,7 +227,7 @@ int main(void)
 
         move_camera();
 
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         view.update_matrix(window_w, window_h, camera.get_position(),
                            camera.get_front(), camera.get_up());
