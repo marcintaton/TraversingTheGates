@@ -28,6 +28,9 @@ file(GLOB PROJECT_SOURCE_FILES
     # utility
     "src/engine/utility/Logging.cpp"
 
+    # tests 
+    "tests/MainTest.cpp"
+
 )
 
 # Setting executable

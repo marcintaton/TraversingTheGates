@@ -9,9 +9,7 @@
 #include <vector>
 
 // files
-#include "src/engine/GameEngine.h"
-
-#include "src/game/testSrtuctures.h"
+#include "tests/MainTest.h"
 
 int main(void)
 {
