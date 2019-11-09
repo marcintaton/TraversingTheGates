@@ -162,7 +162,7 @@ void Tests::Engine::test_get_component()
     auto comp2 =
         ECS::ECEngine::get_instance().get_component<AComponent>(id1 + 1);
     spdlog::info(
-        "Tests::Engine::Get component::From non existent entity : Passed");
+        "Tests::Engine::Get component::From Nonexistent entity : Passed");
 
     auto comp3 = ECS::ECEngine::get_instance().get_component<SystemA_U>(id1);
     spdlog::info("Tests::Engine::Get component::Invalid type : Passed");
@@ -243,7 +243,7 @@ void Tests::Engine::test_destroy_system()
     spdlog::info("Tests::Engine::Destroy system::Valid active : Passed");
 
     ECS::SystemEngine::get_instance().destroy_system<SystemA_U>();
-    spdlog::info("Tests::Engine::Destroy system::Non existent : Passed");
+    spdlog::info("Tests::Engine::Destroy system::Nonexistent : Passed");
 
     ECS::SystemEngine::get_instance().destroy_system<AComponent>();
     spdlog::info("Tests::Engine::Destroy system::Invalid type : Passed");
@@ -262,7 +262,7 @@ void Tests::Engine::test_enable_system()
     spdlog::info("Tests::Engine::Enable system::Already Enabled : Passed");
 
     ECS::SystemEngine::get_instance().enable_system<SystemB_U>();
-    spdlog::info("Tests::Engine::Enable system::Non existent : Passed");
+    spdlog::info("Tests::Engine::Enable system::Nonexistent : Passed");
 
     ECS::SystemEngine::get_instance().enable_system<AComponent>();
     spdlog::info("Tests::Engine::Enable system::Invalid type : Passed");
@@ -281,7 +281,7 @@ void Tests::Engine::test_disable_system()
     spdlog::info("Tests::Engine::Disable system::Already Disabled : Passed");
 
     ECS::SystemEngine::get_instance().disable_system<SystemB_U>();
-    spdlog::info("Tests::Engine::Disable system::Non existent : Passed");
+    spdlog::info("Tests::Engine::Disable system::Nonexistent : Passed");
 
     ECS::SystemEngine::get_instance().disable_system<AComponent>();
     spdlog::info("Tests::Engine::Disable system::Invalid type : Passed");
@@ -300,4 +300,22 @@ void Tests::Engine::test_create_independent_system()
     // ECS::SystemEngine::get_instance().create_independent_system<SystemA_U>();
     // spdlog::info(
     //     "Tests::Engine::Create Independent system::Invalid type : Passed");
+}
+
+void Tests::Engine::test_destroy_independent_system()
+{
+    // setup
+    ECS::SystemEngine::get_instance().create_independent_system<IndSystemA>();
+    //
+
+    ECS::SystemEngine::get_instance().destroy_independent_system<IndSystemA>();
+    spdlog::info("Tests::Engine::Destroy Independent system::Valid : Passed");
+
+    ECS::SystemEngine::get_instance().destroy_independent_system<IndSystemB>();
+    spdlog::info(
+        "Tests::Engine::Destroy Independent system::Nonexistent : Passed");
+
+    ECS::SystemEngine::get_instance().destroy_independent_system<SystemA_U>();
+    spdlog::info(
+        "Tests::Engine::Destroy Independent system::Invalid type : Passed");
 }

@@ -121,3 +121,10 @@ class IndSystemA : public ECS::System::IndependentSystem<IndSystemA>
   public:
     void foo() {}
 };
+
+class IndSystemB : public ECS::System::IndependentSystem<IndSystemB>
+{
+
+  public:
+    void bar() {}
+};
