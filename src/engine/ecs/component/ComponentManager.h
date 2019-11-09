@@ -8,9 +8,9 @@
 
 #include "../ECSAPI.h"
 
+#include "../../utility/AssertType.h"
 #include "../../utility/Logging.h"
 #include "../entity/IEntity.h"
-#include "../utility/AssertType.h"
 #include "Component.h"
 #include "ComponentCluster.h"
 #include "IComponent.h"

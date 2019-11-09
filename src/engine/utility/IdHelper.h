@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../ECSAPI.h"
+#include "../ecs/ECSAPI.h"
 
 namespace ECS
 {

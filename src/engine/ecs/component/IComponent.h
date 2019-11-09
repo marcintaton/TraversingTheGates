@@ -3,8 +3,8 @@
 #include <algorithm>
 #include <memory>
 
+#include "../../utility/IdHelper.h"
 #include "../ECSAPI.h"
-#include "../utility/IdHelper.h"
 
 namespace ECS
 {

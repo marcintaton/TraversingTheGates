@@ -11,20 +11,20 @@
 
 namespace Event
 {
-class EventManager
+class EventEngine
 {
     // Singleton
   public:
-    static EventManager& get_instance()
+    static EventEngine& get_instance()
     {
-        static EventManager instance;
+        static EventEngine instance;
         return instance;
     }
 
   private:
-    EventManager() {}
-    EventManager(EventManager const&) = delete;
-    void operator=(EventManager const&) = delete;
+    EventEngine() {}
+    EventEngine(EventEngine const&) = delete;
+    void operator=(EventEngine const&) = delete;
 
     //
 
@@ -59,7 +59,7 @@ class EventManager
             (dispatchers[Utility::Type::get_type_id<Event<T>>()])
                 ->dispatch(event);
 
-            spdlog::info("Event::EventManager::send_event - Sending event {0}",
+            spdlog::info("Event::EventEngine::send_event - Sending event {0}",
                          Utility::Type::get_type_name<T>());
         }
     }
@@ -74,7 +74,7 @@ class EventManager
 
             dispatchers[delegate->get_event_type_id()]->add_delegate(delegate);
         } else {
-            spdlog::warn("Event::EventManager::add_listener - Type is not "
+            spdlog::warn("Event::EventEngine::add_listener - Type is not "
                          "event. Aborting");
         }
     }

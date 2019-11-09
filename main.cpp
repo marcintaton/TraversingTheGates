@@ -1,4 +1,4 @@
-#include "src/utility/Logging.h"
+#include "src/engine/utility/Logging.h"
 
 // libs
 #include <bitset>
@@ -9,17 +9,17 @@
 #include <vector>
 
 // files
-#include "src/ecs/component/Component.h"
-#include "src/ecs/component/ComponentCluster.h"
-#include "src/ecs/entity/Entity.h"
+#include "src/engine/ecs/component/Component.h"
+#include "src/engine/ecs/component/ComponentCluster.h"
+#include "src/engine/ecs/entity/Entity.h"
 
-#include "src/ecs/ECSEngine/ECEngine.h"
-#include "src/ecs/ECSEngine/SystemEngine.h"
+#include "src/engine/ecs/ECSEngine/ECEngine.h"
+#include "src/engine/ecs/ECSEngine/SystemEngine.h"
 
-#include "src/ecs/system/SystemManager.h"
-#include "src/events/EventDelegate.h"
-#include "src/events/EventDispatcher.h"
-#include "src/events/EventManager.h"
+#include "src/engine/ecs/system/SystemManager.h"
+#include "src/engine/events/EventDelegate.h"
+#include "src/engine/events/EventDispatcher.h"
+#include "src/engine/events/EventEngine.h"
 #include "src/game/gameEvents.h"
 
 class Player : public ECS::Entity::Entity<Player>
@@ -166,17 +166,16 @@ int main(void)
 
         disp1.dispatch(&ev1);
 
-        Event::EventManager::get_instance().send_event<GameEvent1>(&ev1);
+        Event::EventEngine::get_instance().send_event<GameEvent1>(&ev1);
 
-        Event::EventManager::get_instance().remove_listener<GameEvent1>(
-            &e_del1);
+        Event::EventEngine::get_instance().remove_listener<GameEvent1>(&e_del1);
 
-        Event::EventManager::get_instance().add_listener<GameEvent1>(&e_del1);
-        Event::EventManager::get_instance().add_listener<GameEvent1>(&e_del2);
-        Event::EventManager::get_instance().add_listener<GameEvent1>(&e_del3);
+        Event::EventEngine::get_instance().add_listener<GameEvent1>(&e_del1);
+        Event::EventEngine::get_instance().add_listener<GameEvent1>(&e_del2);
+        Event::EventEngine::get_instance().add_listener<GameEvent1>(&e_del3);
 
-        Event::EventManager::get_instance().send_event<GameEvent1>(&ev1);
-        // EventManager::get_instance().send_event<GameEvent1>(&ev1);
+        Event::EventEngine::get_instance().send_event<GameEvent1>(&ev1);
+        // EventEngine::get_instance().send_event<GameEvent1>(&ev1);
         // std::cout << e_del1.get_delegate_id() << std::endl;
         // std::cout << e_del2.get_delegate_id() << std::endl;
         // std::cout << e_del3.get_delegate_id() << std::endl;

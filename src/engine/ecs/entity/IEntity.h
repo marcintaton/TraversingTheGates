@@ -7,11 +7,11 @@
 #include <iostream>
 #include <memory>
 
+#include "../../utility/IdHelper.h"
 #include "../../utility/Logging.h"
 #include "../../utility/Type.h"
 #include "../ECSAPI.h"
 #include "../component/IComponent.h"
-#include "../utility/IdHelper.h"
 
 namespace ECS
 {

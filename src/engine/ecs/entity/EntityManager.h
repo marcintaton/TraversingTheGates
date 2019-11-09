@@ -5,10 +5,10 @@
 #include <type_traits>
 #include <vector>
 
+#include "../../utility/AssertType.h"
 #include "../../utility/Logging.h"
 #include "../../utility/Type.h"
 #include "../ECSAPI.h"
-#include "../utility/AssertType.h"
 #include "Entity.h"
 #include "IEntity.h"
 

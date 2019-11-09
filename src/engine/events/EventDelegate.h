@@ -2,7 +2,6 @@
 
 #include <functional>
 
-#include "../utility/Math.h"
 #include "../utility/Type.h"
 #include "IEventDelegate.h"
 

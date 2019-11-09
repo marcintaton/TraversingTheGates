@@ -13,20 +13,20 @@ SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${CUSTOM_LINK_FLAGS}")
 file(GLOB PROJECT_SOURCE_FILES
     "main.cpp"
     # ecs
-    "src/ecs/ECSEngine/ECEngine.cpp"
-    "src/ecs/ECSEngine/SystemEngine.cpp"
+    "src/engine/ecs/ECSEngine/ECEngine.cpp"
+    "src/engine/ecs/ECSEngine/SystemEngine.cpp"
     # # Component 
-    "src/ecs/component/IComponent.cpp"
-    "src/ecs/component/ComponentManager.cpp"
+    "src/engine/ecs/component/IComponent.cpp"
+    "src/engine/ecs/component/ComponentManager.cpp"
     # # Entity
-    "src/ecs/entity/IEntity.cpp"
-    "src/ecs/entity/EntityManager.cpp"
+    "src/engine/ecs/entity/IEntity.cpp"
+    "src/engine/ecs/entity/EntityManager.cpp"
     # # System
-    "src/ecs/system/ISystem.cpp"
-    "src/ecs/system/SystemManager.cpp"
+    "src/engine/ecs/system/ISystem.cpp"
+    "src/engine/ecs/system/SystemManager.cpp"
 
     # utility
-    "src/utility/Logging.cpp"
+    "src/engine/utility/Logging.cpp"
 
 )
 

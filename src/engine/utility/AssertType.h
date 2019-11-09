@@ -2,8 +2,8 @@
 
 #include <type_traits>
 
-#include "../component/IComponent.h"
-#include "../entity/IEntity.h"
+#include "../ecs/component/IComponent.h"
+#include "../ecs/entity/IEntity.h"
 
 namespace ECS
 {
