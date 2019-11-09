@@ -286,3 +286,18 @@ void Tests::Engine::test_disable_system()
     ECS::SystemEngine::get_instance().disable_system<AComponent>();
     spdlog::info("Tests::Engine::Disable system::Invalid type : Passed");
 }
+
+void Tests::Engine::test_create_independent_system()
+{
+    ECS::SystemEngine::get_instance().create_independent_system<IndSystemA>();
+    spdlog::info("Tests::Engine::Create Independent system::Valid : Passed");
+
+    ECS::SystemEngine::get_instance().create_independent_system<IndSystemA>();
+    spdlog::info(
+        "Tests::Engine::Create Independent system::Already existing : Passed");
+
+    // compile error
+    // ECS::SystemEngine::get_instance().create_independent_system<SystemA_U>();
+    // spdlog::info(
+    //     "Tests::Engine::Create Independent system::Invalid type : Passed");
+}

@@ -20,7 +20,7 @@ class IndependentSystemManager
     IndependentSystems independent_systems;
 
     template<class T>
-    void is_system_present()
+    bool is_system_present()
     {
         return independent_systems.find(Utility::Type::get_type_id<T>()) !=
                independent_systems.end();

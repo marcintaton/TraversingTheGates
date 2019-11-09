@@ -114,3 +114,10 @@ class SystemC_E : public ECS::System::System<SystemC_E>
         std::cout << "enable C_E" << std::endl;
     }
 };
+
+class IndSystemA : public ECS::System::IndependentSystem<IndSystemA>
+{
+
+  public:
+    void foo() {}
+};
