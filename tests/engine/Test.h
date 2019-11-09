@@ -1,6 +1,11 @@
 #pragma once
 
 #include "../../src/engine/GameEngine.h"
+#include "mockup/mockupSrtuctures.h"
+
+// Due to engine implementation using Singleton objects, please run only one
+// test function per application run.
+// At least till clearing mechanizms are implemented
 
 namespace Tests
 {

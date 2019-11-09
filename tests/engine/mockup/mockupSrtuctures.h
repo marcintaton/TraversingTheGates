@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../engine/GameEngine.h"
+#include "../../../src/engine/GameEngine.h"
 
 class GameEvent1 : public Event::Event<GameEvent1>
 {
@@ -25,10 +25,7 @@ class Enemy : public ECS::Entity::Entity<Enemy>
   public:
     int x = 45;
     Enemy() : Entity<Enemy>() {}
-    Enemy(Player p, int b) : Entity<Enemy>()
-    {
-        std::cout << p.get_entity_id() + b << std::endl;
-    }
+    Enemy(int b) : Entity<Enemy>() {}
 };
 
 class AComponent : public ECS::Component::Component<AComponent>
