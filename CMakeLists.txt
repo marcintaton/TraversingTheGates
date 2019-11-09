@@ -3,7 +3,7 @@ project("traversing_the_gates")
 
 # Flags constants
 SET(CUSTOM_COMPILE_FLAGS "-std=c++17")
-SET(CUSTOM_LINK_FLAGS "-lGL -lglfw")
+SET(CUSTOM_LINK_FLAGS "-lGL -lglfw -lGLEW -lSOIL")
 
 # Adding flags
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CUSTOM_COMPILE_FLAGS}")
