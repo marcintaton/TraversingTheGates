@@ -29,10 +29,10 @@ int main(void)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         //
-        ECS::SystemEngine::get_instance().
-            //
 
-            glfwSwapBuffers(window);
+        //
+
+        glfwSwapBuffers(window);
         glfwPollEvents();
 
         // update deltatime
