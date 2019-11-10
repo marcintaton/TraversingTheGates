@@ -44,6 +44,10 @@ GLFWwindow* GL_setup()
     glViewport(0, 0, screen_w, screen_h);
     glEnable(GL_DEPTH_TEST);
 
+    // textures
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     return window;
 }
 
