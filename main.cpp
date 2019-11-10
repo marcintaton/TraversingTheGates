@@ -11,7 +11,7 @@ const auto window_w = 1200;
 const auto window_h = 900;
 int screen_w, screen_h;
 
-int main(void)
+void setup()
 {
     Utility::Logging::setup_logger();
 
@@ -45,6 +45,19 @@ int main(void)
 
     glViewport(0, 0, screen_w, screen_h);
     glEnable(GL_DEPTH_TEST);
+}
+
+void cleanup()
+{
+    glfwTerminate();
+}
+
+int main(void)
+{
+
+    //
+
+    setup();
 
     //
 
@@ -52,6 +65,7 @@ int main(void)
 
     //
 
-    glfwTerminate();
+    cleanup();
+
     exit(EXIT_SUCCESS);
 }
