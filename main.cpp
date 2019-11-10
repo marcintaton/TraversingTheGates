@@ -9,7 +9,7 @@
 
 int main(void)
 {
-
+    Renderer r;
     Utility::Logging::setup_logger();
 
     return 0;

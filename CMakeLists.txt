@@ -32,6 +32,9 @@ file(GLOB PROJECT_SOURCE_FILES
     # RENDERING
     "src/shaders/Shader.cpp"
 
+    # SYSTEMS
+    "src/systems/Renderer.cpp"
+
 
     # tests 
     # "tests/MainTest.cpp"
