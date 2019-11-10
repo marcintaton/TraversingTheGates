@@ -4,8 +4,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "src/components/MeshRenderData.h"
 #include "src/engine/utility/Logging.h"
+#include "src/systems/Renderer.h"
 
 int main(void)
 {
