@@ -1,4 +1,7 @@
 #include "Renderer.h"
+#include "../Globals.h"
+#include "../components/CameraData.h"
+#include "../components/Transform.h"
 #include "../entities/Camera.h"
 #include "../matrices/Projection.h"
 #include "../matrices/View.h"
@@ -22,14 +25,21 @@ Renderer::~Renderer()
 
 void Renderer::do_on_update()
 {
+
     update_matrices();
     render_objects();
 }
 
 void Renderer::update_matrices()
 {
-    // View::update_matrix();
-    // Projection::update_matrix();
+    auto camera_trans = ECS::ECEngine::get_instance().get_component<Transform>(
+        cached_camera_id);
+    auto camera_data = ECS::ECEngine::get_instance().get_component<CameraData>(
+        cached_camera_id);
+
+    view.update_matrix(window_w, window_h, camera_trans->position,
+                       camera_trans->forward(), camera_trans->up());
+    projection.update_matrix(screen_w, screen_h, camera_data->zoom);
 }
 
 void Renderer::render_objects()

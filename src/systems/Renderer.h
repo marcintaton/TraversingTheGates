@@ -20,6 +20,9 @@ class Renderer : public ECS::System::System<Renderer>
     GLuint VAO;
     GLuint EBO;
 
+    View view;
+    Projection projection;
+
     void do_on_update();
     void update_matrices();
     void render_objects();

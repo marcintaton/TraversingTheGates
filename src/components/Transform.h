@@ -9,4 +9,8 @@ struct Transform : ECS::Component::Component<Transform> {
     glm::vec3 position;
     glm::vec2 scale;
     GLfloat rotation;
+
+    glm::vec3 up();
+    glm::vec3 forward();
+    glm::vec3 right();
 };

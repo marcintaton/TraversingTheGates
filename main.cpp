@@ -7,10 +7,9 @@
 #include "src/engine/GameEngine.h"
 #include "src/engine/utility/Logging.h"
 #include "src/setupManagers/ECSObjectsSetup.h"
-#include "src/setupManagers/GLsetup.h"
 #include "src/time/Timer.h"
 
-void update() {}
+#include "src/setupManagers/GLsetup.h"
 
 int main(void)
 {

@@ -8,9 +8,7 @@
 
 #include <iostream>
 
-const auto window_w = 1200;
-const auto window_h = 900;
-int screen_w, screen_h;
+#include "../Globals.h"
 
 GLFWwindow* GL_setup()
 {

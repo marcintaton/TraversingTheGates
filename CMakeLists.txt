@@ -32,6 +32,12 @@ file(GLOB PROJECT_SOURCE_FILES
 
     # RENDERING
     "src/shaders/Shader.cpp"
+    "src/matrices/View.cpp"
+    "src/matrices/Projection.cpp"
+    "src/Globals.cpp"
+
+    # COMPONENTS
+    "src/components/Transform.cpp"
 
     # SYSTEMS
     "src/systems/Renderer.cpp"
