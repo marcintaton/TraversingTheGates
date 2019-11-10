@@ -17,7 +17,7 @@ class ISystem
     friend class SystemManager;
 
   private:
-    std::size_t execution_priority = 0;
+    int execution_priority = 0;
     SystemTypeId type_id;
 
   protected:
@@ -29,11 +29,8 @@ class ISystem
     virtual void on_enable() = 0;
     virtual void on_disable() = 0;
 
-    inline void set_priority(std::size_t priority)
-    {
-        execution_priority = priority;
-    }
-    inline std::size_t get_priority() { return execution_priority; }
+    inline void set_priority(int priority) { execution_priority = priority; }
+    inline int get_priority() { return execution_priority; }
 
     bool operator<(const ISystem& other) const;
 };
