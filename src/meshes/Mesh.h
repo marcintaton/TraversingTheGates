@@ -9,11 +9,11 @@ struct Mesh {
 
     inline GLsizeiptr get_vertices_size()
     {
-        return vertices.size() * sizeof(vertices);
+        return vertices.size() * sizeof(GLfloat);
     }
 
     inline GLsizeiptr get_indices_size()
     {
-        return indices.size() * sizeof(indices);
+        return indices.size() * sizeof(GLuint);
     }
 };
