@@ -96,8 +96,8 @@ struct Meshv {
     std::vector<GLfloat> vertices;
     std::vector<GLuint> indices;
 
-    GLsizeiptr get_vert_size() { return sizeof(vertices) * vertices.size(); }
-    GLsizeiptr get_inds_size() { return sizeof(indices) * indices.size(); }
+    GLsizeiptr get_vert_size() { return sizeof(GLfloat) * vertices.size(); }
+    GLsizeiptr get_inds_size() { return sizeof(GLuint) * indices.size(); }
 };
 
 struct Quadv : Meshv {
