@@ -92,6 +92,41 @@ static void load_texture(const char* file_path, GLuint& texture)
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
+struct Meshv {
+    std::vector<GLfloat> vertices;
+    std::vector<GLuint> indices;
+
+    GLsizeiptr get_vert_size() { return sizeof(vertices) * vertices.size(); }
+    GLsizeiptr get_inds_size() { return sizeof(indices) * indices.size(); }
+};
+
+struct Quadv : Meshv {
+
+    Quadv()
+    {
+        vertices = {
+            // top right
+            0.5f, 0.5f, 0.0f, // position
+            1.0f, 1.0f,       // uv
+            // bottom right
+            0.5f, -0.5f, 0.0f, // position
+            1.0f, 0.0f,        // uv
+            // bottom left
+            -0.5f, -0.5f, 0.0f, // position
+            0.0f, 0.0f,         // uv
+            // top left
+            -0.5f, 0.5f, 0.0f, // position
+            0.0f,
+            1.0f, // uv
+        };
+
+        indices = {
+            0, 1, 3, // first tris
+            1, 2, 3  // second tris
+        };
+    }
+};
+
 int main(void)
 {
     // GLFW init
@@ -140,7 +175,7 @@ int main(void)
                                 "assets/shaders/inverse.fs");
 
     // geometry
-    GLfloat quad_verices[] = {
+    GLfloat vertices[] = {
         // top right
         0.5f, 0.5f, 0.0f, // position
         1.0f, 1.0f,       // uv
@@ -161,9 +196,33 @@ int main(void)
         1, 2, 3  // second tris
     };
 
+    std::vector<GLfloat> vertices_vec = {
+        // top right
+        0.5f, 0.5f, 0.0f, // position
+        1.0f, 1.0f,       // uv
+        // bottom right
+        0.5f, -0.5f, 0.0f, // position
+        1.0f, 0.0f,        // uv
+        // bottom left
+        -0.5f, -0.5f, 0.0f, // position
+        0.0f, 0.0f,         // uv
+        // top left
+        -0.5f, 0.5f, 0.0f, // position
+        0.0f,
+        1.0f, // uv
+    };
+
+    Meshv q = Quadv();
+
+    // GLuint(*q_v)[20] = (GLuint(*)[20]) new GLuint[20];
+
     GLuint VBO;
     GLuint VAO;
     GLuint EBO;
+
+    // std::cout << sizeof(vertices) << " " << sizeof(indices) << std::endl;
+    // std::cout << 20 * sizeof(GLfloat) << " " << 6 * sizeof(GLuint) <<
+    // std::endl;
 
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -172,11 +231,11 @@ int main(void)
     glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(quad_verices), quad_verices,
+    glBufferData(GL_ARRAY_BUFFER, q.get_vert_size(), &q.vertices.front(),
                  GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices,
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, q.get_inds_size(), &q.indices.front(),
                  GL_STATIC_DRAW);
 
     // position attribute
