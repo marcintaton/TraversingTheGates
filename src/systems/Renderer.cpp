@@ -1,10 +1,16 @@
 #include "Renderer.h"
+#include "../entities/Camera.h"
+#include "../matrices/Projection.h"
+#include "../matrices/View.h"
 #include "../meshes/Quad.h"
 
 Renderer::Renderer()
 {
     set_priority(10);
     bind_mesh(Quad());
+    cached_camera_id = ECS::ECEngine::get_instance()
+                           .get_entities_of_type<Camera>()[0]
+                           ->get_entity_id();
 }
 
 Renderer::~Renderer()
@@ -14,9 +20,17 @@ Renderer::~Renderer()
     glDeleteBuffers(1, &EBO);
 }
 
-void Renderer::do_on_update() {}
+void Renderer::do_on_update()
+{
+    update_matrices();
+    render_objects();
+}
 
-void Renderer::update_matrices() {}
+void Renderer::update_matrices()
+{
+    // View::update_matrix();
+    // Projection::update_matrix();
+}
 
 void Renderer::render_objects()
 {

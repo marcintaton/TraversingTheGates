@@ -2,6 +2,6 @@
 
 #include "../engine/GameEngine.h"
 
-class Tile : public ECS::Entity::Entity<Tile>
+class Camera : public ECS::Entity::Entity<Camera>
 {
 };

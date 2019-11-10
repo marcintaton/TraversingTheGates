@@ -16,6 +16,7 @@ int main(void)
 {
     Utility::Logging::setup_logger();
     Timer timer;
+    ECS::System::SystemUpdateInvoker system_update_invoker;
     //
 
     auto window = GL_setup();
@@ -29,7 +30,7 @@ int main(void)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         //
-
+        system_update_invoker.update_systems();
         //
 
         glfwSwapBuffers(window);
