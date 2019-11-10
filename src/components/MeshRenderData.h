@@ -9,4 +9,12 @@ struct MeshRenderData : ECS::Component::Component<MeshRenderData> {
     Mesh mesh;
     Shader shader;
     GLuint texture;
+
+    MeshRenderData() {}
+    MeshRenderData(Mesh _mesh, Shader& _shader, GLuint _texture)
+    {
+        mesh = _mesh;
+        shader = _shader;
+        texture = _texture;
+    }
 };

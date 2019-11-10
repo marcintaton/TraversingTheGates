@@ -1,6 +1,7 @@
 #include "Renderer.h"
 #include "../Globals.h"
 #include "../components/CameraData.h"
+#include "../components/MeshRenderData.h"
 #include "../components/Transform.h"
 #include "../entities/Camera.h"
 #include "../matrices/Projection.h"
@@ -44,8 +45,43 @@ void Renderer::update_matrices()
 
 void Renderer::render_objects()
 {
+    auto render_objects =
+        ECS::ECEngine::get_instance()
+            .get_component_cluster<Transform, MeshRenderData>();
+
     glBindVertexArray(VAO);
     // all rendering
+
+    for (int i = 0; i < render_objects.cluster.size(); ++i) {
+        auto mesh_render_data = render_objects.get_component<MeshRenderData>(i);
+        auto transform = render_objects.get_component<Transform>(i);
+
+        mesh_render_data->shader.use();
+
+        GLint model_location =
+            glGetUniformLocation(mesh_render_data->shader.program, "model");
+        GLint view_location =
+            glGetUniformLocation(mesh_render_data->shader.program, "view");
+        GLint proj_location = glGetUniformLocation(
+            mesh_render_data->shader.program, "projection");
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, mesh_render_data->texture);
+        glUniform1i(
+            glGetUniformLocation(mesh_render_data->shader.program, "texture1"),
+            0);
+
+        glm::mat4 model(1);
+        model = glm::translate(model, transform->position);
+
+        glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(model));
+        glUniformMatrix4fv(view_location, 1, GL_FALSE,
+                           glm::value_ptr(View::matrix));
+        glUniformMatrix4fv(proj_location, 1, GL_FALSE,
+                           glm::value_ptr(Projection::matrix));
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    }
+
     glBindVertexArray(0);
 }
 
