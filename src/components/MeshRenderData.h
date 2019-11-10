@@ -3,7 +3,9 @@
 #include "../meshes/Mesh.h"
 #include "../shaders/Shader.h"
 
-struct MeshRenderData {
+#include "../engine/GameEngine.h"
+
+struct MeshRenderData : ECS::Component::Component<MeshRenderData> {
     Mesh mesh;
     Shader shader;
     GLuint texture;

@@ -2,7 +2,9 @@
 
 #include <GL/glew.h>
 
-struct Camera {
+#include "../engine/GameEngine.h"
+
+struct Camera : ECS::Component::Component<Camera> {
     const GLfloat initial_zoom = 0.05f;
     const GLfloat max_zoom = 0.05f;
     const GLfloat min_zoom = 0.005f;
