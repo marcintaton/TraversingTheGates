@@ -23,11 +23,12 @@ class Renderer : public ECS::System::System<Renderer>
     void do_on_update();
     void update_matrices();
     void render_objects();
-    void bind_mesh(Mesh* mesh);
+    void bind_mesh(Mesh mesh);
 
   protected:
     virtual void update() override { do_on_update(); }
 
   public:
     Renderer();
+    ~Renderer();
 };

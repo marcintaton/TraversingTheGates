@@ -5,7 +5,7 @@
 
 struct Mesh {
     std::vector<GLfloat> vertices;
-    std::vector<Gluint> indices;
+    std::vector<GLuint> indices;
 
     inline GLsizeiptr get_vertices_size()
     {

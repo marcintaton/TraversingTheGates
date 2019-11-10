@@ -7,7 +7,6 @@ struct Quad : Mesh {
 
     Quad()
     {
-
         vertices = {
             // top right
             0.5f, 0.5f, 0.0f, // position
