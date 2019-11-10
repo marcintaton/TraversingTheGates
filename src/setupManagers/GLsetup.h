@@ -12,7 +12,7 @@ const auto window_w = 1200;
 const auto window_h = 900;
 int screen_w, screen_h;
 
-void GL_setup()
+GLFWwindow* GL_setup()
 {
 
     // GLFW init
@@ -45,6 +45,8 @@ void GL_setup()
 
     glViewport(0, 0, screen_w, screen_h);
     glEnable(GL_DEPTH_TEST);
+
+    return window;
 }
 
 void GL_cleanup()

@@ -4,21 +4,40 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "src/engine/GameEngine.h"
 #include "src/engine/utility/Logging.h"
+#include "src/setupManagers/ECSObjectsSetup.h"
 #include "src/setupManagers/GLsetup.h"
-#include "src/setupManagers/GameObjectsSetup.h"
-#include "src/systems/Renderer.h"
+#include "src/time/Timer.h"
+
+void update() {}
 
 int main(void)
 {
     Utility::Logging::setup_logger();
+    Timer timer;
     //
 
-    GL_setup();
-    setupGameObjects();
+    auto window = GL_setup();
+    setup_game_objects();
+    setup_systems();
 
     //
-    Renderer r;
+
+    while (!glfwWindowShouldClose(window)) {
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        //
+        ECS::SystemEngine::get_instance().
+            //
+
+            glfwSwapBuffers(window);
+        glfwPollEvents();
+
+        // update deltatime
+        timer.update_timer();
+    }
 
     //
 

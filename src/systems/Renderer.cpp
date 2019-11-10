@@ -18,7 +18,12 @@ void Renderer::do_on_update() {}
 
 void Renderer::update_matrices() {}
 
-void Renderer::render_objects() {}
+void Renderer::render_objects()
+{
+    glBindVertexArray(VAO);
+    // all rendering
+    glBindVertexArray(0);
+}
 
 void Renderer::bind_mesh(Mesh mesh)
 {

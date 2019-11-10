@@ -35,6 +35,9 @@ file(GLOB PROJECT_SOURCE_FILES
     # SYSTEMS
     "src/systems/Renderer.cpp"
 
+    # OTHERS
+    "src/time/Timer.cpp"
+
 
     # tests 
     # "tests/MainTest.cpp"
