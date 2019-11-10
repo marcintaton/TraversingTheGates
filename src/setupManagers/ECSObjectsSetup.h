@@ -11,8 +11,15 @@
 
 #include "../systems/Renderer.h"
 
+#include "../shaders/Shader.h"
+#include "TextureLoader.h"
+
 void setup_game_objects()
 {
+    // load textures
+    GLuint texture;
+    load_texture("../../assets/textures/tile.png", texture);
+
     // setup some tiles
     ECS::EntityId t1_id = ECS::ECEngine::get_instance().create_entity<Tile>();
     ECS::ECEngine::get_instance().add_component<Transform>(t1_id);
