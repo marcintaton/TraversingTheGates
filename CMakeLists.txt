@@ -24,6 +24,7 @@ file(GLOB PROJECT_SOURCE_FILES
     # # System
     "src/engine/ecs/system/ISystem.cpp"
     "src/engine/ecs/system/SystemManager.cpp"
+    "src/engine/ecs/system/SystemUpdateInvoker.cpp"
 
     # utility
     "src/engine/utility/Logging.cpp"

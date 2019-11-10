@@ -4,6 +4,7 @@
 
 #include "../system/IndependentSystemManager.h"
 #include "../system/SystemManager.h"
+#include "../system/SystemUpdateInvoker.h"
 
 namespace ECS
 {
@@ -23,6 +24,7 @@ class SystemEngine
     void operator=(SystemEngine const&) = delete;
 
     //
+    friend void ECS::System::SystemUpdateInvoker::update_systems();
 
   private:
     std::unique_ptr<System::SystemManager> system_manager;

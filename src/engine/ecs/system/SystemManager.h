@@ -51,9 +51,9 @@ class SystemManager
 
     void update_soted_systems_container();
 
+  public:
     void update_systems();
 
-  public:
     template<class T>
     void create_system()
     {
