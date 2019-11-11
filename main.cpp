@@ -13,6 +13,7 @@
 
 #include "src/setupManagers/GLsetup.h"
 
+#include "src/GameLoop.h"
 #include "src/global/GlobalGLData.h"
 #include "tests/MainTest.h"
 
@@ -20,38 +21,23 @@ int main(void)
 {
     Utility::Logging::setup_logger();
     //
-    Timer timer;
-    ECS::System::SystemUpdateInvoker system_update_invoker;
+    // Timer timer;
+    // ECS::System::SystemUpdateInvoker system_update_invoker;
     //
+    GameLoop gc;
 
-    GL_setup(); // windw do globals
+    Setup::GL_setup(); // windw do globals
     //
 
     setup_game_objects();
     setup_systems();
 
+    gc.initialize();
+    //
+    gc.run_game_loop();
     //
 
-    while (
-        !glfwWindowShouldClose(Global::GlobalGLData::get_instance().window)) {
-
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        //
-        system_update_invoker.update_systems();
-        //
-
-        glfwSwapBuffers(
-            Global::GlobalGLData::get_instance().window); // do renderera?
-        glfwPollEvents();
-
-        // update deltatime
-        timer.update_timer();
-    }
-
-    //
-
-    GL_cleanup();
+    Setup::GL_cleanup();
 
     exit(EXIT_SUCCESS);
 }

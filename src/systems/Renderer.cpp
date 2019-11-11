@@ -28,7 +28,9 @@ void Renderer::do_on_update()
 {
 
     update_matrices();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     render_objects();
+    glfwSwapBuffers(Global::GlobalGLData::get_instance().window);
 }
 
 void Renderer::update_matrices()

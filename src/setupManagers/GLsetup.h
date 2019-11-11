@@ -10,6 +10,9 @@
 
 #include "../global/GlobalGLData.h"
 
+namespace Setup
+{
+
 void GL_setup()
 {
 
@@ -57,3 +60,5 @@ void GL_cleanup()
 {
     glfwTerminate();
 }
+
+}; // namespace Setup

@@ -43,6 +43,7 @@ file(GLOB PROJECT_SOURCE_FILES
     "src/systems/ShaderManager.cpp"
 
     # OTHERS
+    "src/GameLoop.cpp"
     "src/time/Timer.cpp"
 
 
