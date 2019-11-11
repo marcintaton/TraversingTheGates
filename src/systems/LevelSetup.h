@@ -3,7 +3,7 @@
 #include "../engine/GameEngine.h"
 #include "../events/GameEvents.h"
 
-class LevelSetup : public ECS::System::System<LevelSetup>
+class LevelSetup : public ECS::System::IndependentSystem<LevelSetup>
 {
 
   private:

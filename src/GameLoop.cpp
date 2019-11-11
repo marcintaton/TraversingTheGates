@@ -2,7 +2,26 @@
 
 #include "global/GlobalGLData.h"
 
-void GameLoop::initialize() {}
+// move this somewhere else
+#include "systems/LevelSetup.h"
+#include "systems/Renderer.h"
+#include "systems/ShaderManager.h"
+#include "systems/TextureManager.h"
+
+void GameLoop::initialize()
+{
+
+    ECS::SystemEngine::get_instance().create_active_system<Renderer>();
+    ECS::SystemEngine::get_instance().create_independent_system<LevelSetup>();
+    ECS::SystemEngine::get_instance()
+        .create_independent_system<TextureManager>();
+    ECS::SystemEngine::get_instance()
+        .create_independent_system<ShaderManager>();
+
+    OnLoadNewLevel load_level_event;
+    Event::EventEngine::get_instance().send_event<OnLoadNewLevel>(
+        &load_level_event);
+}
 
 void GameLoop::run_game_loop()
 {

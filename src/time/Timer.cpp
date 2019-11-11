@@ -1,4 +1,5 @@
 #include "Timer.h"
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 float Timer::delta_time;

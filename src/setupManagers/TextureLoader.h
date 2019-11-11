@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SOIL/SOIL.h>
+
 static void load_texture(const char* file_path, GLuint& texture)
 {
     int tex_width, tex_height;

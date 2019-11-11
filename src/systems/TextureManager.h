@@ -15,7 +15,7 @@ enum class TextureType {
     WALL
 };
 
-class TextureManager : ECS::System::System<TextureManager>
+class TextureManager : public ECS::System::IndependentSystem<TextureManager>
 {
   private:
     std::unordered_map<TextureType, GLuint> textures;
@@ -25,5 +25,6 @@ class TextureManager : ECS::System::System<TextureManager>
 
   public:
     TextureManager();
+
     GLuint get_texture(TextureType of_type);
 };

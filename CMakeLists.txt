@@ -35,6 +35,12 @@ file(GLOB PROJECT_SOURCE_FILES
     "src/matrices/View.cpp"
     "src/matrices/Projection.cpp"
 
+    # ENTITIES
+    "src/entities/Tile.cpp"
+    "src/entities/Camera.cpp"
+    "src/entities/Wall.cpp"
+    "src/entities/Player.cpp"
+
     # COMPONENTS
     "src/components/Transform.cpp"
 

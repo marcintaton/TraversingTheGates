@@ -1,13 +1,12 @@
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <SOIL/SOIL.h>
+// #include <GL/glew.h>
+// #include <GLFW/glfw3.h>
+// #include <SOIL/SOIL.h>
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+// #include <glm/glm.hpp>
+// #include <glm/gtc/matrix_transform.hpp>
+// #include <glm/gtc/type_ptr.hpp>
 
 #include "src/engine/GameEngine.h"
-#include "src/engine/utility/Logging.h"
 #include "src/setupManagers/ECSObjectsSetup.h"
 #include "src/time/Timer.h"
 
@@ -31,7 +30,6 @@ int main(void)
     //
 
     setup_game_objects();
-    setup_systems();
 
     gc.initialize();
     //
