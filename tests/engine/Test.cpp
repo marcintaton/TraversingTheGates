@@ -99,6 +99,17 @@ void Tests::Engine::test_add_component()
                  "has this component : Passed");
 }
 
+void Tests::Engine::test_do_add_component()
+{
+    auto id = ECS::ECEngine::get_instance().create_entity<Tile>();
+    spdlog::info(
+        "Tests::Engine::Do add component::Calling in costructor : Passed");
+
+    ECS::ECEngine::get_instance().do_add_component<AComponent>(id);
+    spdlog::info("Tests::Engine::Do add component::Adding component to entity "
+                 "that already has this component type : Passed");
+}
+
 void Tests::Engine::test_get_components_of_type()
 {
     // setup

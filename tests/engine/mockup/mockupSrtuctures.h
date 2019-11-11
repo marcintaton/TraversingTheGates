@@ -23,18 +23,6 @@ class GameEvent3 : public Event::Event<GameEvent3>
     float c = 1;
 };
 
-class Player : public ECS::Entity::Entity<Player>
-{
-};
-
-class Enemy : public ECS::Entity::Entity<Enemy>
-{
-  public:
-    int x = 45;
-    Enemy() : Entity<Enemy>() {}
-    Enemy(int b) : Entity<Enemy>() {}
-};
-
 class AComponent : public ECS::Component::Component<AComponent>
 {
   public:
@@ -53,6 +41,29 @@ class CComponent : public ECS::Component::Component<CComponent>
 {
   public:
     bool b = true;
+};
+
+class Player : public ECS::Entity::Entity<Player>
+{
+};
+
+class Tile : public ECS::Entity::Entity<Tile>
+{
+  public:
+    Tile()
+    {
+        auto comp = ECS::ECEngine::get_instance().do_add_component<AComponent>(
+            get_entity_id());
+        add_component_info<AComponent>(comp->get_component_id());
+    }
+};
+
+class Enemy : public ECS::Entity::Entity<Enemy>
+{
+  public:
+    int x = 45;
+    Enemy() : Entity<Enemy>() {}
+    Enemy(int b) : Entity<Enemy>() {}
 };
 
 class foo

@@ -30,8 +30,8 @@ file(GLOB PROJECT_SOURCE_FILES
     "src/engine/utility/Logging.cpp"
 
     # tests 
-    # "tests/MainTest.cpp"
-    # "tests/engine/Test.cpp"
+    "tests/MainTest.cpp"
+    "tests/engine/Test.cpp"
 
 )
 

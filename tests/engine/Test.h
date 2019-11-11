@@ -19,6 +19,7 @@ void test_remove_entity();
 void test_get_entity();
 
 void test_add_component();
+void test_do_add_component();
 void test_get_components_of_type();
 void test_remove_component();
 void test_get_component();
