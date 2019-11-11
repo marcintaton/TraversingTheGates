@@ -18,6 +18,7 @@ class EventDelegate : public IEventDelegate
     Callback callback;
 
   public:
+    EventDelegate() {}
     EventDelegate(ListenerT* listener, Function&& function) :
         callback(std::bind(function, listener, std::placeholders::_1))
     {
