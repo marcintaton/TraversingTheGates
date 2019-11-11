@@ -3,6 +3,7 @@
 #include "global/GlobalGLData.h"
 
 // move this somewhere else
+#include "entities/Camera.h"
 #include "systems/LevelSetup.h"
 #include "systems/Renderer.h"
 #include "systems/ShaderManager.h"
@@ -10,7 +11,7 @@
 
 void GameLoop::initialize()
 {
-
+    ECS::ECEngine::get_instance().create_entity<Camera>();
     ECS::SystemEngine::get_instance().create_active_system<Renderer>();
     ECS::SystemEngine::get_instance().create_independent_system<LevelSetup>();
     ECS::SystemEngine::get_instance()

@@ -8,6 +8,6 @@ class Camera : public ECS::Entity::Entity<Camera>
 {
 
   public:
-    Camera() {}
+    Camera();
     Camera(glm::vec3 _position);
 };

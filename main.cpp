@@ -7,7 +7,6 @@
 // #include <glm/gtc/type_ptr.hpp>
 
 #include "src/engine/GameEngine.h"
-#include "src/setupManagers/ECSObjectsSetup.h"
 #include "src/time/Timer.h"
 
 #include "src/setupManagers/GLsetup.h"
@@ -21,15 +20,11 @@ int main(void)
 {
     Utility::Logging::setup_logger();
     //
-    // Timer timer;
-    // ECS::System::SystemUpdateInvoker system_update_invoker;
     //
     GameLoop gc;
 
     Setup::GL_setup(); // windw do globals
     //
-
-    setup_game_objects();
 
     gc.initialize();
     //
