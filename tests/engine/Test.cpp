@@ -7,10 +7,10 @@ void Tests::Engine::mockup_test()
 
 void Tests::Engine::test_create_entity()
 {
-    auto id1 = ECS::ECEngine::get_instance().create_entity<Player>();
+    auto id1 = ECS::ECEngine::get_instance().create_entity<Entity2>();
     spdlog::info("Tests::Engine::Create Entity::Valid : Passed");
 
-    auto id2 = ECS::ECEngine::get_instance().create_entity<Enemy>(10);
+    auto id2 = ECS::ECEngine::get_instance().create_entity<Entity1>(10);
     spdlog::info("Tests::Engine::Create Entity::Valid with args : Passed");
 
     // following create compilation error:
@@ -26,17 +26,17 @@ void Tests::Engine::test_create_entity()
 void Tests::Engine::test_get_entities_of_type()
 {
     // setup
-    ECS::ECEngine::get_instance().create_entity<Player>();
+    ECS::ECEngine::get_instance().create_entity<Entity2>();
     //
 
-    ECS::ECEngine::get_instance().get_entities_of_type<Player>();
+    ECS::ECEngine::get_instance().get_entities_of_type<Entity2>();
     spdlog::info("Tests::Engine::Get entities of type::Valid : Passed");
 
     // returns empty container
     auto x = ECS::ECEngine::get_instance().get_entities_of_type<SystemA_U>();
     spdlog::info("Tests::Engine::Get entities of type::Invalid type : Passed");
 
-    ECS::ECEngine::get_instance().get_entities_of_type<Enemy>();
+    ECS::ECEngine::get_instance().get_entities_of_type<Entity1>();
     spdlog::info("Tests::Engine::Get entities of type::Valid but no entities "
                  "of type: Passed");
 }
@@ -44,7 +44,7 @@ void Tests::Engine::test_get_entities_of_type()
 void Tests::Engine::test_remove_entity()
 {
     // setup
-    auto id = ECS::ECEngine::get_instance().create_entity<Player>();
+    auto id = ECS::ECEngine::get_instance().create_entity<Entity2>();
     //
 
     ECS::ECEngine::get_instance().remove_entity(id);
@@ -57,7 +57,7 @@ void Tests::Engine::test_remove_entity()
 void Tests::Engine::test_get_entity()
 {
     // setup
-    auto id = ECS::ECEngine::get_instance().create_entity<Player>();
+    auto id = ECS::ECEngine::get_instance().create_entity<Entity2>();
     //
 
     auto entity = ECS::ECEngine::get_instance().get_entity(id);
@@ -70,8 +70,8 @@ void Tests::Engine::test_get_entity()
 void Tests::Engine::test_add_component()
 {
     // setup
-    auto id1 = ECS::ECEngine::get_instance().create_entity<Player>();
-    auto id2 = ECS::ECEngine::get_instance().create_entity<Player>();
+    auto id1 = ECS::ECEngine::get_instance().create_entity<Entity2>();
+    auto id2 = ECS::ECEngine::get_instance().create_entity<Entity2>();
     //
 
     auto comp1 = ECS::ECEngine::get_instance().add_component<BComponent>(id1);
@@ -101,7 +101,7 @@ void Tests::Engine::test_add_component()
 
 void Tests::Engine::test_do_add_component()
 {
-    auto id = ECS::ECEngine::get_instance().create_entity<Tile>();
+    auto id = ECS::ECEngine::get_instance().create_entity<Entity3>();
     spdlog::info(
         "Tests::Engine::Do add component::Calling in costructor : Passed");
 
@@ -113,8 +113,8 @@ void Tests::Engine::test_do_add_component()
 void Tests::Engine::test_get_components_of_type()
 {
     // setup
-    auto id1 = ECS::ECEngine::get_instance().create_entity<Player>();
-    auto id2 = ECS::ECEngine::get_instance().create_entity<Enemy>();
+    auto id1 = ECS::ECEngine::get_instance().create_entity<Entity2>();
+    auto id2 = ECS::ECEngine::get_instance().create_entity<Entity1>();
     ECS::ECEngine::get_instance().add_component<AComponent>(id1);
     ECS::ECEngine::get_instance().add_component<AComponent>(id2);
     //
@@ -137,8 +137,8 @@ void Tests::Engine::test_get_components_of_type()
 void Tests::Engine::test_remove_component()
 {
     // setup
-    auto id1 = ECS::ECEngine::get_instance().create_entity<Player>();
-    auto id2 = ECS::ECEngine::get_instance().create_entity<Enemy>();
+    auto id1 = ECS::ECEngine::get_instance().create_entity<Entity2>();
+    auto id2 = ECS::ECEngine::get_instance().create_entity<Entity1>();
     ECS::ECEngine::get_instance().add_component<AComponent>(id1);
     ECS::ECEngine::get_instance().add_component<AComponent>(id2);
     //
@@ -163,7 +163,7 @@ void Tests::Engine::test_remove_component()
 void Tests::Engine::test_get_component()
 {
     // setup
-    auto id1 = ECS::ECEngine::get_instance().create_entity<Player>();
+    auto id1 = ECS::ECEngine::get_instance().create_entity<Entity2>();
     ECS::ECEngine::get_instance().add_component<AComponent>(id1);
     //
 
@@ -186,8 +186,8 @@ void Tests::Engine::test_get_component()
 void Tests::Engine::test_get_component_cluster()
 {
     // setup
-    auto id1 = ECS::ECEngine::get_instance().create_entity<Player>();
-    auto id2 = ECS::ECEngine::get_instance().create_entity<Enemy>();
+    auto id1 = ECS::ECEngine::get_instance().create_entity<Entity2>();
+    auto id2 = ECS::ECEngine::get_instance().create_entity<Entity1>();
     ECS::ECEngine::get_instance().add_component<AComponent>(id1);
     ECS::ECEngine::get_instance().add_component<AComponent>(id2);
     ECS::ECEngine::get_instance().add_component<BComponent>(id1);
