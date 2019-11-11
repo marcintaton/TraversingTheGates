@@ -76,9 +76,9 @@ void Renderer::render_objects()
 
         glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(model));
         glUniformMatrix4fv(view_location, 1, GL_FALSE,
-                           glm::value_ptr(View::matrix));
+                           glm::value_ptr(view.matrix));
         glUniformMatrix4fv(proj_location, 1, GL_FALSE,
-                           glm::value_ptr(Projection::matrix));
+                           glm::value_ptr(projection.matrix));
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     }
 
