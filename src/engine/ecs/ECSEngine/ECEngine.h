@@ -71,6 +71,18 @@ class ECEngine
         }
     }
 
+    template<typename T, typename... T_args>
+    std::shared_ptr<T> do_add_component(EntityId to_entity, T_args&&... args)
+    {
+        spdlog::warn(
+            "ECS::ECEngine::do_add_component - Adding component without "
+            "performing any checks, make sure EntityId is valid and to update "
+            "component info");
+        Component::ComponentPtr new_comp = component_manager->add_component<T>(
+            to_entity, std::forward<T_args>(args)...);
+        return std::dynamic_pointer_cast<T>(new_comp);
+    }
+
     template<class T>
     void remove_component(EntityId from_entity)
     {

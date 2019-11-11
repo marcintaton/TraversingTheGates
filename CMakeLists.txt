@@ -47,8 +47,8 @@ file(GLOB PROJECT_SOURCE_FILES
 
 
     # tests 
-    # "tests/MainTest.cpp"
-    # "tests/engine/Test.cpp"
+    "tests/MainTest.cpp"
+    "tests/engine/Test.cpp"
 
 )
 

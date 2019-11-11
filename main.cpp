@@ -13,6 +13,8 @@
 
 #include "src/setupManagers/GLsetup.h"
 
+#include "tests/MainTest.h"
+
 int main(void)
 {
     Utility::Logging::setup_logger();
