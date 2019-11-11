@@ -43,27 +43,27 @@ class CComponent : public ECS::Component::Component<CComponent>
     bool b = true;
 };
 
-class Player : public ECS::Entity::Entity<Player>
+class Entity1 : public ECS::Entity::Entity<Entity1>
+{
+  public:
+    int x = 45;
+    Entity1() : Entity<Entity1>() {}
+    Entity1(int b) : Entity<Entity1>() {}
+};
+
+class Entity2 : public ECS::Entity::Entity<Entity2>
 {
 };
 
-class Tile : public ECS::Entity::Entity<Tile>
+class Entity3 : public ECS::Entity::Entity<Entity3>
 {
   public:
-    Tile()
+    Entity3()
     {
         auto comp = ECS::ECEngine::get_instance().do_add_component<AComponent>(
             get_entity_id());
         add_component_info<AComponent>(comp->get_component_id());
     }
-};
-
-class Enemy : public ECS::Entity::Entity<Enemy>
-{
-  public:
-    int x = 45;
-    Enemy() : Entity<Enemy>() {}
-    Enemy(int b) : Entity<Enemy>() {}
 };
 
 class foo
