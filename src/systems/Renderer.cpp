@@ -1,9 +1,9 @@
 #include "Renderer.h"
-#include "../Globals.h"
 #include "../components/CameraData.h"
 #include "../components/MeshRenderData.h"
 #include "../components/Transform.h"
 #include "../entities/Camera.h"
+#include "../global/GlobalGLData.h"
 #include "../matrices/Projection.h"
 #include "../matrices/View.h"
 #include "../meshes/Quad.h"
@@ -38,9 +38,13 @@ void Renderer::update_matrices()
     auto camera_data = ECS::ECEngine::get_instance().get_component<CameraData>(
         cached_camera_id);
 
-    view.update_matrix(window_w, window_h, camera_trans->position,
-                       camera_trans->forward(), camera_trans->up());
-    projection.update_matrix(screen_w, screen_h, camera_data->zoom);
+    view.update_matrix(Global::GlobalGLData::get_instance().window_w,
+                       Global::GlobalGLData::get_instance().window_h,
+                       camera_trans->position, camera_trans->forward(),
+                       camera_trans->up());
+    projection.update_matrix(Global::GlobalGLData::get_instance().screen_w,
+                             Global::GlobalGLData::get_instance().screen_h,
+                             camera_data->zoom);
 }
 
 void Renderer::render_objects()

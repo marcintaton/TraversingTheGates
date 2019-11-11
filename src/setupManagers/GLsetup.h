@@ -8,9 +8,9 @@
 
 #include <iostream>
 
-#include "../Globals.h"
+#include "../global/GlobalGLData.h"
 
-GLFWwindow* GL_setup()
+void GL_setup()
 {
 
     // GLFW init
@@ -23,16 +23,19 @@ GLFWwindow* GL_setup()
     }
 
     // window
-    GLFWwindow* window =
-        glfwCreateWindow(window_w, window_h, "Sample", NULL, NULL);
-    if (window == NULL) {
+    Global::GlobalGLData::get_instance().window = glfwCreateWindow(
+        Global::GlobalGLData::get_instance().window_w,
+        Global::GlobalGLData::get_instance().window_h, "Sample", NULL, NULL);
+    if (Global::GlobalGLData::get_instance().window == NULL) {
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
 
-    glfwGetFramebufferSize(window, &screen_w, &screen_h);
+    glfwGetFramebufferSize(Global::GlobalGLData::get_instance().window,
+                           &Global::GlobalGLData::get_instance().screen_w,
+                           &Global::GlobalGLData::get_instance().screen_h);
 
-    glfwMakeContextCurrent(window);
+    glfwMakeContextCurrent(Global::GlobalGLData::get_instance().window);
 
     // GLEW init
     glewExperimental = GL_TRUE;
@@ -41,14 +44,13 @@ GLFWwindow* GL_setup()
         exit(EXIT_FAILURE);
     }
 
-    glViewport(0, 0, screen_w, screen_h);
+    glViewport(0, 0, Global::GlobalGLData::get_instance().screen_w,
+               Global::GlobalGLData::get_instance().screen_h);
     glEnable(GL_DEPTH_TEST);
 
     // textures
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    return window;
 }
 
 void GL_cleanup()
