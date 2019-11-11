@@ -19,7 +19,7 @@ void setup_game_objects()
 {
     // load textures
     GLuint texture;
-    load_texture("assets/textures/tile.png", texture);
+    load_texture("assets/textures/player.png", texture);
 
     Shader core("assets/shaders/core.vs", "assets/shaders/core.fs");
 

@@ -41,6 +41,7 @@ file(GLOB PROJECT_SOURCE_FILES
     # SYSTEMS
     "src/systems/Renderer.cpp"
     "src/systems/ShaderManager.cpp"
+    "src/systems/TextureManager.cpp"
 
     # OTHERS
     "src/GameLoop.cpp"

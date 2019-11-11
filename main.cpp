@@ -15,6 +15,7 @@
 
 #include "src/GameLoop.h"
 #include "src/global/GlobalGLData.h"
+#include "src/systems/TextureManager.h"
 #include "tests/MainTest.h"
 
 int main(void)
