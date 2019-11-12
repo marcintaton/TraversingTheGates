@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../engine/GameEngine.h"
+#include "../global/GlobalData.h"
 #include "LevelBlueprint.h"
 #include "LevelData.h"
 
@@ -16,10 +17,9 @@
 class DungeonLevelGenerator
 {
   private:
-    template<int W, int H>
-    LevelBlueprint<W, H> generate_blueprint()
+    LevelBlueprint generate_blueprint()
     {
-        auto blueprint = LevelBlueprint<W, H>();
+        auto blueprint = LevelBlueprint();
 
         blueprint.base_level = {{
             {{2, 2, 2, 2, 2, 2, 2, 2, 0, 0}},
@@ -49,11 +49,11 @@ class DungeonLevelGenerator
     }
 
   public:
-    template<int W, int H>
-    LevelData<W, H> get_generated_level()
+    LevelData get_generated_level()
     {
-        auto blueprint = generate_blueprint<W, H>();
-        auto data = LevelData<W, H>();
+        auto max_map_size = Global::GlobalData::get_instance().max_map_size;
+        auto blueprint = generate_blueprint();
+        auto data = LevelData();
 
         GLuint textures[4];
 
@@ -73,16 +73,16 @@ class DungeonLevelGenerator
                              .get_independent_system<ShaderManager>()
                              ->core_shader;
 
-        for (int i = 0; i < W; ++i) {
-            for (int j = 0; j < H; ++j) {
+        for (int i = 0; i < max_map_size; ++i) {
+            for (int j = 0; j < max_map_size; ++j) {
                 auto base_type = blueprint.base_level[i][j];
                 data.base_level[i][j] = create_entity_for_tile(
                     i, j, base_type, core_sh, textures[base_type]);
             }
         }
 
-        for (int i = 0; i < W; ++i) {
-            for (int j = 0; j < H; ++j) {
+        for (int i = 0; i < max_map_size; ++i) {
+            for (int j = 0; j < max_map_size; ++j) {
                 auto top_type = blueprint.top_level[i][j];
                 data.top_level[i][j] = create_entity_for_tile(
                     i, j, top_type, core_sh, textures[top_type]);

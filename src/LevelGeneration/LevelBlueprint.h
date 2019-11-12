@@ -1,9 +1,13 @@
 #pragma once
 
+#include "../global/GlobalData.h"
 #include <array>
 
-template<int W, int H>
 struct LevelBlueprint {
-    std::array<std::array<int, H>, W> base_level;
-    std::array<std::array<int, H>, W> top_level;
+    std::array<std::array<int, Global::GlobalData::max_map_size>,
+               Global::GlobalData::max_map_size>
+        base_level;
+    std::array<std::array<int, Global::GlobalData::max_map_size>,
+               Global::GlobalData::max_map_size>
+        top_level;
 };

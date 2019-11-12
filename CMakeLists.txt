@@ -52,10 +52,14 @@ file(GLOB PROJECT_SOURCE_FILES
     "src/systems/UserInput.cpp"
     "src/systems/PlayerMovement.cpp"
     "src/systems/CameraMovement.cpp"
+    "src/systems/LevelMap.cpp"
 
     # OTHERS
     "src/GameLoop.cpp"
     "src/time/Timer.cpp"
+    "src/LevelGeneration/Navmesh.cpp"
+    "src/LevelGeneration/LevelData.cpp"
+    
 
 
     # tests 

@@ -6,12 +6,14 @@
 #include "../engine/GameEngine.h"
 #include "../entities/GameEntities.h"
 #include "../events/GameEvents.h"
+#include "../systems/GameSystems.h"
 
 class PlayerMovement : public ECS::System::IndependentSystem<PlayerMovement>
 {
 
   private:
-    int max_offset_from_player = 5;
+    ECS::EntityId player_id;
+    std::shared_ptr<Transform> player_transform;
     Event::EventDelegate<PlayerMovement, KeyPress> movement_delegate;
     std::vector<int> expected_keys;
 

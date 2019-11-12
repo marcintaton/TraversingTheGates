@@ -4,7 +4,7 @@
 
 #include "../engine/GameEngine.h"
 
-struct CameraData : ECS::Component::Component<CameraData> {
+struct CameraData : public ECS::Component::Component<CameraData> {
     const GLfloat initial_zoom = 0.015f;
     const GLfloat max_zoom = 0.05f;
     const GLfloat min_zoom = 0.005f;

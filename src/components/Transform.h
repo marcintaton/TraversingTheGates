@@ -6,7 +6,7 @@
 
 #include "../engine/GameEngine.h"
 
-struct Transform : ECS::Component::Component<Transform> {
+struct Transform : public ECS::Component::Component<Transform> {
     glm::vec3 position;
     glm::vec2 scale;
     GLfloat rotation;

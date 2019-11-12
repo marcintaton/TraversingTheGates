@@ -2,6 +2,7 @@
 
 #include "CameraMovement.h"
 #include "LevelGenerationManager.h"
+#include "LevelMap.h"
 #include "LevelSetup.h"
 #include "PlayerMovement.h"
 #include "Renderer.h"

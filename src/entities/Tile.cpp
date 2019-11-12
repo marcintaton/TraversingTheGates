@@ -1,7 +1,6 @@
 #include "Tile.h"
 
-#include "../components/MeshRenderData.h"
-#include "../components/Transform.h"
+#include "../components/GameComponents.h"
 #include "../meshes/Quad.h"
 
 Tile::Tile(glm::vec3 _position, Shader _shader, GLuint _texture)
@@ -14,4 +13,8 @@ Tile::Tile(glm::vec3 _position, Shader _shader, GLuint _texture)
         ECS::ECEngine::get_instance().do_add_component<MeshRenderData>(
             get_entity_id(), Quad {}, _shader, _texture);
     add_component_info<MeshRenderData>(mesh_r_data->get_component_id());
+
+    auto nav = ECS::ECEngine::get_instance().do_add_component<NavigationData>(
+        get_entity_id(), true);
+    add_component_info<NavigationData>(nav->get_component_id());
 }

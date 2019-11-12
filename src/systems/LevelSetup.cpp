@@ -2,6 +2,7 @@
 
 #include "../components/Transform.h"
 #include "../entities/Camera.h"
+#include "../systems/GameSystems.h"
 #include "../systems/LevelGenerationManager.h"
 
 LevelSetup::LevelSetup()
@@ -28,7 +29,11 @@ void LevelSetup::setup_new_level(const LoadNewLevel* event)
                              .get_independent_system<LevelGenerationManager>();
 
     auto level_data =
-        level_gen_man->dungeon_level_generator.get_generated_level<10, 10>();
+        level_gen_man->dungeon_level_generator.get_generated_level();
+
+    ECS::SystemEngine::get_instance()
+        .get_independent_system<LevelMap>()
+        ->init_current_level(level_data);
 
     PlayerMoved pl_mv_event;
     Event::EventEngine::get_instance().send_event<PlayerMoved>(&pl_mv_event);

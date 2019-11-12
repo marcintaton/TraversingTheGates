@@ -46,32 +46,51 @@ void PlayerMovement::receive_key_input(const KeyPress* event)
 
 void PlayerMovement::move_player(int key_code)
 {
-    bool did_move = false;
+    if (player_transform == nullptr) {
+        player_id = ECS::ECEngine::get_instance()
+                        .get_entities_of_type<Player>()[0]
+                        ->get_entity_id();
+        player_transform =
+            ECS::ECEngine::get_instance().get_component<Transform>(player_id);
+    }
 
-    auto player_id = ECS::ECEngine::get_instance()
-                         .get_entities_of_type<Player>()[0]
-                         ->get_entity_id();
-    auto player_transform =
-        ECS::ECEngine::get_instance().get_component<Transform>(player_id);
+    auto player_position = ECS::SystemEngine::get_instance()
+                               .get_independent_system<LevelMap>()
+                               ->find_position(player_id);
+
+    bool did_move = false;
+    glm::vec3 move_vec = glm::vec3(0, 0, 0);
 
     if (key_code == GLFW_KEY_W || key_code == GLFW_KEY_UP) {
-        player_transform->position += glm::vec3(0, 1, 0);
+        player_position.j += 1;
+        move_vec += glm::vec3(0, 1, 0);
         did_move = true;
     }
     if (key_code == GLFW_KEY_S || key_code == GLFW_KEY_DOWN) {
-        player_transform->position += glm::vec3(0, -1, 0);
+        player_position.j += -1;
+        move_vec += glm::vec3(0, -1, 0);
         did_move = true;
     }
     if (key_code == GLFW_KEY_D || key_code == GLFW_KEY_RIGHT) {
-        player_transform->position += glm::vec3(1, 0, 0);
+        player_position.i += 1;
+        move_vec += glm::vec3(1, 0, 0);
         did_move = true;
     }
     if (key_code == GLFW_KEY_A || key_code == GLFW_KEY_LEFT) {
-        player_transform->position += glm::vec3(-1, 0, 0);
+        player_position.i += -1;
+        move_vec += glm::vec3(-1, 0, 0);
         did_move = true;
     }
 
-    if (did_move) {
+    if (did_move && ECS::SystemEngine::get_instance()
+                        .get_independent_system<LevelMap>()
+                        ->is_tile_available(player_position)) {
+
+        player_transform->position += move_vec;
+        ECS::SystemEngine::get_instance()
+            .get_independent_system<LevelMap>()
+            ->move_dynamic_element(player_id, player_position);
+
         TurnEnd turn_end_event;
         Event::EventEngine::get_instance().send_event<TurnEnd>(&turn_end_event);
 
