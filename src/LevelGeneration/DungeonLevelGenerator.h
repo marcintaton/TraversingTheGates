@@ -78,7 +78,11 @@ class DungeonLevelGenerator
                 auto base_type = blueprint.base_level[i][j];
                 data.base_level[i][j] = create_entity_for_tile(
                     i, j, base_type, core_sh, textures[base_type]);
+            }
+        }
 
+        for (int i = 0; i < W; ++i) {
+            for (int j = 0; j < H; ++j) {
                 auto top_type = blueprint.top_level[i][j];
                 data.top_level[i][j] = create_entity_for_tile(
                     i, j, top_type, core_sh, textures[top_type]);
