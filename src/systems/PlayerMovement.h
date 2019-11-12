@@ -11,6 +11,7 @@ class PlayerMovement : public ECS::System::IndependentSystem<PlayerMovement>
 {
 
   private:
+    int max_offset_from_player = 5;
     Event::EventDelegate<PlayerMovement, KeyPress> movement_delegate;
     std::vector<int> expected_keys;
 

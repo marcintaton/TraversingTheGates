@@ -1,5 +1,6 @@
 #pragma once
 
+#include "CameraMovement.h"
 #include "LevelGenerationManager.h"
 #include "LevelSetup.h"
 #include "PlayerMovement.h"

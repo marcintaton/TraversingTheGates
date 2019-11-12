@@ -20,6 +20,8 @@ void GameLoop::initialize()
     ECS::SystemEngine::get_instance().create_independent_system<UserInput>();
     ECS::SystemEngine::get_instance()
         .create_independent_system<PlayerMovement>();
+    ECS::SystemEngine::get_instance()
+        .create_independent_system<CameraMovement>();
 
     LoadNewLevel load_level_event;
     Event::EventEngine::get_instance().send_event<LoadNewLevel>(

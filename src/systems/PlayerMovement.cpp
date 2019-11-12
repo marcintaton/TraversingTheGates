@@ -72,7 +72,11 @@ void PlayerMovement::move_player(int key_code)
     }
 
     if (did_move) {
-        TurnEnd event;
-        Event::EventEngine::get_instance().send_event<TurnEnd>(&event);
+        TurnEnd turn_end_event;
+        Event::EventEngine::get_instance().send_event<TurnEnd>(&turn_end_event);
+
+        PlayerMoved player_move_event;
+        Event::EventEngine::get_instance().send_event<PlayerMoved>(
+            &player_move_event);
     }
 }

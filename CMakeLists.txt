@@ -51,6 +51,7 @@ file(GLOB PROJECT_SOURCE_FILES
     "src/systems/LevelSetup.cpp"
     "src/systems/UserInput.cpp"
     "src/systems/PlayerMovement.cpp"
+    "src/systems/CameraMovement.cpp"
 
     # OTHERS
     "src/GameLoop.cpp"
