@@ -18,6 +18,8 @@ void GameLoop::initialize()
     ECS::SystemEngine::get_instance()
         .create_independent_system<ShaderManager>();
     ECS::SystemEngine::get_instance().create_independent_system<UserInput>();
+    ECS::SystemEngine::get_instance()
+        .create_independent_system<PlayerMovement>();
 
     OnLoadNewLevel load_level_event;
     Event::EventEngine::get_instance().send_event<OnLoadNewLevel>(

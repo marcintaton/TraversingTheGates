@@ -50,6 +50,7 @@ file(GLOB PROJECT_SOURCE_FILES
     "src/systems/TextureManager.cpp"
     "src/systems/LevelSetup.cpp"
     "src/systems/UserInput.cpp"
+    "src/systems/PlayerMovement.cpp"
 
     # OTHERS
     "src/GameLoop.cpp"
