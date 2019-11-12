@@ -5,7 +5,7 @@
 
 PlayerMovement::PlayerMovement()
 {
-    movement_delegate = Event::EventDelegate<PlayerMovement, OnKeyPress>(
+    movement_delegate = Event::EventDelegate<PlayerMovement, KeyPress>(
         this, &PlayerMovement::receive_key_input);
 
     expected_keys = {GLFW_KEY_W, GLFW_KEY_UP,    GLFW_KEY_S, GLFW_KEY_DOWN,
@@ -14,13 +14,13 @@ PlayerMovement::PlayerMovement()
 
 void PlayerMovement::subscribe()
 {
-    Event::EventEngine::get_instance().add_listener<OnKeyPress>(
+    Event::EventEngine::get_instance().add_listener<KeyPress>(
         &movement_delegate);
 }
 void PlayerMovement::unsubscribe()
 {
 
-    Event::EventEngine::get_instance().remove_listener<OnKeyPress>(
+    Event::EventEngine::get_instance().remove_listener<KeyPress>(
         &movement_delegate);
 }
 
@@ -34,7 +34,7 @@ void PlayerMovement::on_disable()
     unsubscribe();
 }
 
-void PlayerMovement::receive_key_input(const OnKeyPress* event)
+void PlayerMovement::receive_key_input(const KeyPress* event)
 {
 
     if (std::find(expected_keys.begin(), expected_keys.end(),
@@ -46,6 +46,7 @@ void PlayerMovement::receive_key_input(const OnKeyPress* event)
 
 void PlayerMovement::move_player(int key_code)
 {
+    bool did_move = false;
 
     auto player_id = ECS::ECEngine::get_instance()
                          .get_entities_of_type<Player>()[0]
@@ -55,14 +56,23 @@ void PlayerMovement::move_player(int key_code)
 
     if (key_code == GLFW_KEY_W || key_code == GLFW_KEY_UP) {
         player_transform->position += glm::vec3(0, 1, 0);
+        did_move = true;
     }
     if (key_code == GLFW_KEY_S || key_code == GLFW_KEY_DOWN) {
         player_transform->position += glm::vec3(0, -1, 0);
+        did_move = true;
     }
     if (key_code == GLFW_KEY_D || key_code == GLFW_KEY_RIGHT) {
         player_transform->position += glm::vec3(1, 0, 0);
+        did_move = true;
     }
     if (key_code == GLFW_KEY_A || key_code == GLFW_KEY_LEFT) {
         player_transform->position += glm::vec3(-1, 0, 0);
+        did_move = true;
+    }
+
+    if (did_move) {
+        TurnEnd event;
+        Event::EventEngine::get_instance().send_event<TurnEnd>(&event);
     }
 }

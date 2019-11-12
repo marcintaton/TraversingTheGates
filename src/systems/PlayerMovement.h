@@ -11,7 +11,7 @@ class PlayerMovement : public ECS::System::IndependentSystem<PlayerMovement>
 {
 
   private:
-    Event::EventDelegate<PlayerMovement, OnKeyPress> movement_delegate;
+    Event::EventDelegate<PlayerMovement, KeyPress> movement_delegate;
     std::vector<int> expected_keys;
 
     void subscribe();
@@ -22,6 +22,6 @@ class PlayerMovement : public ECS::System::IndependentSystem<PlayerMovement>
     virtual void on_enable() override;
     virtual void on_disable() override;
 
-    void receive_key_input(const OnKeyPress* event);
+    void receive_key_input(const KeyPress* event);
     void move_player(int key_code);
 };

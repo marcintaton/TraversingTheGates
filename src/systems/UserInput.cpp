@@ -30,12 +30,11 @@ void UserInput::key_callback(GLFWwindow* window, int key, int scancode,
                                   .get_independent_system<UserInput>();
             user_input->set_key_state(key, action);
             if (action == GLFW_PRESS) {
-                OnKeyPress event {.key_code = key};
-                Event::EventEngine::get_instance().send_event<OnKeyPress>(
-                    &event);
+                KeyPress event {.key_code = key};
+                Event::EventEngine::get_instance().send_event<KeyPress>(&event);
             } else if (action == GLFW_RELEASE) {
-                OnKeyRelease event {.key_code = key};
-                Event::EventEngine::get_instance().send_event<OnKeyRelease>(
+                KeyRelease event {.key_code = key};
+                Event::EventEngine::get_instance().send_event<KeyRelease>(
                     &event);
             }
         }
