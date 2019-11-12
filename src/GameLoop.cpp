@@ -4,11 +4,7 @@
 
 // move this somewhere else
 #include "entities/Camera.h"
-#include "systems/LevelGenerationManager.h"
-#include "systems/LevelSetup.h"
-#include "systems/Renderer.h"
-#include "systems/ShaderManager.h"
-#include "systems/TextureManager.h"
+#include "systems/GameSystems.h"
 
 void GameLoop::initialize()
 {
@@ -21,6 +17,7 @@ void GameLoop::initialize()
         .create_independent_system<TextureManager>();
     ECS::SystemEngine::get_instance()
         .create_independent_system<ShaderManager>();
+    ECS::SystemEngine::get_instance().create_independent_system<UserInput>();
 
     OnLoadNewLevel load_level_event;
     Event::EventEngine::get_instance().send_event<OnLoadNewLevel>(
