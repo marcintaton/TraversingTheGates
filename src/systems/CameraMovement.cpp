@@ -31,17 +31,41 @@ void CameraMovement::on_disable()
 void CameraMovement::move_camera(const PlayerMoved* event)
 {
 
-    auto player_id = ECS::ECEngine::get_instance()
-                         .get_entities_of_type<Player>()[0]
-                         ->get_entity_id();
-    auto player_transform =
-        ECS::ECEngine::get_instance().get_component<Transform>(player_id);
+    try_cache_transforms();
 
-    auto camera_id = ECS::ECEngine::get_instance()
-                         .get_entities_of_type<Camera>()[0]
-                         ->get_entity_id();
-    auto camera_transform =
-        ECS::ECEngine::get_instance().get_component<Transform>(camera_id);
+    glm::vec3 offset = t_camera->position - t_player->position;
 
-    camera_transform->position = player_transform->position;
+    if (offset.x > max_offset_from_player) {
+        t_camera->position += glm::vec3(-1, 0, 0);
+    } else if (offset.x < -max_offset_from_player) {
+        t_camera->position += glm::vec3(1, 0, 0);
+    } else if (offset.y > max_offset_from_player) {
+        t_camera->position += glm::vec3(0, -1, 0);
+    } else if (offset.y < -max_offset_from_player) {
+        t_camera->position += glm::vec3(0, 1, 0);
+    }
+}
+
+void CameraMovement::try_cache_transforms()
+{
+    if (t_camera == nullptr || t_player == nullptr) {
+
+        auto player_id = ECS::ECEngine::get_instance()
+                             .get_entities_of_type<Player>()[0]
+                             ->get_entity_id();
+        t_player =
+            ECS::ECEngine::get_instance().get_component<Transform>(player_id);
+
+        auto camera_id = ECS::ECEngine::get_instance()
+                             .get_entities_of_type<Camera>()[0]
+                             ->get_entity_id();
+        t_camera =
+            ECS::ECEngine::get_instance().get_component<Transform>(camera_id);
+    }
+}
+
+void CameraMovement::center_on_player()
+{
+    try_cache_transforms();
+    t_camera->position = t_player->position;
 }

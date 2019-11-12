@@ -8,10 +8,14 @@
 class CameraMovement : public ECS::System::IndependentSystem<CameraMovement>
 {
   private:
+    int max_offset_from_player = 2;
+    std::shared_ptr<Transform> t_player;
+    std::shared_ptr<Transform> t_camera;
     Event::EventDelegate<CameraMovement, PlayerMoved> movement_delegate;
 
     void subscribe();
     void unsubscribe();
+    void try_cache_transforms();
 
   public:
     CameraMovement();
@@ -19,4 +23,5 @@ class CameraMovement : public ECS::System::IndependentSystem<CameraMovement>
     virtual void on_disable() override;
 
     void move_camera(const PlayerMoved* event);
+    void center_on_player();
 };

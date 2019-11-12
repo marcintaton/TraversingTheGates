@@ -35,6 +35,7 @@ void LevelSetup::setup_new_level(const LoadNewLevel* event)
         .get_independent_system<LevelMap>()
         ->init_current_level(level_data);
 
-    PlayerMoved pl_mv_event;
-    Event::EventEngine::get_instance().send_event<PlayerMoved>(&pl_mv_event);
+    ECS::SystemEngine::get_instance()
+        .get_independent_system<CameraMovement>()
+        ->center_on_player();
 }
