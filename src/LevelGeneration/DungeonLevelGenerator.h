@@ -5,12 +5,12 @@
 #include "LevelBlueprint.h"
 #include "LevelData.h"
 
+// ????
+#include "../systems/GameSystems.h"
 #include "../systems/ShaderManager.h"
 #include "../systems/TextureManager.h"
 
-#include "../entities/Player.h"
-#include "../entities/Tile.h"
-#include "../entities/Wall.h"
+#include "../entities/GameEntities.h"
 
 // For now here
 

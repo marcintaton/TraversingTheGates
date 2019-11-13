@@ -1,6 +1,6 @@
 #include "LevelSetup.h"
 
-#include "../components/Transform.h"
+#include "../components/GameComponents.h"
 #include "../entities/Camera.h"
 #include "../systems/GameSystems.h"
 #include "../systems/LevelGenerationManager.h"

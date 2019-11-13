@@ -11,7 +11,7 @@ Tile::Tile(glm::vec3 _position, Shader _shader, GLuint _texture)
 
     auto mesh_r_data =
         ECS::ECEngine::get_instance().do_add_component<MeshRenderData>(
-            get_entity_id(), Quad {}, _shader, _texture, glm::vec2(1, 0),
+            get_entity_id(), Quad {}, _shader, _texture, glm::vec2(1, 1),
             glm::vec2(2, 2));
     add_component_info<MeshRenderData>(mesh_r_data->get_component_id());
 

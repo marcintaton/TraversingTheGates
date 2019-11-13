@@ -1,7 +1,6 @@
 #include "Camera.h"
 
-#include "../components/CameraData.h"
-#include "../components/Transform.h"
+#include "../components/GameComponents.h"
 
 Camera::Camera()
 {

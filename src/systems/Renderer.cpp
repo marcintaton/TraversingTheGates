@@ -2,13 +2,9 @@
 
 #include <math.h>
 
-#include "../components/CameraData.h"
-#include "../components/MeshRenderData.h"
-#include "../components/Transform.h"
-#include "../entities/Camera.h"
+#include "../components/GameComponents.h"
+#include "../entities/GameEntities.h"
 #include "../global/GlobalGLData.h"
-#include "../matrices/Projection.h"
-#include "../matrices/View.h"
 #include "../meshes/Quad.h"
 
 Renderer::Renderer()
