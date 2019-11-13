@@ -1,4 +1,7 @@
 #include "Renderer.h"
+
+#include <math.h>
+
 #include "../components/CameraData.h"
 #include "../components/MeshRenderData.h"
 #include "../components/Transform.h"
@@ -11,10 +14,14 @@
 Renderer::Renderer()
 {
     set_priority(10);
-    bind_mesh(Quad());
+    // bind_mesh(Quad());
     cached_camera_id = ECS::ECEngine::get_instance()
                            .get_entities_of_type<Camera>()[0]
                            ->get_entity_id();
+
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
 }
 
 Renderer::~Renderer()
@@ -29,7 +36,13 @@ void Renderer::do_on_update()
 
     update_matrices();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glBindVertexArray(VAO);
+
     render_objects();
+
+    glBindVertexArray(0);
+
     glfwSwapBuffers(Global::GlobalGLData::get_instance().window);
 }
 
@@ -55,12 +68,11 @@ void Renderer::render_objects()
         ECS::ECEngine::get_instance()
             .get_component_cluster<Transform, MeshRenderData>();
 
-    glBindVertexArray(VAO);
-    // all rendering
-
     for (int i = 0; i < render_objects.cluster.size(); ++i) {
         auto mesh_render_data = render_objects.get_component<MeshRenderData>(i);
         auto transform = render_objects.get_component<Transform>(i);
+
+        bind_mesh(mesh_render_data->mesh);
 
         mesh_render_data->shader.use();
 
@@ -77,8 +89,15 @@ void Renderer::render_objects()
             glGetUniformLocation(mesh_render_data->shader.program, "texture1"),
             0);
 
+        // apply position, rotation and scale from transform to model matrix
         glm::mat4 model(1);
         model = glm::translate(model, transform->position);
+        // convert to radians. There is a bug in glm or its documentation
+        GLfloat angle = transform->rotation * (M_PI / 180.0f);
+        model = glm::rotate(model, angle, glm::vec3(0, 0, 1));
+        glm::vec3 scale =
+            glm::vec3(transform->scale.x, transform->scale.y, 1.0f);
+        model = glm::scale(model, scale);
 
         glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(model));
         glUniformMatrix4fv(view_location, 1, GL_FALSE,
@@ -87,18 +106,10 @@ void Renderer::render_objects()
                            glm::value_ptr(projection.matrix));
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     }
-
-    glBindVertexArray(0);
 }
 
 void Renderer::bind_mesh(Mesh mesh)
 {
-
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
-
-    glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, mesh.get_vertices_size(),
@@ -117,6 +128,4 @@ void Renderer::bind_mesh(Mesh mesh)
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GL_FLOAT),
                           (GLvoid*) (3 * sizeof(GLfloat)));
     glEnableVertexAttribArray(2);
-
-    glBindVertexArray(0);
 }
