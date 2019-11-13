@@ -72,19 +72,15 @@ void Renderer::render_objects()
         auto mesh_render_data = render_objects.get_component<MeshRenderData>(i);
         auto transform = render_objects.get_component<Transform>(i);
 
+        // bind mesh
         bind_mesh(mesh_render_data->mesh);
 
+        // use shader
         mesh_render_data->shader.use();
 
-        GLint model_location =
-            glGetUniformLocation(mesh_render_data->shader.program, "model");
-        GLint view_location =
-            glGetUniformLocation(mesh_render_data->shader.program, "view");
-        GLint proj_location = glGetUniformLocation(
-            mesh_render_data->shader.program, "projection");
-
+        // bind texture
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, mesh_render_data->texture);
+        glBindTexture(GL_TEXTURE_2D, mesh_render_data->texture.texture_index);
         glUniform1i(
             glGetUniformLocation(mesh_render_data->shader.program, "texture1"),
             0);
@@ -99,11 +95,30 @@ void Renderer::render_objects()
             glm::vec3(transform->scale.x, transform->scale.y, 1.0f);
         model = glm::scale(model, scale);
 
+        // get uniforms locations
+        GLint model_location =
+            glGetUniformLocation(mesh_render_data->shader.program, "model");
+        GLint view_location =
+            glGetUniformLocation(mesh_render_data->shader.program, "view");
+        GLint proj_location = glGetUniformLocation(
+            mesh_render_data->shader.program, "projection");
+        GLuint tex_offset_location = glGetUniformLocation(
+            mesh_render_data->shader.program, "tex_offset");
+        GLuint atlas_size_location = glGetUniformLocation(
+            mesh_render_data->shader.program, "atlas_size");
+
+        // set uniforms in shader
         glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(model));
         glUniformMatrix4fv(view_location, 1, GL_FALSE,
                            glm::value_ptr(view.matrix));
         glUniformMatrix4fv(proj_location, 1, GL_FALSE,
                            glm::value_ptr(projection.matrix));
+        glUniform2fv(tex_offset_location, 1,
+                     glm::value_ptr(mesh_render_data->texture.atlas_offset));
+        glUniform2fv(atlas_size_location, 1,
+                     glm::value_ptr(mesh_render_data->texture.atlas_size));
+
+        // draw call
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     }
 }
