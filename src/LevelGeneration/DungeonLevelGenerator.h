@@ -80,7 +80,6 @@ class DungeonLevelGenerator
                     i, j, base_type, core_sh, textures[base_type]);
             }
         }
-
         for (int i = 0; i < max_map_size; ++i) {
             for (int j = 0; j < max_map_size; ++j) {
                 auto top_type = blueprint.top_level[i][j];
