@@ -81,7 +81,6 @@ void Renderer::render_objects()
         if (mesh_render_data->shader.program != prev_dc_data.shader_program) {
             mesh_render_data->shader.use();
             prev_dc_data.shader_program = mesh_render_data->shader.program;
-            spdlog::critical("Shader used");
         }
 
         // bind texture
@@ -95,7 +94,6 @@ void Renderer::render_objects()
                         0);
             prev_dc_data.texture_index =
                 mesh_render_data->texture.texture_index;
-            spdlog::critical("Tex bound");
         }
 
         // apply position, rotation and scale from transform to model matrix
