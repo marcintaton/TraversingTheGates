@@ -32,8 +32,6 @@ void Navmesh::init_from_level_data(LevelData data)
                 dynamic_elements[i][j] = 1;
             }
         }
-
-        std::cout << dynamic_elements[i] << std::endl;
     }
 }
 
