@@ -14,7 +14,6 @@
 Renderer::Renderer()
 {
     set_priority(10);
-    // bind_mesh(Quad());
     cached_camera_id = ECS::ECEngine::get_instance()
                            .get_entities_of_type<Camera>()[0]
                            ->get_entity_id();
@@ -22,6 +21,11 @@ Renderer::Renderer()
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
+
+    // Bind quad mesh
+    glBindVertexArray(VAO);
+    bind_mesh(Quad {});
+    glBindVertexArray(0);
 }
 
 Renderer::~Renderer()
@@ -69,21 +73,30 @@ void Renderer::render_objects()
             .get_component_cluster<Transform, MeshRenderData>();
 
     for (int i = 0; i < render_objects.cluster.size(); ++i) {
+
         auto mesh_render_data = render_objects.get_component<MeshRenderData>(i);
         auto transform = render_objects.get_component<Transform>(i);
 
-        // bind mesh
-        bind_mesh(mesh_render_data->mesh);
-
         // use shader
-        mesh_render_data->shader.use();
+        if (mesh_render_data->shader.program != prev_dc_data.shader_program) {
+            mesh_render_data->shader.use();
+            prev_dc_data.shader_program = mesh_render_data->shader.program;
+            spdlog::critical("Shader used");
+        }
 
         // bind texture
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, mesh_render_data->texture.texture_index);
-        glUniform1i(
-            glGetUniformLocation(mesh_render_data->shader.program, "texture1"),
-            0);
+        if (mesh_render_data->texture.texture_index !=
+            prev_dc_data.texture_index) {
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D,
+                          mesh_render_data->texture.texture_index);
+            glUniform1i(glGetUniformLocation(mesh_render_data->shader.program,
+                                             "texture1"),
+                        0);
+            prev_dc_data.texture_index =
+                mesh_render_data->texture.texture_index;
+            spdlog::critical("Tex bound");
+        }
 
         // apply position, rotation and scale from transform to model matrix
         glm::mat4 model(1);

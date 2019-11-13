@@ -12,12 +12,18 @@
 #include "../matrices/View.h"
 #include "../meshes/Mesh.h"
 
+struct PreviousDrawCallData {
+    GLuint texture_index = 100000000;
+    GLuint shader_program = 100000000;
+};
+
 class Renderer : public ECS::System::System<Renderer>
 {
 
   private:
     std::size_t custom_priority = 10;
     ECS::EntityId cached_camera_id;
+    PreviousDrawCallData prev_dc_data;
 
     GLuint VBO;
     GLuint VAO;
