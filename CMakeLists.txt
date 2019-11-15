@@ -54,11 +54,14 @@ file(GLOB PROJECT_SOURCE_FILES
     "src/systems/CameraMovement.cpp"
     "src/systems/LevelMap.cpp"
 
+    # GENERATION
+    "src/LevelGeneration/DungeonLevelGenerator.cpp"
+    "src/LevelGeneration/Navmesh.cpp"
+    "src/LevelGeneration/LevelData.cpp"
+
     # OTHERS
     "src/GameLoop.cpp"
     "src/time/Timer.cpp"
-    "src/LevelGeneration/Navmesh.cpp"
-    "src/LevelGeneration/LevelData.cpp"
     
 
 
