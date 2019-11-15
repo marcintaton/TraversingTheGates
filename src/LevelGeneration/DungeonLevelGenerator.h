@@ -55,19 +55,13 @@ class DungeonLevelGenerator
         auto blueprint = generate_blueprint();
         auto data = LevelData();
 
-        GLuint textures[4];
+        GLuint enviro_tex = ECS::SystemEngine::get_instance()
+                                .get_independent_system<TextureManager>()
+                                ->get_texture(TextureType::ENVIRO_STAGE_1);
 
-        textures[1] = ECS::SystemEngine::get_instance()
-                          .get_independent_system<TextureManager>()
-                          ->get_texture(TextureType::GROUND);
-
-        textures[2] = ECS::SystemEngine::get_instance()
-                          .get_independent_system<TextureManager>()
-                          ->get_texture(TextureType::WALL);
-
-        textures[3] = ECS::SystemEngine::get_instance()
-                          .get_independent_system<TextureManager>()
-                          ->get_texture(TextureType::PLAYER);
+        GLuint player_tex = ECS::SystemEngine::get_instance()
+                                .get_independent_system<TextureManager>()
+                                ->get_texture(TextureType::PLAYER);
 
         Shader sh = ECS::SystemEngine::get_instance()
                         .get_independent_system<ShaderManager>()
@@ -76,15 +70,15 @@ class DungeonLevelGenerator
         for (int i = 0; i < max_map_size; ++i) {
             for (int j = 0; j < max_map_size; ++j) {
                 auto base_type = blueprint.base_level[i][j];
-                data.base_level[i][j] = create_entity_for_tile(
-                    i, j, base_type, sh, textures[base_type]);
+                data.base_level[i][j] =
+                    create_entity_for_tile(i, j, base_type, sh, enviro_tex);
             }
         }
         for (int i = 0; i < max_map_size; ++i) {
             for (int j = 0; j < max_map_size; ++j) {
                 auto top_type = blueprint.top_level[i][j];
-                data.top_level[i][j] = create_entity_for_tile(
-                    i, j, top_type, sh, textures[top_type]);
+                data.top_level[i][j] =
+                    create_entity_for_tile(i, j, top_type, sh, player_tex);
             }
         }
 
