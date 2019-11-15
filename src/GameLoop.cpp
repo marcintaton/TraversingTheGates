@@ -20,6 +20,7 @@ void GameLoop::initialize()
     ECS::SystemEngine::get_instance().create_independent_system<UserInput>();
     ECS::SystemEngine::get_instance()
         .create_independent_system<PlayerMovement>();
+    ECS::SystemEngine::get_instance().create_independent_system<PlayerKick>();
     ECS::SystemEngine::get_instance()
         .create_independent_system<CameraMovement>();
     ECS::SystemEngine::get_instance().create_independent_system<LevelMap>();

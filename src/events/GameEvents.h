@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../engine/GameEngine.h"
+#include <vector>
 
 struct LoadNewLevel : public Event::Event<LoadNewLevel> {
 };
@@ -17,8 +18,14 @@ struct PlayerMoved : public Event::Event<PlayerMoved> {
 
 struct KeyPress : public Event::Event<KeyPress> {
     int key_code;
+    bool is_reserved;
 };
 
 struct KeyRelease : public Event::Event<KeyRelease> {
     int key_code;
+};
+
+struct SetKeysReservation : public Event::Event<SetKeysReservation> {
+    std::vector<int> key_codes;
+    bool to_state;
 };

@@ -40,12 +40,15 @@ void PlayerMovement::receive_key_input(const KeyPress* event)
     if (std::find(expected_keys.begin(), expected_keys.end(),
                   event->key_code) != expected_keys.end()) {
 
-        move_player(event->key_code);
+        if (!event->is_reserved) {
+            move_player(event->key_code);
+        }
     }
 }
 
 void PlayerMovement::move_player(int key_code)
 {
+
     if (player_transform == nullptr) {
         player_id = ECS::ECEngine::get_instance()
                         .get_entities_of_type<Player>()[0]
