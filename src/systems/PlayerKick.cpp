@@ -42,18 +42,31 @@ void PlayerKick::kick(const KeyPress* event)
         Event::EventEngine::get_instance().send_event<SetKeysReservation>(
             &event);
     } else if (is_in_kick_state) {
+
+        bool did_kick = false;
         auto key_code = event->key_code;
+
         if (key_code == GLFW_KEY_W || key_code == GLFW_KEY_UP) {
             spdlog::info("Kicked up");
+            did_kick = true;
         }
         if (key_code == GLFW_KEY_S || key_code == GLFW_KEY_DOWN) {
             spdlog::info("Kicked down");
+            did_kick = true;
         }
         if (key_code == GLFW_KEY_D || key_code == GLFW_KEY_RIGHT) {
             spdlog::info("Kicked right");
+            did_kick = true;
         }
         if (key_code == GLFW_KEY_A || key_code == GLFW_KEY_LEFT) {
             spdlog::info("Kicked left");
+            did_kick = true;
+        }
+
+        if (did_kick) {
+            TurnEnd turn_end_event;
+            Event::EventEngine::get_instance().send_event<TurnEnd>(
+                &turn_end_event);
         }
 
         SetKeysReservation event =
