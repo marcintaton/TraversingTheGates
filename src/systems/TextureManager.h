@@ -5,15 +5,7 @@
 
 #include "../engine/GameEngine.h"
 
-enum class TextureType {
-    GROUND,
-    PLAYER,
-    H_DOOR_OPEN,
-    H_DOOR_CLOSED,
-    V_DOOR_OPEN,
-    V_DOOR_CLOSED,
-    WALL
-};
+enum class TextureType { PLAYER, ENVIRO_STAGE_1 };
 
 class TextureManager : public ECS::System::IndependentSystem<TextureManager>
 {

@@ -10,17 +10,9 @@ TextureManager::TextureManager()
 void TextureManager::load_game_textures()
 {
 
-    textures[TextureType::GROUND] = load_texture("assets/textures/ground.png");
-    textures[TextureType::WALL] = load_texture("assets/textures/wall.png");
+    textures[TextureType::ENVIRO_STAGE_1] =
+        load_texture("assets/textures/enviro_stage_1.png");
     textures[TextureType::PLAYER] = load_texture("assets/textures/player.png");
-    textures[TextureType::H_DOOR_CLOSED] =
-        load_texture("assets/textures/h_door_closed.png");
-    textures[TextureType::H_DOOR_OPEN] =
-        load_texture("assets/textures/h_door_open.png");
-    textures[TextureType::V_DOOR_CLOSED] =
-        load_texture("assets/textures/v_door_closed.png");
-    textures[TextureType::V_DOOR_OPEN] =
-        load_texture("assets/textures/v_door_open.png");
 }
 
 GLuint TextureManager::load_texture(const char* file_path)

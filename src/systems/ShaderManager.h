@@ -9,7 +9,8 @@ class ShaderManager : public ECS::System::IndependentSystem<ShaderManager>
     void load_shaders();
 
   public:
-    Shader core_shader;
+    Shader basic_sh;
+    Shader core_sh;
 
     ShaderManager();
     virtual void on_enable() override {}

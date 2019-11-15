@@ -7,6 +7,8 @@ ShaderManager::ShaderManager()
 
 void ShaderManager::load_shaders()
 {
-    core_shader = Shader("assets/shaders/tex_atlased_core.vs",
-                         "assets/shaders/transparency.fs");
+    core_sh = Shader("assets/shaders/core.vs", "assets/shaders/core.fs");
+
+    basic_sh = Shader("assets/shaders/tex_atlased_core.vs",
+                      "assets/shaders/transparency.fs");
 }

@@ -69,22 +69,22 @@ class DungeonLevelGenerator
                           .get_independent_system<TextureManager>()
                           ->get_texture(TextureType::PLAYER);
 
-        Shader core_sh = ECS::SystemEngine::get_instance()
-                             .get_independent_system<ShaderManager>()
-                             ->core_shader;
+        Shader sh = ECS::SystemEngine::get_instance()
+                        .get_independent_system<ShaderManager>()
+                        ->basic_sh;
 
         for (int i = 0; i < max_map_size; ++i) {
             for (int j = 0; j < max_map_size; ++j) {
                 auto base_type = blueprint.base_level[i][j];
                 data.base_level[i][j] = create_entity_for_tile(
-                    i, j, base_type, core_sh, textures[base_type]);
+                    i, j, base_type, sh, textures[base_type]);
             }
         }
         for (int i = 0; i < max_map_size; ++i) {
             for (int j = 0; j < max_map_size; ++j) {
                 auto top_type = blueprint.top_level[i][j];
                 data.top_level[i][j] = create_entity_for_tile(
-                    i, j, top_type, core_sh, textures[top_type]);
+                    i, j, top_type, sh, textures[top_type]);
             }
         }
 
