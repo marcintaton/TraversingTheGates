@@ -28,8 +28,7 @@ void LevelSetup::setup_new_level(const LoadNewLevel* event)
     auto level_gen_man = ECS::SystemEngine::get_instance()
                              .get_independent_system<LevelGenerationManager>();
 
-    auto level_data =
-        level_gen_man->dungeon_level_generator.get_generated_level();
+    auto level_data = level_gen_man->generate_dungeon_level();
 
     ECS::SystemEngine::get_instance()
         .get_independent_system<LevelMap>()

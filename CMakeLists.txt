@@ -53,9 +53,11 @@ file(GLOB PROJECT_SOURCE_FILES
     "src/systems/PlayerMovement.cpp"
     "src/systems/CameraMovement.cpp"
     "src/systems/LevelMap.cpp"
+    "src/systems/LevelGenerationManager.cpp"
 
     # GENERATION
-    "src/LevelGeneration/DungeonLevelGenerator.cpp"
+    "src/LevelGeneration/stage1/DungeonLevelGenerator.cpp"
+    "src/LevelGeneration/stage1/DungeonLevelSpawner.cpp"
     "src/LevelGeneration/Navmesh.cpp"
     "src/LevelGeneration/LevelData.cpp"
 

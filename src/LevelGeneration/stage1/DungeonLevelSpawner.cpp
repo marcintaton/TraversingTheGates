@@ -1,43 +1,11 @@
-#include "DungeonLevelGenerator.h"
+#include "DungeonLevelSpawner.h"
 
-#include "../systems/GameSystems.h"
-#include "TileTypes.h"
+#include "../../systems/GameSystems.h"
+#include "../TileTypes.h"
 
-LevelBlueprint DungeonLevelGenerator::generate_blueprint()
-{
-    auto blueprint = LevelBlueprint();
-
-    blueprint.base_level = {{
-        {{2, 2, 2, 2, 2, 2, 2, 2, 0, 0}},
-        {{2, 1, 1, 1, 1, 1, 1, 2, 0, 0}},
-        {{2, 1, 1, 1, 1, 1, 1, 2, 2, 2}},
-        {{2, 1, 1, 1, 1, 1, 1, 1, 1, 2}},
-        {{2, 2, 2, 1, 1, 1, 1, 1, 1, 2}},
-        {{2, 1, 1, 1, 1, 1, 1, 1, 1, 2}},
-        {{2, 2, 1, 1, 1, 1, 1, 1, 1, 2}},
-        {{0, 2, 1, 1, 1, 1, 1, 1, 1, 2}},
-        {{0, 2, 1, 1, 1, 1, 1, 1, 2, 2}},
-        {{0, 2, 2, 2, 2, 2, 2, 2, 2, 2}},
-    }};
-
-    blueprint.top_level = {{{{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                            {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                            {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                            {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                            {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                            {{0, 0, 0, 0, 3, 0, 0, 0, 0, 0}},
-                            {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                            {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                            {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                            {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}}};
-
-    return blueprint;
-}
-
-LevelData DungeonLevelGenerator::get_generated_level()
+LevelData DungeonLevelSpawner::get_generated_level(LevelBlueprint blueprint)
 {
     auto max_map_size = Global::GlobalData::get_instance().max_map_size;
-    auto blueprint = generate_blueprint();
     auto data = LevelData();
 
     // prepare data for construtors
@@ -70,9 +38,9 @@ LevelData DungeonLevelGenerator::get_generated_level()
     return data;
 }
 
-ECS::EntityId DungeonLevelGenerator::create_entity_for_tile(int i, int j,
-                                                            int type, Shader sh,
-                                                            GLuint tex)
+ECS::EntityId DungeonLevelSpawner::create_entity_for_tile(int i, int j,
+                                                          int type, Shader sh,
+                                                          GLuint tex)
 {
     switch (type) {
         case TileTypes::EMPTY:
