@@ -1,9 +1,13 @@
 #pragma once
 
+#include <random>
+#include <vector>
+
 #include "../../engine/GameEngine.h"
 #include "../../global/GlobalData.h"
 #include "../LevelBlueprint.h"
 #include "../LevelData.h"
+#include "../RoomData.h"
 
 // ????
 #include "../../entities/GameEntities.h"
@@ -12,10 +16,24 @@
 
 class LevelGenerator
 {
+  private:
+    int min_room_size = 3;
+    int max_room_size = 7;
+
+    int random(int min, int max);
+    //
+    void try_add_room(std::vector<RoomData>& rooms, bool is_entry,
+                      bool is_exit);
+    void apply_to_blueprint(std::vector<RoomData> rooms,
+                            LevelBlueprint& blueprint);
+    void add_walls(LevelBlueprint& blueprint);
+    //
+    bool is_possible_to_insert_room(RoomData new_room,
+                                    std::vector<RoomData> rooms);
+
   public:
+    LevelGenerator() { srand(time(0)); }
     LevelBlueprint generate_blueprint();
     LevelBlueprint generate_full_sample_blueprint();
-    // LevelData get_generated_level();
-    // ECS::EntityId create_entity_for_tile(int i, int j, int type, Shader sh,
-    //  GLuint tex);
+    LevelBlueprint generate_procedural_blueprint();
 };
