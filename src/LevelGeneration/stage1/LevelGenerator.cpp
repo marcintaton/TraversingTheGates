@@ -55,8 +55,10 @@ LevelBlueprint LevelGenerator::generate_full_sample_blueprint()
 
 int LevelGenerator::random(int min, int max)
 {
+    if (min == max) {
+        return min;
+    }
     int x = rand() % (max - min) + min;
-    std::cout << x << std::endl;
     return x;
 }
 
@@ -111,6 +113,10 @@ void LevelGenerator::add_walls(LevelBlueprint& blueprint)
                     blueprint.base_level[i][j] = 2;
                 }
             }
+
+            if (i == 0 || j == 0 || i == 99 || j == 99) {
+                blueprint.base_level[i][j] = 2;
+            }
         }
     }
 }
@@ -118,7 +124,18 @@ void LevelGenerator::add_walls(LevelBlueprint& blueprint)
 bool LevelGenerator::is_possible_to_insert_room(RoomData new_room,
                                                 std::vector<RoomData> rooms)
 {
+    // case room is out of map bounds
+    if (new_room.x < 1 || new_room.y < 1 || new_room.x + new_room.w > 99 ||
+        new_room.y + new_room.h > 99) {
+        return false;
+    }
+
     for (auto room : rooms) {
+        // case new room entry point is in room
+        if (new_room.x >= room.x && new_room.x <= room.x + room.w &&
+            new_room.y >= room.y && new_room.y <= room.y + room.h) {
+            return false;
+        }
         // case new room left from room
         if (new_room.x + new_room.w + 3 > room.x && new_room.x < room.x) {
             return false;
@@ -152,6 +169,17 @@ LevelBlueprint LevelGenerator::generate_procedural_blueprint()
 
     while (rooms.size() == 1) {
         try_add_room(rooms, false, true);
+    }
+
+    int room_count = random(min_room_count, max_room_count);
+
+    int room_addition_tries = 0;
+    while (rooms.size() != room_count) {
+        try_add_room(rooms, false, false);
+        room_addition_tries++;
+        if (room_addition_tries > max_room_addition_tries) {
+            break;
+        }
     }
 
     apply_to_blueprint(rooms, blueprint);
