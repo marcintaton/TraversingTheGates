@@ -5,7 +5,7 @@
 Camera::Camera()
 {
     auto transform = ECS::ECEngine::get_instance().do_add_component<Transform>(
-        get_entity_id(), glm::vec3(0, 0, 0), glm::vec2(1, 1), 0.0f);
+        get_entity_id(), glm::vec3(50, 50, 0), glm::vec2(1, 1), 0.0f);
     add_component_info<Transform>(transform->get_component_id());
 
     auto camera_data =

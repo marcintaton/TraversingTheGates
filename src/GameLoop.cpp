@@ -9,6 +9,7 @@
 void GameLoop::initialize()
 {
     ECS::ECEngine::get_instance().create_entity<Camera>();
+
     ECS::SystemEngine::get_instance().create_active_system<Renderer>();
     ECS::SystemEngine::get_instance().create_independent_system<LevelSetup>();
     ECS::SystemEngine::get_instance()

@@ -33,17 +33,17 @@ void CameraMovement::move_camera(const PlayerMoved* event)
 
     try_cache_transforms();
 
-    glm::vec3 offset = t_camera->position - t_player->position;
+    // glm::vec3 offset = t_camera->position - t_player->position;
 
-    if (offset.x > max_offset_from_player) {
-        t_camera->position += glm::vec3(-1, 0, 0);
-    } else if (offset.x < -max_offset_from_player) {
-        t_camera->position += glm::vec3(1, 0, 0);
-    } else if (offset.y > max_offset_from_player) {
-        t_camera->position += glm::vec3(0, -1, 0);
-    } else if (offset.y < -max_offset_from_player) {
-        t_camera->position += glm::vec3(0, 1, 0);
-    }
+    // if (offset.x > max_offset_from_player) {
+    //     t_camera->position += glm::vec3(-1, 0, 0);
+    // } else if (offset.x < -max_offset_from_player) {
+    //     t_camera->position += glm::vec3(1, 0, 0);
+    // } else if (offset.y > max_offset_from_player) {
+    //     t_camera->position += glm::vec3(0, -1, 0);
+    // } else if (offset.y < -max_offset_from_player) {
+    //     t_camera->position += glm::vec3(0, 1, 0);
+    // }
 }
 
 void CameraMovement::try_cache_transforms()
@@ -67,5 +67,5 @@ void CameraMovement::try_cache_transforms()
 void CameraMovement::center_on_player()
 {
     try_cache_transforms();
-    t_camera->position = t_player->position;
+    // t_camera->position = t_player->position;
 }
