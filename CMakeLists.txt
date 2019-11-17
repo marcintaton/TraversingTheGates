@@ -57,7 +57,7 @@ file(GLOB PROJECT_SOURCE_FILES
     "src/systems/PlayerKick.cpp"
 
     # GENERATION
-    "src/LevelGeneration/stage1/DungeonLevelGenerator.cpp"
+    "src/LevelGeneration/stage1/LevelGenerator.cpp"
     "src/LevelGeneration/stage1/DungeonLevelSpawner.cpp"
     "src/LevelGeneration/Navmesh.cpp"
     "src/LevelGeneration/LevelData.cpp"

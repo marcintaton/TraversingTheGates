@@ -1,6 +1,6 @@
-#include "DungeonLevelGenerator.h"
+#include "LevelGenerator.h"
 
-LevelBlueprint DungeonLevelGenerator::generate_blueprint()
+LevelBlueprint LevelGenerator::generate_blueprint()
 {
     auto blueprint = LevelBlueprint();
 

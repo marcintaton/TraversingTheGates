@@ -10,7 +10,7 @@
 
 // For now here
 
-class DungeonLevelGenerator
+class LevelGenerator
 {
   public:
     LevelBlueprint generate_blueprint();
