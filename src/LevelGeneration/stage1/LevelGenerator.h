@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm>
+#include <array>
 #include <random>
 #include <vector>
 
@@ -14,6 +16,17 @@
 
 // For now here
 
+enum class Direction { UP, DOWN, LEFT, RIGHT, EVEN };
+struct Position {
+    int x;
+    int y;
+};
+struct WeightedPosition {
+    int x;
+    int y;
+    int weigth;
+};
+
 class LevelGenerator
 {
   private:
@@ -27,9 +40,23 @@ class LevelGenerator
     //
     void try_add_room(std::vector<RoomData>& rooms, bool is_entry,
                       bool is_exit);
-    void apply_to_blueprint(std::vector<RoomData> rooms,
-                            LevelBlueprint& blueprint);
+    void apply_rooms_to_blueprint(std::vector<RoomData> rooms,
+                                  LevelBlueprint& blueprint);
+    void
+    apply_corridors_to_bluerint(std::vector<std::vector<Position>> corridors,
+                                LevelBlueprint& blueprint);
     void add_walls(LevelBlueprint& blueprint);
+    std::vector<Position> make_corridor(RoomData start_room, RoomData end_room,
+                                        LevelBlueprint room_bp);
+    Position find_random_point_in_wall(RoomData room, Direction wall);
+    bool find_entry_point(std::vector<Position>& corridor,
+                          Position current_tile, Position entry_point,
+                          LevelBlueprint bp);
+    Position extrude_point(Position point, Direction dir, int by);
+    std::vector<Position> dig_corridor(Position start, Direction start_dir,
+                                       Position end, Direction end_dir,
+                                       LevelBlueprint room_bp);
+
     //
     bool is_possible_to_insert_room(RoomData new_room,
                                     std::vector<RoomData> rooms);
