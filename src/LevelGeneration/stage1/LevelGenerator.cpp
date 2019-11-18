@@ -105,27 +105,23 @@ void LevelGenerator::add_walls(LevelBlueprint& blueprint)
     for (int i = 0; i < 100; ++i) {
         for (int j = 0; j < 100; ++j) {
             if (blueprint.base_level[i][j] == 0) {
-                if (blueprint.base_level[i + 1][j + 1] == 1) {
-                    blueprint.base_level[i][j] = 2;
-                } else if (blueprint.base_level[i + 1][j] == 1) {
-                    blueprint.base_level[i][j] = 2;
-                } else if (blueprint.base_level[i + 1][j - 1] == 1) {
-                    blueprint.base_level[i][j] = 2;
-                } else if (blueprint.base_level[i][j + 1] == 1) {
-                    blueprint.base_level[i][j] = 2;
-                } else if (blueprint.base_level[i][j - 1] == 1) {
-                    blueprint.base_level[i][j] = 2;
-                } else if (blueprint.base_level[i - 1][j + 1] == 1) {
-                    blueprint.base_level[i][j] = 2;
-                } else if (blueprint.base_level[i - 1][j] == 1) {
-                    blueprint.base_level[i][j] = 2;
-                } else if (blueprint.base_level[i - 1][j - 1] == 1) {
+                for (int k = -1; k < 2; ++k) {
+                    for (int m = -1; m < 2; ++m) {
+                        int x = i + k;
+                        int y = j + m;
+
+                        if ((k != 0 && m != 0) && x >= 0 && y >= 0 && x < 100 &&
+                            y < 100) {
+                            if (blueprint.base_level[x][y] == 1) {
+                                blueprint.base_level[i][j] = 2;
+                            }
+                        }
+                    }
+                }
+
+                if (i == 0 || j == 0 || i == 99 || j == 99) {
                     blueprint.base_level[i][j] = 2;
                 }
-            }
-
-            if (i == 0 || j == 0 || i == 99 || j == 99) {
-                blueprint.base_level[i][j] = 2;
             }
         }
     }
@@ -303,12 +299,17 @@ LevelGenerator::dig_corridor(Position start, Direction start_dir, Position end,
     return corridor_positions;
 }
 
+int recursion_depth = 0;
+
 bool LevelGenerator::find_entry_point(std::vector<Position>& corridor,
                                       Position current_tile,
                                       Position entry_point, LevelBlueprint bp)
 {
+    std::cout << recursion_depth << std::endl;
+    recursion_depth++;
     //
     if (current_tile.x == entry_point.x && current_tile.y == entry_point.y) {
+        recursion_depth--;
         corridor.push_back(current_tile);
         return true;
     }
@@ -327,7 +328,8 @@ bool LevelGenerator::find_entry_point(std::vector<Position>& corridor,
     // discard open spaces and previous field
     // neighbours.erase(
     //     std::remove_if(neighbours.begin(), neighbours.end(),
-    //                    [&](const WeightedPosition n) { return n.weigth < w;
+    //                    [&](const WeightedPosition n) { return n.weigth <
+    //                    w;
     //                    }));
 
     for (auto wp : neighbours) {
@@ -337,11 +339,12 @@ bool LevelGenerator::find_entry_point(std::vector<Position>& corridor,
             bool result = find_entry_point(corridor, p, entry_point, bp);
             if (result == true) {
                 corridor.push_back(current_tile);
+                recursion_depth--;
                 return true;
             }
         }
     }
-
+    recursion_depth--;
     return false;
 }
 
@@ -415,33 +418,34 @@ LevelBlueprint LevelGenerator::generate_procedural_blueprint()
     int room_count = random(min_room_count, max_room_count);
 
     // Add random rooms
-    int room_addition_tries = 0;
-    while (rooms.size() != room_count) {
-        try_add_room(rooms, false, false);
-        room_addition_tries++;
-        if (room_addition_tries > max_room_addition_tries) {
-            break;
-        }
-    }
+    // int room_addition_tries = 0;
+    // while (rooms.size() != room_count) {
+    //     try_add_room(rooms, false, false);
+    //     room_addition_tries++;
+    //     if (room_addition_tries > max_room_addition_tries) {
+    //         break;
+    //     }
+    // }
 
     apply_rooms_to_blueprint(rooms, blueprint);
     // End of Room generation
 
     // Prepare room navmesh
-    auto room_navmesh_bp = blueprint;
-    add_walls(room_navmesh_bp);
-    for (int i = 0; i < 100; ++i) {
-        for (int j = 0; j < 100; j++) {
-            if (room_navmesh_bp.base_level[i][j] != 0) {
-                room_navmesh_bp.base_level[i][j] = -1;
-            }
-        }
-    }
+    // auto room_navmesh_bp = blueprint;
+    // add_walls(room_navmesh_bp);
+    // for (int i = 0; i < 100; ++i) {
+    //     for (int j = 0; j < 100; j++) {
+    //         if (room_navmesh_bp.base_level[i][j] != 0) {
+    //             room_navmesh_bp.base_level[i][j] = -1;
+    //         }
+    //     }
+    // }
 
     // Corridor generation
     std::vector<std::vector<Position>> corridors;
     // Corridor from start room
-    corridors.push_back(make_corridor(rooms[0], rooms[2], room_navmesh_bp));
+    // corridors.push_back(make_corridor(rooms[0], rooms[2],
+    // room_navmesh_bp));
 
     // for (int i = 2; i < rooms.size() - 1; ++i) {
     //     corridors.push_back(
