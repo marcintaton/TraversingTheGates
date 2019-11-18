@@ -1,10 +1,12 @@
 #include "src/GameLoop.h"
 #include "src/setupManagers/GLsetup.h"
+#include "src/setupManagers/StackModifier.h"
 
 int main(void)
 {
     Utility::Logging::setup_logger();
 
+    Setup::resize_stack();
     Setup::GL_setup();
 
     //
