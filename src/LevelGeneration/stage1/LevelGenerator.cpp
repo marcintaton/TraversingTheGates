@@ -277,21 +277,22 @@ LevelGenerator::dig_corridor(Position start, Direction start_dir, Position end,
         room_bp.base_level[pos.x][pos.y] = pos.weigth;
     }
 
-    // for (int i = 0; i < 100; ++i) {
-    //     for (int j = 0; j < 100; ++j) {
-    //         std::string s = (room_bp.base_level[i][j] < 10 &&
-    //                          room_bp.base_level[i][j] >= 0) ?
-    //                             " " :
-    //                             "";
-    //         std::cout << s << room_bp.base_level[i][j] << ", ";
-    //     }
-    //     std::cout << std::endl;
-    // }
+    for (int i = 0; i < 100; ++i) {
+        for (int j = 0; j < 100; ++j) {
+            std::string s = (room_bp.base_level[i][j] < 10 &&
+                             room_bp.base_level[i][j] >= 0) ?
+                                " " :
+                                "";
+            std::cout << s << room_bp.base_level[i][j] << ", ";
+        }
+        std::cout << std::endl;
+    }
 
     std::vector<Position> corridor_positions;
+    std::vector<Position> visited;
 
-    find_entry_point(corridor_positions, extruded_end_pos, extruded_start_pos,
-                     room_bp);
+    find_entry_point(corridor_positions, visited, extruded_end_pos,
+                     extruded_start_pos, room_bp);
 
     corridor_positions.push_back(end);
     corridor_positions.push_back(start);
@@ -302,9 +303,22 @@ LevelGenerator::dig_corridor(Position start, Direction start_dir, Position end,
 int recursion_depth = 0;
 
 bool LevelGenerator::find_entry_point(std::vector<Position>& corridor,
+                                      std::vector<Position>& visited,
                                       Position current_tile,
                                       Position entry_point, LevelBlueprint bp)
 {
+
+    auto found_in_visited =
+        std::find_if(visited.begin(), visited.end(), [&](const Position pos) {
+            return (pos.x == current_tile.x && pos.y == current_tile.y);
+        });
+
+    if (found_in_visited != visited.end()) {
+        return false;
+    }
+
+    visited.push_back(current_tile);
+
     std::cout << recursion_depth << std::endl;
     recursion_depth++;
     //
@@ -323,20 +337,14 @@ bool LevelGenerator::find_entry_point(std::vector<Position>& corridor,
     WeightedPosition u = WeightedPosition {x, y + 1, bp.base_level[x][y + 1]};
     WeightedPosition d = WeightedPosition {x, y - 1, bp.base_level[x][y - 1]};
 
-    std::vector<WeightedPosition> neighbours = {l, r, u, d};
-
-    // discard open spaces and previous field
-    // neighbours.erase(
-    //     std::remove_if(neighbours.begin(), neighbours.end(),
-    //                    [&](const WeightedPosition n) { return n.weigth <
-    //                    w;
-    //                    }));
+    std::vector<WeightedPosition> neighbours = {l, u, r, d};
 
     for (auto wp : neighbours) {
 
         if (wp.weigth > w) {
             Position p = Position {wp.x, wp.y};
-            bool result = find_entry_point(corridor, p, entry_point, bp);
+            bool result =
+                find_entry_point(corridor, visited, p, entry_point, bp);
             if (result == true) {
                 corridor.push_back(current_tile);
                 recursion_depth--;
@@ -431,21 +439,20 @@ LevelBlueprint LevelGenerator::generate_procedural_blueprint()
     // End of Room generation
 
     // Prepare room navmesh
-    // auto room_navmesh_bp = blueprint;
-    // add_walls(room_navmesh_bp);
-    // for (int i = 0; i < 100; ++i) {
-    //     for (int j = 0; j < 100; j++) {
-    //         if (room_navmesh_bp.base_level[i][j] != 0) {
-    //             room_navmesh_bp.base_level[i][j] = -1;
-    //         }
-    //     }
-    // }
+    auto room_navmesh_bp = blueprint;
+    add_walls(room_navmesh_bp);
+    for (int i = 0; i < 100; ++i) {
+        for (int j = 0; j < 100; j++) {
+            if (room_navmesh_bp.base_level[i][j] != 0) {
+                room_navmesh_bp.base_level[i][j] = -1;
+            }
+        }
+    }
 
     // Corridor generation
     std::vector<std::vector<Position>> corridors;
     // Corridor from start room
-    // corridors.push_back(make_corridor(rooms[0], rooms[2],
-    // room_navmesh_bp));
+    corridors.push_back(make_corridor(rooms[0], rooms[1], room_navmesh_bp));
 
     // for (int i = 2; i < rooms.size() - 1; ++i) {
     //     corridors.push_back(

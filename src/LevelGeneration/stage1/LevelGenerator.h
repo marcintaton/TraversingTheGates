@@ -50,8 +50,8 @@ class LevelGenerator
                                         LevelBlueprint room_bp);
     Position find_random_point_in_wall(RoomData room, Direction wall);
     bool find_entry_point(std::vector<Position>& corridor,
-                          Position current_tile, Position entry_point,
-                          LevelBlueprint bp);
+                          std::vector<Position>& visited, Position current_tile,
+                          Position entry_point, LevelBlueprint bp);
     Position extrude_point(Position point, Direction dir, int by);
     std::vector<Position> dig_corridor(Position start, Direction start_dir,
                                        Position end, Direction end_dir,
