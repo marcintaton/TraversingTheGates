@@ -30,8 +30,8 @@ struct WeightedPosition {
 class LevelGenerator
 {
   private:
-    int min_room_size = 5;
-    int max_room_size = 8;
+    int min_room_size = 8;
+    int max_room_size = 12;
     int min_room_count = 15;
     int max_room_count = 15;
     int max_room_addition_tries = 10000;

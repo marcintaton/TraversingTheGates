@@ -277,17 +277,6 @@ LevelGenerator::dig_corridor(Position start, Direction start_dir, Position end,
         room_bp.base_level[pos.x][pos.y] = pos.weigth;
     }
 
-    for (int i = 0; i < 100; ++i) {
-        for (int j = 0; j < 100; ++j) {
-            std::string s = (room_bp.base_level[i][j] < 10 &&
-                             room_bp.base_level[i][j] >= 0) ?
-                                " " :
-                                "";
-            std::cout << s << room_bp.base_level[i][j] << ", ";
-        }
-        std::cout << std::endl;
-    }
-
     std::vector<Position> corridor_positions;
     std::vector<Position> visited;
 
@@ -299,8 +288,6 @@ LevelGenerator::dig_corridor(Position start, Direction start_dir, Position end,
 
     return corridor_positions;
 }
-
-int recursion_depth = 0;
 
 bool LevelGenerator::find_entry_point(std::vector<Position>& corridor,
                                       std::vector<Position>& visited,
@@ -318,12 +305,8 @@ bool LevelGenerator::find_entry_point(std::vector<Position>& corridor,
     }
 
     visited.push_back(current_tile);
-
-    std::cout << recursion_depth << std::endl;
-    recursion_depth++;
     //
     if (current_tile.x == entry_point.x && current_tile.y == entry_point.y) {
-        recursion_depth--;
         corridor.push_back(current_tile);
         return true;
     }
@@ -347,12 +330,10 @@ bool LevelGenerator::find_entry_point(std::vector<Position>& corridor,
                 find_entry_point(corridor, visited, p, entry_point, bp);
             if (result == true) {
                 corridor.push_back(current_tile);
-                recursion_depth--;
                 return true;
             }
         }
     }
-    recursion_depth--;
     return false;
 }
 
@@ -426,14 +407,14 @@ LevelBlueprint LevelGenerator::generate_procedural_blueprint()
     int room_count = random(min_room_count, max_room_count);
 
     // Add random rooms
-    // int room_addition_tries = 0;
-    // while (rooms.size() != room_count) {
-    //     try_add_room(rooms, false, false);
-    //     room_addition_tries++;
-    //     if (room_addition_tries > max_room_addition_tries) {
-    //         break;
-    //     }
-    // }
+    int room_addition_tries = 0;
+    while (rooms.size() != room_count) {
+        try_add_room(rooms, false, false);
+        room_addition_tries++;
+        if (room_addition_tries > max_room_addition_tries) {
+            break;
+        }
+    }
 
     apply_rooms_to_blueprint(rooms, blueprint);
     // End of Room generation
@@ -452,16 +433,15 @@ LevelBlueprint LevelGenerator::generate_procedural_blueprint()
     // Corridor generation
     std::vector<std::vector<Position>> corridors;
     // Corridor from start room
-    corridors.push_back(make_corridor(rooms[0], rooms[1], room_navmesh_bp));
+    corridors.push_back(make_corridor(rooms[0], rooms[2], room_navmesh_bp));
 
-    // for (int i = 2; i < rooms.size() - 1; ++i) {
-    //     corridors.push_back(
-    //         make_corridor(rooms[i], rooms[i + 1], room_navmesh_bp));
-    // }
+    for (int i = 2; i < rooms.size() - 1; ++i) {
+        corridors.push_back(
+            make_corridor(rooms[i], rooms[i + 1], room_navmesh_bp));
+    }
 
     // // Corridor to end room
-    // corridors.push_back(make_corridor(rooms.back(), rooms[1],
-    // room_navmesh_bp));
+    corridors.push_back(make_corridor(rooms.back(), rooms[1], room_navmesh_bp));
 
     // End of corridor Generation
 
