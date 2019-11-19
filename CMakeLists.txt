@@ -40,6 +40,7 @@ file(GLOB PROJECT_SOURCE_FILES
     "src/entities/Camera.cpp"
     "src/entities/Wall.cpp"
     "src/entities/Player.cpp"
+    "src/entities/Door.cpp"
 
     # COMPONENTS
     "src/components/Transform.cpp"

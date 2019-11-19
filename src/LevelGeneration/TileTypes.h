@@ -7,7 +7,9 @@ enum TileTypes {
     EMPTY,
     FLOOR_TILE,
     WALL,
-    PLAYER
+    PLAYER,
+    DOOR_H,
+    DOOR_V
 
 };
 };

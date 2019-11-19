@@ -29,9 +29,11 @@ LevelData DungeonLevelSpawner::get_generated_level(LevelBlueprint blueprint)
             auto base_type = blueprint.base_level[i][j];
             data.base_level[i][j] =
                 create_entity_for_tile(i, j, base_type, sh, enviro_tex);
+
             auto top_type = blueprint.top_level[i][j];
+            GLuint top_tex = top_type == 3 ? player_tex : enviro_tex;
             data.top_level[i][j] =
-                create_entity_for_tile(i, j, top_type, sh, player_tex);
+                create_entity_for_tile(i, j, top_type, sh, top_tex);
         }
     }
 
@@ -56,7 +58,15 @@ ECS::EntityId DungeonLevelSpawner::create_entity_for_tile(int i, int j,
             break;
         case TileTypes::PLAYER:
             return ECS::ECEngine::get_instance().create_entity<Player>(
-                glm::vec3(i, j, 1), sh, tex);
+                glm::vec3(i, j, 5), sh, tex);
+            break;
+        case TileTypes::DOOR_H:
+            return ECS::ECEngine::get_instance().create_entity<Door>(
+                glm::vec3(i, j, 1), sh, tex, false);
+            break;
+        case TileTypes::DOOR_V:
+            return ECS::ECEngine::get_instance().create_entity<Door>(
+                glm::vec3(i, j, 1), sh, tex, true);
             break;
 
         default:

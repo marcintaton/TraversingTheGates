@@ -1,8 +1,11 @@
 #include "src/GameLoop.h"
 #include "src/setupManagers/GLsetup.h"
+#include <stdlib.h>
+#include <time.h>
 
 int main(void)
 {
+    srand(time(NULL));
     Utility::Logging::setup_logger();
 
     Setup::GL_setup();
