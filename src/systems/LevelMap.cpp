@@ -1,6 +1,32 @@
 #include "LevelMap.h"
 
-LevelMap::LevelMap() {}
+LevelMap::LevelMap()
+{
+    on_turn_end_delegate = Event::EventDelegate<LevelMap, TurnEnd>(
+        this, &LevelMap::update_navmesh);
+}
+
+void LevelMap::subscribe()
+{
+    Event::EventEngine::get_instance().add_listener<TurnEnd>(
+        &on_turn_end_delegate);
+}
+void LevelMap::unsubscribe()
+{
+
+    Event::EventEngine::get_instance().remove_listener<TurnEnd>(
+        &on_turn_end_delegate);
+}
+
+void LevelMap::on_enable()
+{
+    subscribe();
+}
+
+void LevelMap::on_disable()
+{
+    unsubscribe();
+}
 
 void LevelMap::init_current_level(LevelData data)
 {
@@ -32,6 +58,7 @@ void LevelMap::move_dynamic_element(ECS::EntityId id, MapPosition new_position)
 
 ECS::EntityId LevelMap::get_entity_id(MapPosition from_pos)
 {
+    std::cout << level_data.top_level[from_pos.i][from_pos.j] << std::endl;
     if (level_data.top_level[from_pos.i][from_pos.j] != 0) {
         return level_data.top_level[from_pos.i][from_pos.j];
     } else {
@@ -61,4 +88,9 @@ ECS::EntityId LevelMap::get_neighbour_id(ECS::EntityId central, Direction dir)
     ECS::EntityId neighbour_id = get_entity_id(central_pos);
 
     return neighbour_id;
+}
+
+void LevelMap::update_navmesh(const TurnEnd* event)
+{
+    navmesh.update_dynamic_navmesh(level_data);
 }

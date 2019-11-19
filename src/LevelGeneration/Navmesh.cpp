@@ -35,6 +35,27 @@ void Navmesh::init_from_level_data(LevelData data)
     }
 }
 
+void Navmesh::update_dynamic_navmesh(LevelData data)
+{
+    for (int i = 0; i < Global::GlobalData::max_map_size; ++i) {
+        for (int j = 0; j < Global::GlobalData::max_map_size; ++j) {
+
+            if (data.top_level[i][j] != 0) {
+                auto top_id = ECS::ECEngine::get_instance()
+                                  .get_entity(data.top_level[i][j])
+                                  ->get_entity_id();
+
+                dynamic_elements[i][j] =
+                    ECS::ECEngine::get_instance()
+                        .get_component<NavigationData>(top_id)
+                        ->passable;
+            } else {
+                dynamic_elements[i][j] = 1;
+            }
+        }
+    }
+}
+
 void Navmesh::move_dynamic_element(MapPosition old_position,
                                    MapPosition new_position)
 {

@@ -22,6 +22,7 @@ struct Navmesh {
     }
 
     void init_from_level_data(LevelData data);
+    void update_dynamic_navmesh(LevelData data);
     void move_dynamic_element(MapPosition old_position,
                               MapPosition new_position);
 };

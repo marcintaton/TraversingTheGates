@@ -88,11 +88,11 @@ void PlayerKick::resolve_keys_in_kick_state(const KeyPress* event)
     }
 
     if (did_kick) {
-        TurnEnd turn_end_event;
-        Event::EventEngine::get_instance().send_event<TurnEnd>(&turn_end_event);
-
         Kick kick_event = Kick {.source = player_id, .target = kicked_entity};
         Event::EventEngine::get_instance().send_event<Kick>(&kick_event);
+
+        TurnEnd turn_end_event;
+        Event::EventEngine::get_instance().send_event<TurnEnd>(&turn_end_event);
     }
 
     SetKeysReservation key_reserve_event =

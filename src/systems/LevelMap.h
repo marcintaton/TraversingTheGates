@@ -4,6 +4,7 @@
 #include "../LevelGeneration/MapPosition.h"
 #include "../LevelGeneration/Navmesh.h"
 #include "../engine/GameEngine.h"
+#include "../events/GameEvents.h"
 
 enum class Direction { LEFT, RIGHT, UP, DOWN };
 
@@ -13,8 +14,17 @@ class LevelMap : public ECS::System::IndependentSystem<LevelMap>
     LevelData level_data;
     Navmesh navmesh;
 
+    Event::EventDelegate<LevelMap, TurnEnd> on_turn_end_delegate;
+
+    void subscribe();
+    void unsubscribe();
+
+    void update_navmesh(const TurnEnd* event);
+
   public:
     LevelMap();
+    virtual void on_enable() override;
+    virtual void on_disable() override;
 
     void init_current_level(LevelData data);
     bool is_tile_available(int i, int j);
