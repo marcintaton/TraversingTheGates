@@ -55,7 +55,7 @@ file(GLOB PROJECT_SOURCE_FILES
     "src/systems/CameraMovement.cpp"
     "src/systems/LevelMap.cpp"
     "src/systems/LevelGenerationManager.cpp"
-    "src/systems/PlayerKick.cpp"
+    "src/systems/PlayerInteraction.cpp"
     "src/systems/InteractionManager.cpp"
 
     # INTERACTIONS

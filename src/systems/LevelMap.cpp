@@ -58,7 +58,6 @@ void LevelMap::move_dynamic_element(ECS::EntityId id, MapPosition new_position)
 
 ECS::EntityId LevelMap::get_entity_id(MapPosition from_pos)
 {
-    std::cout << level_data.top_level[from_pos.i][from_pos.j] << std::endl;
     if (level_data.top_level[from_pos.i][from_pos.j] != 0) {
         return level_data.top_level[from_pos.i][from_pos.j];
     } else {

@@ -5,7 +5,7 @@
 #include "LevelGenerationManager.h"
 #include "LevelMap.h"
 #include "LevelSetup.h"
-#include "PlayerKick.h"
+#include "PlayerInteraction.h"
 #include "PlayerMovement.h"
 #include "Renderer.h"
 #include "ShaderManager.h"
