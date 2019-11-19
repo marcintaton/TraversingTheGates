@@ -1,11 +1,11 @@
 #include "WallInteraction.h"
 
-void WallInteraction::OnKick(ECS::EntityId source, ECS::EntityId target)
+void WallInteraction::OnKick(const Kick* event)
 {
     spdlog::info("Wall kicked. That probably hurt");
 }
 
-void WallInteraction::OnUse(ECS::EntityId source, ECS::EntityId target)
+void WallInteraction::OnUse(const Use* event)
 {
     spdlog::info("Wall used. Nothing happens");
 }

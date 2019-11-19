@@ -1,11 +1,11 @@
 #include "DoorInteraction.h"
 
-void DoorInteraction::OnKick(ECS::EntityId source, ECS::EntityId target)
+void DoorInteraction::OnKick(const Kick* event)
 {
     spdlog::info("Door kicked.");
 }
 
-void DoorInteraction::OnUse(ECS::EntityId source, ECS::EntityId target)
+void DoorInteraction::OnUse(const Use* event)
 {
 
     spdlog::info("Door used.");

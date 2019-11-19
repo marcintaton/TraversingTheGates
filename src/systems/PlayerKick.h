@@ -19,6 +19,9 @@ class PlayerKick : public ECS::System::IndependentSystem<PlayerKick>
     void subscribe();
     void unsubscribe();
 
+    void enter_kick_state();
+    void resolve_keys_in_kick_state(const KeyPress* event);
+
   public:
     PlayerKick();
     virtual void on_enable() override;

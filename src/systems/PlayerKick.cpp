@@ -35,45 +35,70 @@ void PlayerKick::on_disable()
 
 void PlayerKick::kick(const KeyPress* event)
 {
-    if (!is_in_kick_state && event->key_code == GLFW_KEY_K) {
-        is_in_kick_state = true;
-        SetKeysReservation event =
-            SetKeysReservation {.key_codes = direction_keys, .to_state = 1};
-        Event::EventEngine::get_instance().send_event<SetKeysReservation>(
-            &event);
-    } else if (is_in_kick_state) {
-
-        bool did_kick = false;
-        auto key_code = event->key_code;
-
-        if (key_code == GLFW_KEY_W || key_code == GLFW_KEY_UP) {
-            spdlog::info("Kicked up");
-            did_kick = true;
-        }
-        if (key_code == GLFW_KEY_S || key_code == GLFW_KEY_DOWN) {
-            spdlog::info("Kicked down");
-            did_kick = true;
-        }
-        if (key_code == GLFW_KEY_D || key_code == GLFW_KEY_RIGHT) {
-            spdlog::info("Kicked right");
-            did_kick = true;
-        }
-        if (key_code == GLFW_KEY_A || key_code == GLFW_KEY_LEFT) {
-            spdlog::info("Kicked left");
-            did_kick = true;
-        }
-
-        if (did_kick) {
-            TurnEnd turn_end_event;
-            Event::EventEngine::get_instance().send_event<TurnEnd>(
-                &turn_end_event);
-        }
-
-        SetKeysReservation event =
-            SetKeysReservation {.key_codes = direction_keys, .to_state = 0};
-        Event::EventEngine::get_instance().send_event<SetKeysReservation>(
-            &event);
-
-        is_in_kick_state = false;
+    if (player_id == 0) {
+        player_id = ECS::ECEngine::get_instance()
+                        .get_entities_of_type<Player>()[0]
+                        ->get_entity_id();
     }
+
+    if (!is_in_kick_state && event->key_code == GLFW_KEY_K) {
+        enter_kick_state();
+    } else if (is_in_kick_state) {
+        resolve_keys_in_kick_state(event);
+    }
+}
+
+void PlayerKick::enter_kick_state()
+{
+    is_in_kick_state = true;
+    SetKeysReservation event =
+        SetKeysReservation {.key_codes = direction_keys, .to_state = 1};
+    Event::EventEngine::get_instance().send_event<SetKeysReservation>(&event);
+}
+
+void PlayerKick::resolve_keys_in_kick_state(const KeyPress* event)
+{
+
+    bool did_kick = false;
+    auto key_code = event->key_code;
+    auto level_map =
+        ECS::SystemEngine::get_instance().get_independent_system<LevelMap>();
+
+    ECS::EntityId kicked_entity = 0;
+    if (key_code == GLFW_KEY_W || key_code == GLFW_KEY_UP) {
+        kicked_entity = level_map->get_neighbour_id(player_id, Direction::UP);
+        spdlog::info("Kicked up");
+        did_kick = true;
+    }
+    if (key_code == GLFW_KEY_S || key_code == GLFW_KEY_DOWN) {
+        kicked_entity = level_map->get_neighbour_id(player_id, Direction::DOWN);
+        spdlog::info("Kicked down");
+        did_kick = true;
+    }
+    if (key_code == GLFW_KEY_D || key_code == GLFW_KEY_RIGHT) {
+        kicked_entity =
+            level_map->get_neighbour_id(player_id, Direction::RIGHT);
+        spdlog::info("Kicked right");
+        did_kick = true;
+    }
+    if (key_code == GLFW_KEY_A || key_code == GLFW_KEY_LEFT) {
+        kicked_entity = level_map->get_neighbour_id(player_id, Direction::LEFT);
+        spdlog::info("Kicked left");
+        did_kick = true;
+    }
+
+    if (did_kick) {
+        TurnEnd turn_end_event;
+        Event::EventEngine::get_instance().send_event<TurnEnd>(&turn_end_event);
+
+        Kick kick_event = Kick {.source = player_id, .target = kicked_entity};
+        Event::EventEngine::get_instance().send_event<Kick>(&kick_event);
+    }
+
+    SetKeysReservation key_reserve_event =
+        SetKeysReservation {.key_codes = direction_keys, .to_state = 0};
+    Event::EventEngine::get_instance().send_event<SetKeysReservation>(
+        &key_reserve_event);
+
+    is_in_kick_state = false;
 }

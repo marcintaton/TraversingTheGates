@@ -5,6 +5,6 @@
 class WallInteraction : public IInteractive
 {
   public:
-    virtual void OnKick(ECS::EntityId source, ECS::EntityId target) override;
-    virtual void OnUse(ECS::EntityId source, ECS::EntityId target) override;
+    virtual void OnKick(const Kick* event) override;
+    virtual void OnUse(const Use* event) override;
 };
