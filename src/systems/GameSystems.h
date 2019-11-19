@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CameraMovement.h"
+#include "InteractionManager.h"
 #include "LevelGenerationManager.h"
 #include "LevelMap.h"
 #include "LevelSetup.h"

@@ -56,6 +56,12 @@ file(GLOB PROJECT_SOURCE_FILES
     "src/systems/LevelMap.cpp"
     "src/systems/LevelGenerationManager.cpp"
     "src/systems/PlayerKick.cpp"
+    "src/systems/InteractionManager.cpp"
+
+    # INTERACTIONS
+    "src/interactionLogic/WallInteraction.cpp"
+    "src/interactionLogic/DoorInteraction.cpp"
+    "src/interactionLogic/TileInteraction.cpp"
 
     # GENERATION
     "src/LevelGeneration/stage1/LevelGenerator.cpp"
