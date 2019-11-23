@@ -9,5 +9,6 @@
 #include "PlayerMovement.h"
 #include "Renderer.h"
 #include "ShaderManager.h"
+#include "SpriteDirectionFlip.h"
 #include "TextureManager.h"
 #include "UserInput.h"

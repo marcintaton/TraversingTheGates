@@ -12,7 +12,7 @@ class PlayerInteraction :
     public ECS::System::IndependentSystem<PlayerInteraction>
 {
   private:
-    ECS::EntityId player_id;
+    ECS::EntityId player_id = 0;
     Event::EventDelegate<PlayerInteraction, KeyPress> interaction_delegate;
     std::vector<int> direction_keys;
 

@@ -27,6 +27,8 @@ void GameLoop::initialize()
     ECS::SystemEngine::get_instance().create_independent_system<LevelMap>();
     ECS::SystemEngine::get_instance()
         .create_independent_system<InteractionManager>();
+    ECS::SystemEngine::get_instance()
+        .create_independent_system<SpriteDirectionFlip>();
 
     LoadNewLevel load_level_event;
     Event::EventEngine::get_instance().send_event<LoadNewLevel>(

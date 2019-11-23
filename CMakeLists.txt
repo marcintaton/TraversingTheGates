@@ -57,6 +57,7 @@ file(GLOB PROJECT_SOURCE_FILES
     "src/systems/LevelGenerationManager.cpp"
     "src/systems/PlayerInteraction.cpp"
     "src/systems/InteractionManager.cpp"
+    "src/systems/SpriteDirectionFlip.cpp"
 
     # INTERACTIONS
     "src/interactionLogic/WallInteraction.cpp"
