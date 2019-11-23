@@ -12,7 +12,7 @@ void TextureManager::load_game_textures()
 
     textures[TextureType::ENVIRO_STAGE_1] =
         load_texture("assets/textures/enviro_stage_1.png");
-    textures[TextureType::PLAYER] = load_texture("assets/textures/player.png");
+    textures[TextureType::PLAYER] = load_texture("assets/textures/player2.png");
 }
 
 GLuint TextureManager::load_texture(const char* file_path)
