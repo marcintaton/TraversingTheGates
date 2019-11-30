@@ -24,16 +24,12 @@ LevelData DungeonLevelSpawner::get_generated_level(LevelBlueprint blueprint)
     // generate entities
     for (int i = 0; i < max_map_size; ++i) {
         for (int j = 0; j < max_map_size; ++j) {
-            // another loop here with switch inside when we rework map into
-            // nesting vectors as layers
-            auto base_type = blueprint.base_level[i][j];
-            data.base_level[i][j] =
-                create_entity_for_tile(i, j, base_type, sh, enviro_tex);
 
-            auto top_type = blueprint.top_level[i][j];
-            GLuint top_tex = top_type == 3 ? player_tex : enviro_tex;
-            data.top_level[i][j] =
-                create_entity_for_tile(i, j, top_type, sh, top_tex);
+            for (auto e : blueprint.level[i][j]) {
+                auto tex = e == 3 ? player_tex : enviro_tex;
+                data.level[i][j].push_back(
+                    create_entity_for_tile(i, j, e, sh, tex));
+            }
         }
     }
 

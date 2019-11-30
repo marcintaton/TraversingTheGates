@@ -31,7 +31,7 @@ void LevelMap::on_disable()
 void LevelMap::init_current_level(LevelData data)
 {
     level_data = data;
-    navmesh.init_from_level_data(data);
+    navmesh.create_navmesh(data);
 }
 
 bool LevelMap::is_tile_available(int i, int j)
@@ -53,16 +53,11 @@ void LevelMap::move_dynamic_element(ECS::EntityId id, MapPosition new_position)
 {
     MapPosition old_pos = find_position(id);
     level_data.move_element(old_pos, new_position);
-    navmesh.move_dynamic_element(old_pos, new_position);
 }
 
 ECS::EntityId LevelMap::get_entity_id(MapPosition from_pos)
 {
-    if (level_data.top_level[from_pos.i][from_pos.j] != 0) {
-        return level_data.top_level[from_pos.i][from_pos.j];
-    } else {
-        return level_data.base_level[from_pos.i][from_pos.j];
-    }
+    return level_data.find_element_id(from_pos);
 }
 
 ECS::EntityId LevelMap::get_neighbour_id(ECS::EntityId central, Direction dir)
@@ -91,5 +86,5 @@ ECS::EntityId LevelMap::get_neighbour_id(ECS::EntityId central, Direction dir)
 
 void LevelMap::update_navmesh(const TurnEnd* event)
 {
-    navmesh.update_dynamic_navmesh(level_data);
+    navmesh.create_navmesh(level_data);
 }
