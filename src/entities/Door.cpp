@@ -21,19 +21,28 @@ Door::Door(glm::vec3 _position, Shader _shader, GLuint _texture,
         closed_tex_index = glm::vec2(1, 1);
     }
 
-    int random_state = rand() % (open_weight + closed_weight + locked_weight);
+    std::vector<Random::WeightedRandOption<DoorState>> weighted_states = {
+        Random::WeightedRandOption<DoorState> {DoorState::LOCKED,
+                                               locked_weight},
+        Random::WeightedRandOption<DoorState> {DoorState::OPEN, open_weight},
+        Random::WeightedRandOption<DoorState> {DoorState::CLOSED,
+                                               closed_weight},
+
+    };
+
+    DoorState random_state = Random::weighted_rand<DoorState>(weighted_states);
 
     bool closed = true;
     bool locked = true;
-    int sturdiness = rand() % (int) (sturdiness_range.y - sturdiness_range.x) +
-                     sturdiness_range.x;
+    int sturdiness =
+        Random::rand_range((int) sturdiness_range.x, (int) sturdiness_range.y);
 
     glm::vec2 starting_tex = closed_tex_index;
-    if (random_state < open_weight) {
+    if (random_state == DoorState::OPEN) {
         closed = false;
         locked = false;
         starting_tex = open_tex_index;
-    } else if (random_state < open_weight + closed_weight) {
+    } else if (random_state == DoorState::CLOSED) {
         closed = true;
         locked = false;
     }

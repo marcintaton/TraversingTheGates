@@ -2,6 +2,7 @@
 
 #include "../components/GameComponents.h"
 #include "../meshes/Quad.h"
+#include "../others/Random.h"
 
 Tile::Tile(glm::vec3 _position, Shader _shader, GLuint _texture)
 {
@@ -9,7 +10,7 @@ Tile::Tile(glm::vec3 _position, Shader _shader, GLuint _texture)
         get_entity_id(), _position, glm::vec2(1, 1), 0.0f);
     add_component_info<Transform>(transform->get_component_id());
 
-    auto random_tile_tex = std::rand() % 5;
+    auto random_tile_tex = Random::rand_range(0, 5);
 
     auto mesh_r_data =
         ECS::ECEngine::get_instance().do_add_component<MeshRenderData>(

@@ -71,9 +71,10 @@ file(GLOB PROJECT_SOURCE_FILES
     "src/LevelGeneration/LevelData.cpp"
 
     # OTHERS
+    "src/others/Random.cpp"
+    
     "src/GameLoop.cpp"
     "src/time/Timer.cpp"
-    
 
 
     # tests 

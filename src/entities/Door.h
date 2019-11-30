@@ -1,9 +1,13 @@
 #pragma once
 
+#include "../others/Random.h"
 #include <glm/glm.hpp>
+#include <vector>
 
 #include "../engine/GameEngine.h"
 #include "../shaders/Shader.h"
+
+enum class DoorState { OPEN, CLOSED, LOCKED };
 
 class Door : public ECS::Entity::Entity<Door>
 {
