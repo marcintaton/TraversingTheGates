@@ -4,21 +4,21 @@
 #include <map>
 
 #include "../engine/GameEngine.h"
-#include "../others/SpriteDirection.h"
+#include "../others/Direction.h"
 
 class OrientedSprite : public ECS::Component::Component<OrientedSprite>
 {
   public:
-    SpriteDirection current_direction = SpriteDirection::DOWN;
-    std::map<SpriteDirection, glm::vec2> texture_sprite_coords;
+    Direction current_direction = Direction::DOWN;
+    std::map<Direction, glm::vec2> texture_sprite_coords;
 
     OrientedSprite() {}
     OrientedSprite(glm::vec2 up, glm::vec2 down, glm::vec2 right,
                    glm::vec2 left)
     {
-        texture_sprite_coords[SpriteDirection::UP] = up;
-        texture_sprite_coords[SpriteDirection::DOWN] = down;
-        texture_sprite_coords[SpriteDirection::RIGHT] = right;
-        texture_sprite_coords[SpriteDirection::LEFT] = left;
+        texture_sprite_coords[Direction::UP] = up;
+        texture_sprite_coords[Direction::DOWN] = down;
+        texture_sprite_coords[Direction::RIGHT] = right;
+        texture_sprite_coords[Direction::LEFT] = left;
     }
 };

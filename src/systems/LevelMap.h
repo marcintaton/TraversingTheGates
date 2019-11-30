@@ -5,8 +5,7 @@
 #include "../LevelGeneration/Navmesh.h"
 #include "../engine/GameEngine.h"
 #include "../events/GameEvents.h"
-
-enum class Direction { LEFT, RIGHT, UP, DOWN };
+#include "../others/Direction.h"
 
 class LevelMap : public ECS::System::IndependentSystem<LevelMap>
 {

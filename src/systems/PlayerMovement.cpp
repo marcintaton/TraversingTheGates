@@ -1,6 +1,6 @@
 #include "PlayerMovement.h"
 
-#include "../others/SpriteDirection.h"
+#include "../others/Direction.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -64,31 +64,31 @@ void PlayerMovement::move_player(int key_code)
 
     bool did_move = false;
     glm::vec3 move_vec = glm::vec3(0, 0, 0);
-    SpriteDirection dir;
+    Direction dir;
 
     if (key_code == GLFW_KEY_W || key_code == GLFW_KEY_UP) {
         player_position.j += 1;
         move_vec += glm::vec3(0, 1, 0);
         did_move = true;
-        dir = SpriteDirection::UP;
+        dir = Direction::UP;
     }
     if (key_code == GLFW_KEY_S || key_code == GLFW_KEY_DOWN) {
         player_position.j += -1;
         move_vec += glm::vec3(0, -1, 0);
         did_move = true;
-        dir = SpriteDirection::DOWN;
+        dir = Direction::DOWN;
     }
     if (key_code == GLFW_KEY_D || key_code == GLFW_KEY_RIGHT) {
         player_position.i += 1;
         move_vec += glm::vec3(1, 0, 0);
         did_move = true;
-        dir = SpriteDirection::RIGHT;
+        dir = Direction::RIGHT;
     }
     if (key_code == GLFW_KEY_A || key_code == GLFW_KEY_LEFT) {
         player_position.i += -1;
         move_vec += glm::vec3(-1, 0, 0);
         did_move = true;
-        dir = SpriteDirection::LEFT;
+        dir = Direction::LEFT;
     }
 
     if (did_move && ECS::SystemEngine::get_instance()

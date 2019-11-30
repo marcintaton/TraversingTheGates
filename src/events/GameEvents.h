@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../engine/GameEngine.h"
-#include "../others/SpriteDirection.h"
+#include "../others/Direction.h"
 #include <vector>
 
 struct LoadNewLevel : public Event::Event<LoadNewLevel> {
@@ -43,5 +43,5 @@ struct Use : public Event::Event<Use> {
 
 struct ObjectMoved : public Event::Event<ObjectMoved> {
     ECS::EntityId object_id;
-    SpriteDirection new_direction;
+    Direction new_direction;
 };
