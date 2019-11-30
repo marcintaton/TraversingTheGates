@@ -24,4 +24,9 @@ SkeletonNPC::SkeletonNPC(glm::vec3 _position, Shader _shader, GLuint _texture)
             get_entity_id(), glm::vec2(1, 0), glm::vec2(0, 0), glm::vec2(2, 0),
             glm::vec2(3, 0));
     add_component_info<OrientedSprite>(ortd_sprt->get_component_id());
+
+    auto enemy_data =
+        ECS::ECEngine::get_instance().do_add_component<EnemyNPCData>(
+            get_entity_id(), 2, 1, true);
+    add_component_info<EnemyNPCData>(enemy_data->get_component_id());
 }

@@ -13,6 +13,7 @@ void MapReposition::subscribe()
     Event::EventEngine::get_instance().add_listener<ObjectMoved>(
         &obj_moved_delegate);
 }
+
 void MapReposition::unsubscribe()
 {
     Event::EventEngine::get_instance().remove_listener<ObjectMoved>(

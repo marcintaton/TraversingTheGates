@@ -60,6 +60,7 @@ file(GLOB PROJECT_SOURCE_FILES
     "src/systems/InteractionManager.cpp"
     "src/systems/SpriteDirectionFlip.cpp"
     "src/systems/MapReposition.cpp"
+    "src/systems/EnemyAI.cpp"
 
     # INTERACTIONS
     "src/interactionLogic/WallInteraction.cpp"

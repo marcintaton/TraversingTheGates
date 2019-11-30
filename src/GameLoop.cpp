@@ -31,6 +31,7 @@ void GameLoop::initialize()
         .create_independent_system<SpriteDirectionFlip>();
     ECS::SystemEngine::get_instance()
         .create_independent_system<MapReposition>();
+    ECS::SystemEngine::get_instance().create_independent_system<EnemyAI>();
 
     LoadNewLevel load_level_event;
     Event::EventEngine::get_instance().send_event<LoadNewLevel>(
