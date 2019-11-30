@@ -5,6 +5,7 @@
 #include "LevelGenerationManager.h"
 #include "LevelMap.h"
 #include "LevelSetup.h"
+#include "MapReposition.h"
 #include "PlayerInteraction.h"
 #include "PlayerMovement.h"
 #include "Renderer.h"

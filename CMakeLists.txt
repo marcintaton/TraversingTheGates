@@ -59,6 +59,7 @@ file(GLOB PROJECT_SOURCE_FILES
     "src/systems/PlayerInteraction.cpp"
     "src/systems/InteractionManager.cpp"
     "src/systems/SpriteDirectionFlip.cpp"
+    "src/systems/MapReposition.cpp"
 
     # INTERACTIONS
     "src/interactionLogic/WallInteraction.cpp"

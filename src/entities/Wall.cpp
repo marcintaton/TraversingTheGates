@@ -16,6 +16,6 @@ Wall::Wall(glm::vec3 _position, Shader _shader, GLuint _texture)
     add_component_info<MeshRenderData>(mesh_r_data->get_component_id());
 
     auto nav = ECS::ECEngine::get_instance().do_add_component<NavigationData>(
-        get_entity_id(), false);
+        get_entity_id(), false, _position.x, _position.y);
     add_component_info<NavigationData>(nav->get_component_id());
 }

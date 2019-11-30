@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../LevelGeneration/MapPosition.h"
 #include "../engine/GameEngine.h"
 #include "../others/Direction.h"
 #include <vector>
@@ -43,5 +44,7 @@ struct Use : public Event::Event<Use> {
 
 struct ObjectMoved : public Event::Event<ObjectMoved> {
     ECS::EntityId object_id;
+    MapPosition old_pos;
+    MapPosition new_pos;
     Direction new_direction;
 };

@@ -61,6 +61,7 @@ void PlayerMovement::move_player(int key_code)
     auto player_position = ECS::SystemEngine::get_instance()
                                .get_independent_system<LevelMap>()
                                ->find_position(player_id);
+    auto orig_position = player_position;
 
     bool did_move = false;
     glm::vec3 move_vec = glm::vec3(0, 0, 0);
@@ -100,16 +101,18 @@ void PlayerMovement::move_player(int key_code)
             .get_independent_system<LevelMap>()
             ->move_dynamic_element(player_id, player_position);
 
-        TurnEnd turn_end_event;
-        Event::EventEngine::get_instance().send_event<TurnEnd>(&turn_end_event);
-
         PlayerMoved player_move_event;
         Event::EventEngine::get_instance().send_event<PlayerMoved>(
             &player_move_event);
 
-        ObjectMoved obj_move_event =
-            ObjectMoved {.object_id = player_id, .new_direction = dir};
+        ObjectMoved obj_move_event = ObjectMoved {.object_id = player_id,
+                                                  .old_pos = orig_position,
+                                                  .new_pos = player_position,
+                                                  .new_direction = dir};
         Event::EventEngine::get_instance().send_event<ObjectMoved>(
             &obj_move_event);
+
+        TurnEnd turn_end_event;
+        Event::EventEngine::get_instance().send_event<TurnEnd>(&turn_end_event);
     }
 }
