@@ -9,7 +9,8 @@ enum TileTypes {
     WALL,
     PLAYER,
     DOOR_H,
-    DOOR_V
+    DOOR_V,
+    SKELETON_NPC
 
 };
 };

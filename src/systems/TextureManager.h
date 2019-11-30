@@ -5,7 +5,7 @@
 
 #include "../engine/GameEngine.h"
 
-enum class TextureType { PLAYER, ENVIRO_STAGE_1 };
+enum class TextureType { PLAYER, ENVIRO_STAGE_1, NPCS_STAGE_1 };
 
 class TextureManager : public ECS::System::IndependentSystem<TextureManager>
 {

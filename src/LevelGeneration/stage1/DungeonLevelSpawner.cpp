@@ -17,6 +17,10 @@ LevelData DungeonLevelSpawner::get_generated_level(LevelBlueprint blueprint)
                             .get_independent_system<TextureManager>()
                             ->get_texture(TextureType::PLAYER);
 
+    GLuint npc_tex = ECS::SystemEngine::get_instance()
+                         .get_independent_system<TextureManager>()
+                         ->get_texture(TextureType::NPCS_STAGE_1);
+
     Shader sh = ECS::SystemEngine::get_instance()
                     .get_independent_system<ShaderManager>()
                     ->basic_sh;
@@ -26,7 +30,8 @@ LevelData DungeonLevelSpawner::get_generated_level(LevelBlueprint blueprint)
         for (int j = 0; j < max_map_size; ++j) {
 
             for (auto e : blueprint.level[i][j]) {
-                auto tex = e == 3 ? player_tex : enviro_tex;
+                auto tex = e != 3 && e != 6 ? enviro_tex :
+                                              (e == 3 ? player_tex : npc_tex);
                 data.level[i][j].push_back(
                     create_entity_for_tile(i, j, e, sh, tex));
             }
@@ -63,6 +68,10 @@ ECS::EntityId DungeonLevelSpawner::create_entity_for_tile(int i, int j,
         case TileTypes::DOOR_V:
             return ECS::ECEngine::get_instance().create_entity<Door>(
                 glm::vec3(i, j, 1), sh, tex, true);
+            break;
+        case TileTypes::SKELETON_NPC:
+            return ECS::ECEngine::get_instance().create_entity<SkeletonNPC>(
+                glm::vec3(i, j, 1), sh, tex);
             break;
 
         default:

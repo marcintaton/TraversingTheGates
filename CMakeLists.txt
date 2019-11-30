@@ -41,6 +41,7 @@ file(GLOB PROJECT_SOURCE_FILES
     "src/entities/Wall.cpp"
     "src/entities/Player.cpp"
     "src/entities/Door.cpp"
+    "src/entities/SkeletonNPC.cpp"
 
     # COMPONENTS
     "src/components/Transform.cpp"
