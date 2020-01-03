@@ -8,7 +8,7 @@
 #include <memory>
 
 #include "../../utility/IdHelper.h"
-#include "../../utility/Logging.h"
+// #include "../../utility/Logging.h"
 #include "../../utility/Type.h"
 #include "../ECSAPI.h"
 #include "../component/IComponent.h"
@@ -43,9 +43,9 @@ class IEntity
         if (has_component<T>()) {
             return component_ids[ECS::IdHelper::read_component_type_id<T>()];
         } else {
-            spdlog::error("ECS::Entity::IEntity::get_component_id - This "
-                          "entity has no component of type {0}",
-                          Utility::Type::get_type_name<T>());
+            // spdlog::error("ECS::Entity::IEntity::get_component_id - This "
+            //               "entity has no component of type {0}",
+                        //   Utility::Type::get_type_name<T>());
             return 0;
         }
     }

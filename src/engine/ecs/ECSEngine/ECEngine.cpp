@@ -13,7 +13,7 @@ void ECS::ECEngine::remove_entity(EntityId by_id)
             by_id, entity_manager->get_component_ids(by_id));
         entity_manager->remove_entity(by_id);
     } else {
-        spdlog::error("ECS::ECEngine::remove_entity - No entity by this Id");
+        // spdlog::error("ECS::ECEngine::remove_entity - No entity by this Id");
     }
 }
 

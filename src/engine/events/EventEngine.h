@@ -4,7 +4,7 @@
 #include <type_traits>
 #include <unordered_map>
 
-#include "../utility/Logging.h"
+// #include "../utility/Logging.h"
 #include "../utility/Type.h"
 #include "Event.h"
 #include "EventDispatcher.h"
@@ -59,8 +59,8 @@ class EventEngine
             (dispatchers[Utility::Type::get_type_id<Event<T>>()])
                 ->dispatch(event);
 
-            spdlog::info("Event::EventEngine::send_event - Sending event {0}",
-                         Utility::Type::get_type_name<T>());
+            // spdlog::info("Event::EventEngine::send_event - Sending event {0}",
+            //              Utility::Type::get_type_name<T>());
         }
     }
 
@@ -71,9 +71,9 @@ class EventEngine
         if (is_event_type_valid<T>()) {
             if (Utility::Type::get_type_id<Event<T>>() !=
                 delegate->get_event_type_id()) {
-                spdlog::error(
-                    "Event::EventEngine::add_listener - Type mismatch "
-                    "between passed template type and delegate type");
+                // spdlog::error(
+                //     "Event::EventEngine::add_listener - Type mismatch "
+                //     "between passed template type and delegate type");
                 return;
             }
             if (!is_dispatcher_present<T>()) {
@@ -82,8 +82,8 @@ class EventEngine
 
             dispatchers[delegate->get_event_type_id()]->add_delegate(delegate);
         } else {
-            spdlog::error("Event::EventEngine::add_listener - Type is not "
-                          "event");
+            // spdlog::error("Event::EventEngine::add_listener - Type is not "
+            //               "event");
         }
     }
 
@@ -93,16 +93,16 @@ class EventEngine
         if (is_dispatcher_present<T>()) {
             if (Utility::Type::get_type_id<Event<T>>() !=
                 delegate->get_event_type_id()) {
-                spdlog::error(
-                    "Event::EventEngine::remove_listener - Type mismatch "
-                    "between passed template type and delegate type");
+                // spdlog::error(
+                //     "Event::EventEngine::remove_listener - Type mismatch "
+                //     "between passed template type and delegate type");
                 return;
             }
             dispatchers[delegate->get_event_type_id()]->remove_delegate(
                 delegate);
         } else {
-            spdlog::error("Event::EventEngine::remove_listener - dispatcher "
-                          "was never created");
+            // spdlog::error("Event::EventEngine::remove_listener - dispatcher "
+            //               "was never created");
         }
     }
 };

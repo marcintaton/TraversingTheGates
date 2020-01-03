@@ -2,7 +2,7 @@
 
 #include <list>
 
-#include "../utility/Logging.h"
+// #include "../utility/Logging.h"
 #include "IEventDispatcher.h"
 
 namespace Event
@@ -29,8 +29,8 @@ class EventDispatcher : public IEventDispatcher
 
             listeners.push_back(delegate);
         } else {
-            spdlog::error("Event::EventDispatcher::add_delegate - Deleagate "
-                          "already exists among listeners.");
+            // spdlog::error("Event::EventDispatcher::add_delegate - Deleagate "
+            //               "already exists among listeners.");
         }
     }
 
@@ -40,8 +40,8 @@ class EventDispatcher : public IEventDispatcher
         if (it != listeners.end()) {
             listeners.erase(it);
         } else {
-            spdlog::error("Event::EventDispatcher::remove_delegate - Deleagate "
-                          "does not exist among listeners.");
+            // spdlog::error("Event::EventDispatcher::remove_delegate - Deleagate "
+            //               "does not exist among listeners.");
         }
     }
 };

@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "../../utility/AssertType.h"
-#include "../../utility/Logging.h"
+// #include "../../utility/Logging.h"
 #include "../../utility/Type.h"
 #include "../ECSAPI.h"
 #include "Entity.h"
@@ -44,9 +44,9 @@ class EntityManager
             return new_entity->get_entity_id();
 
         } else {
-            spdlog::error(
-                "ECS::Entity::EntityManager::create_entity - Type is not "
-                "entity type. Aborting");
+            // spdlog::error(
+            //     "ECS::Entity::EntityManager::create_entity - Type is not "
+            //     "entity type. Aborting");
             return -1;
         }
     }

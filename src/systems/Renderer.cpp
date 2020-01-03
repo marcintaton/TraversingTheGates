@@ -34,15 +34,11 @@ Renderer::~Renderer()
 void Renderer::do_on_update()
 {
 
-    update_matrices();
+    update_matrices();    
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
     glBindVertexArray(VAO);
-
     render_objects();
-
     glBindVertexArray(0);
-
     glfwSwapBuffers(Global::GlobalGLData::get_instance().window);
 }
 

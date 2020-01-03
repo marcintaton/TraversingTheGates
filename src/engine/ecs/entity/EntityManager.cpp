@@ -12,8 +12,8 @@ ECS::Entity::EntityPtr ECS::Entity::EntityManager::get_entity(EntityId by_id)
     if (does_entity_exist(by_id)) {
         return entities_by_id[by_id];
     } else {
-        spdlog::error(
-            "ECS::Entity::EntityManager::get_entity - No entity with this ID");
+        // spdlog::error(
+        //     "ECS::Entity::EntityManager::get_entity - No entity with this ID");
         return nullptr;
     }
 }

@@ -61,12 +61,12 @@ class ECEngine
 
             return std::dynamic_pointer_cast<T>(new_comp);
         } else if (!entity_manager->does_entity_exist(to_entity)) {
-            spdlog::error("ECS::ECEngine::add_component - No entity "
-                          "with this ID");
+            // spdlog::error("ECS::ECEngine::add_component - No entity "
+                        //   "with this ID");
             return nullptr;
         } else {
-            spdlog::error("ECS::ECEngine::add_component - Entity already has "
-                          "this component");
+            // spdlog::error("ECS::ECEngine::add_component - Entity already has "
+            //               "this component");
             return nullptr;
         }
     }
@@ -74,10 +74,10 @@ class ECEngine
     template<typename T, typename... T_args>
     std::shared_ptr<T> do_add_component(EntityId to_entity, T_args&&... args)
     {
-        spdlog::warn(
-            "ECS::ECEngine::do_add_component - Adding component without "
-            "performing any checks, make sure EntityId is valid and to update "
-            "component info");
+        // spdlog::warn(
+        //     "ECS::ECEngine::do_add_component - Adding component without "
+        //     "performing any checks, make sure EntityId is valid and to update "
+        //     "component info");
         Component::ComponentPtr new_comp = component_manager->add_component<T>(
             to_entity, std::forward<T_args>(args)...);
         return std::dynamic_pointer_cast<T>(new_comp);
@@ -92,12 +92,12 @@ class ECEngine
             component_manager->remove_component<T>(from_entity);
             entity_manager->get_entity(from_entity)->remove_component_info<T>();
         } else if (!entity_manager->does_entity_exist(from_entity)) {
-            spdlog::error("ECS::ECEngine::remove_component - No entity "
-                          "with this ID");
+            // spdlog::error("ECS::ECEngine::remove_component - No entity "
+            //               "with this ID");
         } else if (!entity_manager->get_entity(from_entity)
                         ->has_component<T>()) {
-            spdlog::error("ECS::ECEngine::remove_component - No such component "
-                          "in this entity");
+            // spdlog::error("ECS::ECEngine::remove_component - No such component "
+            //               "in this entity");
         }
     }
 

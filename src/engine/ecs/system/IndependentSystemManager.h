@@ -3,7 +3,7 @@
 #include <map>
 #include <memory>
 
-#include "../../utility/Logging.h"
+// #include "../../utility/Logging.h"
 #include "../../utility/Type.h"
 #include "IndependentSystem.h"
 
@@ -36,10 +36,10 @@ class IndependentSystemManager
             independent_systems.try_emplace(Utility::Type::get_type_id<T>(),
                                             new_system);
 
-            spdlog::info(
-                "ECS::System::IndependentSystemManger::create_system - "
-                "Creating {0}",
-                Utility::Type::get_type_name<T>());
+            // spdlog::info(
+            //     "ECS::System::IndependentSystemManger::create_system - "
+                // "Creating {0}",
+                // Utility::Type::get_type_name<T>());
         }
     }
 
@@ -49,10 +49,10 @@ class IndependentSystemManager
         if (is_system_present<T>()) {
             independent_systems.erase(Utility::Type::get_type_id<T>());
 
-            spdlog::info(
-                "ECS::System::IndepenentSystemManger::destroy_system - "
-                "Destroying {0}",
-                Utility::Type::get_type_name<T>());
+            // spdlog::info(
+            //     "ECS::System::IndepenentSystemManger::destroy_system - "
+            //     "Destroying {0}",
+                // Utility::Type::get_type_name<T>());
         }
     }
 
@@ -67,9 +67,9 @@ class IndependentSystemManager
                 independent_systems[Utility::Type::get_type_id<T>()]
                     ->on_enable();
 
-                spdlog::info("ECS::System::IndependentSystemManger::enable_"
-                             "system - Enabling {0}",
-                             Utility::Type::get_type_name<T>());
+                // spdlog::info("ECS::System::IndependentSystemManger::enable_"
+                //              "system - Enabling {0}",
+                            //  Utility::Type::get_type_name<T>());
             }
         }
     }
@@ -85,9 +85,9 @@ class IndependentSystemManager
                 independent_systems[Utility::Type::get_type_id<T>()]
                     ->on_disable();
 
-                spdlog::info("ECS::System::IndependentSystemManger::disable_"
-                             "system - Disabling {0}",
-                             Utility::Type::get_type_name<T>());
+                // spdlog::info("ECS::System::IndependentSystemManger::disable_"
+                //              "system - Disabling {0}",
+                            //  Utility::Type::get_type_name<T>());
             }
         }
     }
@@ -100,9 +100,9 @@ class IndependentSystemManager
             return std::reinterpret_pointer_cast<T>(
                 independent_systems[Utility::Type::get_type_id<T>()]);
         } else {
-            spdlog::error("ECS::System::IndependentSystemManger::get_system"
-                          " - No system of type {0}",
-                          Utility::Type::get_type_name<T>());
+            // spdlog::error("ECS::System::IndependentSystemManger::get_system"
+            //               " - No system of type {0}",
+                        //   Utility::Type::get_type_name<T>());
 
             return nullptr;
         }

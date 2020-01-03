@@ -9,7 +9,7 @@
 #include "../ECSAPI.h"
 
 #include "../../utility/AssertType.h"
-#include "../../utility/Logging.h"
+// #include "../../utility/Logging.h"
 #include "../entity/IEntity.h"
 #include "Component.h"
 #include "ComponentCluster.h"
@@ -56,13 +56,13 @@ class ComponentManager
                 return do_add_component<T>(to_entity,
                                            std::forward<T_args>(args)...);
             } else {
-                spdlog::error("ECS::Component::ComponentManager::add_component "
-                              "- Entity already has this component");
+                // spdlog::error("ECS::Component::ComponentManager::add_component "
+                //               "- Entity already has this component");
                 return nullptr;
             }
         } else {
-            spdlog::error("ECS::Component::ComponentManager::add_component "
-                          "- Type is not a component type. Aborting");
+            // spdlog::error("ECS::Component::ComponentManager::add_component "
+            //               "- Type is not a component type. Aborting");
             return nullptr;
         }
     }
@@ -87,8 +87,8 @@ class ComponentManager
             components_by_types[comp_type_id].erase(it);
 
         } else {
-            spdlog::error("ECS::Component::ComponentManager::remove_component "
-                          "- Type is not a component type");
+            // spdlog::error("ECS::Component::ComponentManager::remove_component "
+            //               "- Type is not a component type");
         }
     }
 
@@ -100,9 +100,9 @@ class ComponentManager
                                   [ECS::IdHelper::read_component_type_id<T>()]);
 
         if (comp_ptr == nullptr) {
-            spdlog::error(
-                "ECS::Component::ComponentManager::get_component "
-                "- No such component in this entity, or entity does not exist");
+            // spdlog::error(
+            //     "ECS::Component::ComponentManager::get_component "
+            //     "- No such component in this entity, or entity does not exist");
         }
         return std::dynamic_pointer_cast<T>(comp_ptr);
     }

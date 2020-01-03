@@ -6,7 +6,7 @@
 int main(void)
 {
     srand(time(NULL));
-    Utility::Logging::setup_logger();
+    // Utility::Logging::setup_logger();
 
     Setup::GL_setup();
 
