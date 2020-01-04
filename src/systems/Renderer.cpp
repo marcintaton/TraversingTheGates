@@ -1,6 +1,7 @@
 #include "Renderer.h"
 
 #include <math.h>
+#include <chrono> 
 
 #include "../components/GameComponents.h"
 #include "../entities/GameEntities.h"
@@ -60,9 +61,19 @@ void Renderer::update_matrices()
 
 void Renderer::render_objects()
 {
+    ///
+    auto start = std::chrono::high_resolution_clock::now();
+    ///
+
     auto render_objects =
         ECS::ECEngine::get_instance()
             .get_component_cluster<Transform, MeshRenderData>();
+
+    ///
+    auto post_cluster = std::chrono::high_resolution_clock::now();
+    ///
+
+    ///
 
     for (int i = 0; i < render_objects.cluster.size(); ++i) {
 
@@ -124,6 +135,15 @@ void Renderer::render_objects()
         // draw call
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     }
+
+    ///
+    auto post_rendering = std::chrono::high_resolution_clock::now();
+    ///
+    auto duration_cluster = std::chrono::duration_cast<std::chrono::microseconds>(post_cluster - start); 
+    auto duration_rendering = std::chrono::duration_cast<std::chrono::microseconds>(post_rendering - post_cluster); 
+    auto total_duration = duration_cluster + duration_rendering; 
+
+    std::cout << total_duration.count() << ", " << duration_cluster.count() << ", " << duration_rendering.count() << std::endl;
 }
 
 void Renderer::bind_mesh(Mesh mesh)

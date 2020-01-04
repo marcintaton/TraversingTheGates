@@ -21,6 +21,6 @@ class GlobalData
     //
 
   public:
-    constexpr static int max_map_size = 10;
+    constexpr static int max_map_size = 250;
 };
 }; // namespace Global
